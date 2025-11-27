@@ -5,7 +5,8 @@ export default {
     const query = Object.fromEntries(url.searchParams.entries());
 
     // 解析路徑參數（這裡簡單把第一段作為 0 號參數）
-    const params = { "0": url.pathname.split("/").filter(Boolean)[0] ?? "" };
+    const pathSegments = url.pathname.split("/").filter(Boolean);
+    const params = pathSegments.length ? pathSegments : [];
 
     // 取得 request headers
     const headers = {};
