@@ -29,6 +29,8 @@ function generateHtml(data) {
             body{font-family:system-ui,sans-serif;padding:2em;background:#fafafa;}
             pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
             h1{color:#f6821f;}
+            .card{padding: 1rem;}
+            .card-border{border: 1px solid black;}
         `;
 
         const highlight = `
@@ -65,31 +67,27 @@ function generateHtml(data) {
 
     function main(responseBody) {
         return `
-        <div class="col-6">
-            <h1>Echo Server</h1>
+        <div>
             <pre><code class="language-json">${JSON.stringify(responseBody, null, 2)}</code></pre>
         </div>
         `;
     }
 
     function curl(data) {
-        return `<div class="col-3">
-            <h2>curl</h2>
-            <pre><code class="language-bash">${data}</code></pre>
-        </div>`;
+        return `<h2>curl</h2>
+            <pre><code class="language-bash">${data}</code></pre>`;
     }
     function wget(data) {
-        return `<div class="col-3">
-            <h2>wget</h2>
-            <pre><code class="language-bash">${data}</code></pre>
-        </div>`;
+        return `<h2>wget</h2>
+            <pre><code class="language-bash">${data}</code></pre>`;
     }
 
     const output = pageA()
-                    +main(data.responseBody)
+                    +'<h1>Echo Server</h1>'
+                    +'<div class="card">'+main(data.responseBody)+'</div>'
                     +'<div class="container">'
-                    +curl(data.curlText)
-                    +wget(data.wgetText)
+                    +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
+                    +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
                     +'</div>'
                     +pageB();
     return output;
