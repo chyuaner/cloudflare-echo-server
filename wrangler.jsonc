@@ -5,7 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "cloudflare-echo-server",
-	"main": "src/index.ts",
+	"main": "src/index.js",
 	"compatibility_date": "2025-04-03",
 	"observability": {
 		"enabled": true
