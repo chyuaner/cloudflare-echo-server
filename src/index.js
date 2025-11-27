@@ -102,11 +102,11 @@ export default {
         headers,
         // headersRaw
       },
-      response: {
-        headers: Object.fromEntries(
-          Array.from(responseHeaders.entries())
-        )
-      },
+      // response: {
+      //   headers: Object.fromEntries(
+      //     Array.from(responseHeaders.entries())
+      //   )
+      // },
       host: {
         hostname: url.hostname,
         ip: clientIp,
