@@ -1,4 +1,6 @@
-import { renderHTMLResponse } from "./htmlResponse.js";   // ← 新增此行
+import { generateHtml } from "./generateHtml.js";   // ← 新增此行
+import { generateCurl } from "./generateCurl.js";   // ← 新增此行
+import { generateWget } from "./generateWget.js";   // ← 新增此行
 
 export default {
   async fetch(request, env, ctx) {
@@ -67,7 +69,7 @@ export default {
         bodyRaw = "";
       }
     }
-    
+
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
@@ -110,6 +112,9 @@ export default {
       }
     };
 
+    const curlText = generateCurl(responseBody);
+    const wgetText = generateWget(responseBody);
+
     // -------------------------------------------------
     // 最後輸出
     // -------------------------------------------------
@@ -124,7 +129,10 @@ export default {
     );
 
     if (wantsHTML) {
-      return renderHTMLResponse(responseBody, responseHeaders);
+      const html = generateHtml({responseBody, curlText, wgetText});
+      return new Response(html, {
+        headers: responseHeaders
+      });
     }
 
     // 回傳
