@@ -69,7 +69,7 @@ export default {
 
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
-    const clientIp = cf.ip || "";   // fallback for local testing
+    const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
 
     // -------------------------------------------------
     // 決定回傳格式（JSON or HTML）
