@@ -37,7 +37,6 @@ export default {
       });
     }
 
-
     // ------------------- Body -------------------
     let bodyRaw = "";
     let body    = {};
@@ -68,23 +67,10 @@ export default {
         bodyRaw = "";
       }
     }
-
+    
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
-
-    // -------------------------------------------------
-    // 決定回傳格式（JSON or HTML）
-    // -------------------------------------------------
-    const acceptHeader = request.headers.get("accept") || "";
-    const wantsHTML = acceptHeader.includes("text/html");
-
-    // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
-    const responseHeaders = new Headers();
-    responseHeaders.set(
-      "content-type",
-      wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
-    );
 
     // 建立回傳的 JSON 物件
     const responseBody = {
@@ -104,11 +90,6 @@ export default {
         headers,
         // headersRaw
       },
-      // response: {
-      //   headers: Object.fromEntries(
-      //     Array.from(responseHeaders.entries())
-      //   )
-      // },
       host: {
         hostname: url.hostname,
         ip: clientIp,
@@ -132,6 +113,15 @@ export default {
     // -------------------------------------------------
     // 最後輸出
     // -------------------------------------------------
+    const acceptHeader = request.headers.get("accept") || "";
+    const wantsHTML = acceptHeader.includes("text/html");
+
+    // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
+    const responseHeaders = new Headers();
+    responseHeaders.set(
+      "content-type",
+      wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
+    );
 
     if (wantsHTML) {
       return renderHTMLResponse(responseBody, responseHeaders);
