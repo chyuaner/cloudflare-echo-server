@@ -1,3 +1,5 @@
+import { renderHTMLResponse } from "./htmlResponse.js";   // ← 新增此行
+
 export default {
   async fetch(request, env, ctx) {
     // 解析 URL 與查詢字串
@@ -132,26 +134,7 @@ export default {
     // -------------------------------------------------
 
     if (wantsHTML) {
-      const html = `<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <title>Echo Server – JSON 資料</title>
-  <style>
-    body{font-family:system-ui,sans-serif;padding:2em;background:#fafafa;}
-    pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
-    h1{color:#f6821f;}
-  </style>
-</head>
-<body>
-  <h1>Echo Server – JSON 資料</h1>
-  <pre>${JSON.stringify(responseBody, null, 2)}</pre>
-</body>
-</html>`;
-
-      return new Response(html, {
-        headers: responseHeaders
-      });
+      return renderHTMLResponse(responseBody, responseHeaders);
     }
 
     // 回傳
