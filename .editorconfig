@@ -1,0 +1,29 @@
+# EditorConfig 讓不同編輯器遵循相同的格式設定
+# https://editorconfig.org/
+
+# 預設所有檔案的通用設定
+[*]
+charset = utf-8            # 使用 UTF‑8 編碼
+end_of_line = lf          # 捲動符號使用 LF（Unix 標準）
+insert_final_newline = true   # 檔案最後一定要有換行
+trim_trailing_whitespace = true   # 去除行尾多餘的空白
+
+# JavaScript / TypeScript 檔案（含 src 目錄下的 *.js、*.ts）
+[*.{js,jsx,ts,tsx}]
+indent_style = space      # 使用空格縮排
+indent_size = 2           # 每層縮排 2 個空格
+max_line_length = 100    # 每行最長 100 個字元，超過自動斷行
+quote_type = single       # 盡量使用單引號（'）
+jsdoc_indent = true       # JSDoc 註解自動對齊
+
+# 針對 src 目錄（若想要更嚴格的設定可在此調整）
+[src/**.js]
+# 仍沿用上面的 JavaScript 設定，必要時可覆寫
+# 例如：強制使用分號
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown 檔案（若未來加入說明文件）
+[*.md]
+trim_trailing_whitespace = false   # Markdown 中常有行尾空格，保留較安全
+max_line_length = off
