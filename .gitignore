@@ -1,0 +1,49 @@
+# Node.js / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 包含套件的 lock 檔（若你想保留可自行移除）
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build/產出
+dist/
+out/
+*.tsbuildinfo
+*.js.map
+
+# Cloudflare Wrangler
+# Wrangler 會把機密資料寫入 .wrangler/ 目錄（包括 API token、secrets 等）
+.wrangler/
+wrangler.toml  # 若你將機密寫在此檔案，請改為 wrangler.dev.toml 或使用環境變數
+
+# 本機開發設定
+.env
+.env.*          # 各種環境的 .env 檔
+.env.local
+.env.production
+.env.development
+
+# 作業系統與編輯器暫存檔
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 測試與暫存檔
+coverage/
+*.lcov
+
+# 其他暫存/備份檔案
+*.log
+*.tmp
+*.bak
+*~
