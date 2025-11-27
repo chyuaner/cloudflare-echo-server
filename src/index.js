@@ -71,6 +71,19 @@ export default {
     const cf = request.cf || {};
     const clientIp = cf.ip || "";   // fallback for local testing
 
+    // -------------------------------------------------
+    // 決定回傳格式（JSON or HTML）
+    // -------------------------------------------------
+    const acceptHeader = request.headers.get("accept") || "";
+    const wantsHTML = acceptHeader.includes("text/html");
+
+    // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
+    const responseHeaders = new Headers();
+    responseHeaders.set(
+      "content-type",
+      wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
+    );
+
     // 建立回傳的 JSON 物件
     const responseBody = {
       http: {
@@ -88,6 +101,11 @@ export default {
         bodyRaw,            // 原始文字
         headers,
         // headersRaw
+      },
+      response: {
+        headers: Object.fromEntries(
+          Array.from(responseHeaders.entries())
+        )
       },
       host: {
         hostname: url.hostname,
@@ -109,9 +127,36 @@ export default {
       }
     };
 
-    // 回傳 JSON
+    // -------------------------------------------------
+    // 最後輸出
+    // -------------------------------------------------
+
+    if (wantsHTML) {
+      const html = `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>Echo Server – JSON 資料</title>
+  <style>
+    body{font-family:system-ui,sans-serif;padding:2em;background:#fafafa;}
+    pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
+    h1{color:#f6821f;}
+  </style>
+</head>
+<body>
+  <h1>Echo Server – JSON 資料</h1>
+  <pre>${JSON.stringify(responseBody, null, 2)}</pre>
+</body>
+</html>`;
+
+      return new Response(html, {
+        headers: responseHeaders
+      });
+    }
+
+    // 回傳
     return new Response(JSON.stringify(responseBody, null, 2), {
-      headers: { "content-type": "application/json;charset=UTF-8" },
+      headers: responseHeaders
     });
   },
 };
