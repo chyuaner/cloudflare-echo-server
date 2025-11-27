@@ -1,5 +1,21 @@
 function generateHtml(data) {
 
+    function css() {
+        const baseCss = `
+            body{font-family:system-ui,sans-serif;padding:2em;background:#fafafa;}
+            pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
+            h1{color:#f6821f;}
+        `;
+
+        const highlight = `
+            <script src="./prism.js"></script>
+            <link rel="stylesheet" href="./prism.css">
+        `;
+        return '<style>'
+                +baseCss
+                +'</style>'
+                +highlight;
+    }
 
     function header() {
         return `
@@ -8,11 +24,7 @@ function generateHtml(data) {
         <head>
             <meta charset="UTF-8">
             <title>Echo Server – JSON 資料</title>
-            <style>
-            body{font-family:system-ui,sans-serif;padding:2em;background:#fafafa;}
-            pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
-            h1{color:#f6821f;}
-            </style>
+            `+css()+`
         </head>
         <body>
         `
@@ -21,20 +33,20 @@ function generateHtml(data) {
     function main(responseBody) {
         return `
             <h1>Echo Server – JSON 資料</h1>
-            <pre>${JSON.stringify(responseBody, null, 2)}</pre>
+            <pre><code class="language-json">${JSON.stringify(responseBody, null, 2)}</code></pre>
         `;
     }
 
     function curl(data) {
         return `
             <h2>curl</h2>
-            <pre>${data}</pre>
+            <pre><code class="language-bash">${data}</code></pre>
         `;
     }
     function wget(data) {
         return `
             <h2>wget</h2>
-            <pre>${data}</pre>
+            <pre><code class="language-bash">${data}</code></pre>
         `;
     }
 

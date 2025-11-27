@@ -9,8 +9,7 @@ export function generateWget(response) {
 
   const body = request?.bodyRaw ? `--body-data='${request.bodyRaw}'` : '';
 
-  return `
-wget --method=${http.method} \\
+  return `wget --method=${http.method} \\
   ${headers}
   ${body}
   '${http.originalUrl}'

@@ -14,8 +14,7 @@ export function generateCurl(response) {
   // 若 body 為空，移除最後多餘的換行與空格
   const bodySection = body ? `  ${body}\n` : '';
 
-  return `
-curl --request ${http.method} \\
+  return `curl --request ${http.method} \\
   --url '${http.originalUrl}' \\
   ${headers}
 ${bodySection}`;
