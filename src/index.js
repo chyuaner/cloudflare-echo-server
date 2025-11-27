@@ -1,5 +1,5 @@
 export default {
-  async fetch(request) {
+  async fetch(request, env, ctx) {
     // 解析 URL 與查詢字串
     const url = new URL(request.url);
     const query = Object.fromEntries(url.searchParams.entries());
@@ -12,6 +12,59 @@ export default {
     const headers = {};
     for (const [k, v] of request.headers.entries()) {
       headers[k] = v;
+    }
+
+    // // ------------------- HeadersRaw -------------------
+    // // 每一筆 header 以 "key: value" 形式組成，行與行之間用 \r\n 分隔
+    // const headersRaw = Array.from(request.headers.entries())
+    //   .map(([k, v]) => `${k}: ${v}`)
+    //   .join("\r\n");
+
+    // ------------------- Cookies -------------------
+    // 1. 直接取得原始 Cookie 標頭字串
+    const cookiesRaw = request.headers.get("cookie") ?? "";
+
+    // 2. 依 ; 分割並轉成 key/value 物件
+    const cookies = {};
+    if (cookiesRaw) {
+      cookiesRaw.split(";").forEach(pair => {
+        const [rawKey, ...rawVal] = pair.trim().split("=");
+        const key = decodeURIComponent(rawKey);
+        const val = decodeURIComponent(rawVal.join("="));
+        cookies[key] = val;
+      });
+    }
+
+
+    // ------------------- Body -------------------
+    let bodyRaw = "";
+    let body    = {};
+
+    // 如果請求本身帶有 body（ReadableStream）且尚未被消費，就讀取並解析
+    if (request.body && !request.bodyUsed) {
+      try {
+        const cloned = request.clone();               // 複製可讀的 Request
+        bodyRaw = await cloned.text();                // ---- raw 文字 ----
+
+        const contentType = request.headers.get("content-type") || "";
+
+        // ---------- 依 Content-Type 解析 ----------
+        if (contentType.includes("application/json")) {
+          // JSON → 直接回傳物件
+          body = JSON.parse(bodyRaw);
+        } else if (contentType.includes("application/x-www-form-urlencoded")) {
+          // URL‑encoded → 轉成 key/value 物件
+          body = Object.fromEntries(new URLSearchParams(bodyRaw));
+        } else {
+          // 其他類型（純文字、XML…）保留原始字串
+          body = bodyRaw;
+        }
+        // ----------------------------------------
+      } catch (_) {
+        // 任何解析錯誤都回傳空物件，且保留 raw（若有）仍是空字串
+        body = {};
+        bodyRaw = "";
+      }
     }
 
     // 取得 client IP（Cloudflare 會在 cf 中提供）
@@ -29,15 +82,19 @@ export default {
       request: {
         params,
         query,
-        cookies: {},               // Workers 預設不會自動解析 cookie，可自行擴充
-        body: {},                  // 若需要解析 body，請額外加入 request.clone().json() 等
-        headers
+        cookies,               // Workers 預設不會自動解析 cookie，可自行擴充
+        cookiesRaw,
+        body,                  // 若需要解析 body，請額外加入 request.clone().json() 等
+        bodyRaw,            // 原始文字
+        headers,
+        // headersRaw
       },
       host: {
         hostname: url.hostname,
         ip: clientIp,
         ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
-        // ── 搬移的 CF 資訊 ───────────────────────
+
+        // ── CF 資訊 ───────────────────────
         colo: cf.colo,
         country: cf.country,
         city: cf.city,
@@ -49,7 +106,6 @@ export default {
         region: cf.region,
         regionCode: cf.regionCode,
         timezone: cf.timezone
-        // ───────────────────────────────────────
       }
     };
 
