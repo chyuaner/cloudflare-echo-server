@@ -1,5 +1,7 @@
 import { createServer } from "node:http";
 import { URL } from "node:url";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 
 // 匯入我們在 Workers 中寫好的 handler
 import worker from "./index.js";
@@ -16,6 +18,49 @@ const server = createServer(async (req, res) => {
     // 2. 把 Node 原生的 Request 轉成 Workers 可接受的 Request 物件
     // ------------------------------------------------
     const requestUrl = new URL(req.url, `http://${req.headers.host}`);
+    const pathname = requestUrl.pathname;
+
+    // ------------------------------------------------
+    // ① 靜態檔案直接映射到根路徑（/public/* => /）
+    // ------------------------------------------------
+    // 只要檔案在 public 目錄中且 URL 沒有前綴 /public，直接從 public 讀取
+    // 例如: /index.html => public/index.html
+    //          /style.css  => public/style.css
+    // 若找不到檔案，fallback 到 Worker 處理
+    const safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
+    const filePath = path.join(process.cwd(), "public", safePath);
+
+    try {
+      const data = await fs.readFile(filePath);
+      const ext = path.extname(filePath).toLowerCase();
+      const mimeMap = {
+        ".html": "text/html",
+        ".htm": "text/html",
+        ".js": "application/javascript",
+        ".mjs": "application/javascript",
+        ".css": "text/css",
+        ".json": "application/json",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".gif": "image/gif",
+        ".svg": "image/svg+xml",
+        ".ico": "image/x-icon",
+        ".txt": "text/plain"
+      };
+      const contentType = mimeMap[ext] || "application/octet-stream";
+
+      res.writeHead(200, { "Content-Type": contentType });
+      res.end(data);
+      return; // 已回傳靜態檔案，結束處理
+    } catch (e) {
+      // 若檔案不存在或讀取失敗，就交給 Worker 處理
+      // （此時會拋出 404，讓下面的 Worker 程式自行決定回傳內容）
+    }
+
+    // ------------------------------------------------
+    // ② 其餘請求交給 Worker（保持原有 API 邏輯）
+    // ------------------------------------------------
     const requestInit = {
       method: req.method,
       // Node 的 headers 是 plain object； Workers 需要 Headers 物件
