@@ -3,16 +3,18 @@ function generateHtml(data) {
     function objectToTable(data) {
         return `
             <table>
-            <tr>
+            <thead>
                 <th>Key</th>
                 <th>Value</th>
-            </tr>
+            </thead>
+            <tbody>
             ${Object.keys(data).map(key => `
                 <tr>
-                <td>${key}</td>
+                <th>${key}</th>
                 <td>${data[key]}</td>
                 </tr>
             `).join('')}
+            </tbody>
             </table>
         `;
     }
@@ -39,6 +41,7 @@ function generateHtml(data) {
             .col-4   { grid-column: span 12; }
             .col-5   { grid-column: span 12; }
             .col-6   { grid-column: span 12; }
+            .col-8   { grid-column: span 12; }
             .col-9   { grid-column: span 12; }
             .col-lg-9 { grid-column: span 12; }
             .col-12   { grid-column: span 12; }
@@ -54,6 +57,7 @@ function generateHtml(data) {
                 .col-4 { grid-column: span 4; }
                 .col-5 { grid-column: span 5; }
                 .col-6 { grid-column: span 6; }
+                .col-8 { grid-column: span 8; }
                 .col-9 { grid-column: span 9; }
                 .col-lg-9 { grid-column: span 12; }
                 .col-12 { grid-column: span 12; }
@@ -66,6 +70,7 @@ function generateHtml(data) {
                 .col-4 { grid-column: span 4; }
                 .col-5 { grid-column: span 5; }
                 .col-6 { grid-column: span 6; }
+                .col-8 { grid-column: span 8; }
                 .col-9 { grid-column: span 9; }
                 .col-lg-9 { grid-column: span 9; }
                 .col-12 { grid-column: span 12; }
@@ -73,14 +78,50 @@ function generateHtml(data) {
 
             body{font-family:system-ui,sans-serif;background:#fafafa;}
             pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
+            h2,h3 {margin-top:0;}
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: #0000;
+                color: color-mix(in hsl, canvasText, #0000 50%);
+
+                border: 1px solid color-mix(in oklch, canvas, canvasText 15%);
+                border-radius: 6px;
+            }
+            thead {
+                background: light-dark(hsl(0 0% 98%), canvas);;
+            }
+            td {
+                font-weight: 300;
+            }
+            tr {
+                transition-property: filter, background, opacity;
+                transition-duration: 0.2s;
+                transition-timing-function: ease-out;
+
+                &:not(:last-of-type) {
+                border-bottom: 1px solid light-dark(hsl(0 0% 98%), canvas);
+                }
+            }
+            th,td {padding: 0.5rem;}
+
+            table th {
+                text-align: left;
+                font-weight: 500;
+                color: color-mix(in hsl, canvasText, #0000 35%);
+            }
+
+            tr:focus-within input:hover:not(:focus-visible) {
+                background: color-mix(in oklch, var(--accent), #0000 75%);
+            }
 
 
             h1{color:#f6821f;}
             `;
 
         const highlight = `
-            <script src="./prism.js"></script>
-            <link rel="stylesheet" href="./prism.css">
+            <script src="/prism.js"></script>
+            <link rel="stylesheet" href="/prism.css">
         `;
         return '<style>'
                 +baseCss
@@ -151,31 +192,35 @@ function generateHtml(data) {
             </div>
 
             <div class="container">
-                <div class="col-6 card card-border">
+                <div class="col-8">
                 <h2>request</h2>
 
                     <div class="container">
-                        <div class="col-6 card-border">
+                        <div class="col-6 card card-border">
                             <h3>params</h3>
+                            ${objectToTable(responseBody.request.params)}
                         </div>
-                        <div class="col-6 card-border">
+                        <div class="col-6 card card-border">
                             <h3>query</h3>
+                            ${objectToTable(responseBody.request.query)}
                         </div>
                     </div>
 
-                    <div class="card-border">
+                    <div class="card card-border">
                         <h3>Body</h3>
                     </div>
-                    <div class="card-border">
+                    <div class="card card-border">
                         <h3>Cookies</h3>
+                        ${objectToTable(responseBody.request.cookies)}
+
                     </div>
-                    <div class="card-border">
+                    <div class="card card-border">
                         <h3>Header</h3>
                         ${objectToTable(responseBody.request.headers)}
                     </div>
                 </div>
 
-                <div class="col-6 card card-border">
+                <div class="col-4 card card-border">
                     ${host(responseBody.host)}
                 </div>
             </div>
@@ -197,10 +242,12 @@ function generateHtml(data) {
                     // +'<div class="card">'+main(data.responseBody)+'</div>'
 
                     +'<div class="container">'
-                        +'<div class="col-lg-9">'
+                        // +'<div class="col-lg-9">'
+                        +'<div class="col-12">'
                             +main(data.responseBody)
                         +'</div>'
-                        +'<div class="col-lg-3">'
+                        // +'<div class="col-lg-3">'
+                        +'<div class="col-12">'
                             +'<div class="card card-border">'
                             +'<h2>Input</h2>'
                             +'</div>'
