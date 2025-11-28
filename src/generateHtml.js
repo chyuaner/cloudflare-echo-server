@@ -32,7 +32,7 @@ function generateHtml(data) {
                 grid-template-columns: repeat(12, 1fr);   /* 12 等分的欄 */
                 gap: 0.5rem;                         /* 欄位之間的間距 */
             }
-            .card{margin:0.5rem;padding:1rem;}
+            .card{margin:0.5rem;padding:1rem;word-break: break-all;}
             .card-border{background:#fff;border:1px solid #ddd;}
             td,li {word-break: break-all;}
 
