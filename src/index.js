@@ -93,9 +93,9 @@ export default {
         // headersRaw
       },
       host: {
-        hostname: url.hostname,
         ip: clientIp,
         // ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
+        hostname: url.hostname,
 
         // ── CF 資訊 ───────────────────────
         colo: cf.colo,

@@ -259,9 +259,9 @@ function generateHtml(data) {
                     <h2>host</h2>
 
                     <ul>
-                        <li>hostname: ${hostname}</li>
                         <li>IP: ${ip}</li>
                         ${ips      ? `<li>ips: ${ips}</li>`           : ""}
+                        <li>hostname: ${hostname}</li>
                     </ul>
 
                     <ul>
