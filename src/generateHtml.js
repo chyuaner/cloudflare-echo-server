@@ -96,10 +96,7 @@ function generateHtml(data) {
                 color: color-mix(in hsl, canvasText, #0000 30%);
             }
             thead {
-                background: light-dark(hsl(0 0% 95%), canvas);;
-            }
-            td {
-                font-weight: 300;
+                background: light-dark(hsl(0 0% 95%), canvas);
             }
             tr {
                 transition-property: filter, background, opacity;
@@ -110,10 +107,30 @@ function generateHtml(data) {
                 border-bottom: 1px solid light-dark(hsl(0 0% 80%), canvas);
                 }
             }
+            th {background: light-dark(hsl(0 0% 95%), canvas);}
+            @media (min-width: 640px) {
+                th {background: none;}
+            }
+            td {
+                font-weight: 300;
+            }
             tbody tr:hover {
                 background: light-dark(hsl(0 0% 90%), canvas);;
             }
-            th,td {padding: 0.5rem;}
+
+            thead {display:none;}
+            th,td {
+                padding: 0.5rem;
+                display: block;
+                // width: 100%;
+            }
+            @media (min-width: 640px) {
+                thead {display:table-header-group;}
+                th,td {
+                    display: table-cell;
+                    // width: inherit;
+                }
+            }
 
             table th {
                 text-align: left;
