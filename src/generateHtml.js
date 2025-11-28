@@ -2,6 +2,7 @@ function generateHtml(data) {
 
     function objectToTable(data) {
         return `
+            <div class="table-container">
             <table>
             <thead>
                 <th>Key</th>
@@ -16,6 +17,7 @@ function generateHtml(data) {
             `).join('')}
             </tbody>
             </table>
+            </div>
         `;
     }
 
@@ -79,17 +81,22 @@ function generateHtml(data) {
             body{font-family:system-ui,sans-serif;background:#fafafa;}
             pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
             h2,h3 {margin-top:0;}
+
+            .table-container {
+                background: light-dark(#fff, #000);
+                overflow: auto;
+                border: 1px solid color-mix(in oklch, canvas, canvasText 15%);
+                border-radius: 6px;
+
+            }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 background: #0000;
-                color: color-mix(in hsl, canvasText, #0000 50%);
-
-                border: 1px solid color-mix(in oklch, canvas, canvasText 15%);
-                border-radius: 6px;
+                color: color-mix(in hsl, canvasText, #0000 30%);
             }
             thead {
-                background: light-dark(hsl(0 0% 98%), canvas);;
+                background: light-dark(hsl(0 0% 95%), canvas);;
             }
             td {
                 font-weight: 300;
@@ -100,21 +107,23 @@ function generateHtml(data) {
                 transition-timing-function: ease-out;
 
                 &:not(:last-of-type) {
-                border-bottom: 1px solid light-dark(hsl(0 0% 98%), canvas);
+                border-bottom: 1px solid light-dark(hsl(0 0% 80%), canvas);
                 }
+            }
+            tbody tr:hover {
+                background: light-dark(hsl(0 0% 90%), canvas);;
             }
             th,td {padding: 0.5rem;}
 
             table th {
                 text-align: left;
                 font-weight: 500;
-                color: color-mix(in hsl, canvasText, #0000 35%);
+                color: color-mix(in hsl, canvasText, #0000 5%);
             }
 
-            tr:focus-within input:hover:not(:focus-visible) {
-                background: color-mix(in oklch, var(--accent), #0000 75%);
-            }
+            tbody tr {
 
+            }
 
             h1{color:#f6821f;}
             `;
@@ -257,7 +266,7 @@ function generateHtml(data) {
                     +'</div>'
 
                     +'<div class="card card-border">'
-                    +'<h3>Raw Data</h3>'
+                    +'<h3>Raw Response Body</h3>'
                     +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
 
                     +'</div>'
