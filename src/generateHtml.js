@@ -79,6 +79,7 @@ function generateHtml(data) {
                 .col-lg-9 { grid-column: span 9; }
                 .col-12 { grid-column: span 12; }
             }
+            #main {margin-top: 1rem;}
 
             body{font-family:system-ui,sans-serif;background:#fafafa;}
             pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
@@ -277,25 +278,27 @@ function generateHtml(data) {
 
     }
 
+    function endpointBar(responseBody) {
+        return `<div class="endpoint-bar ${responseBody.http.method}">
+                        <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
+                        <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
+                </div>
+                <div class="card-border">
+                    <div class="table-container">
+                    <table>
+                        <tbody>
+                        <tr><th>Method</th><td>${responseBody.http.method}</td></tr>
+                            <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
+                            <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
+                            <tr><th>Protocol</th><td>${responseBody.http.protocol}</td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>`;
+    }
+
     function main(responseBody) {
         return `
-            <div class="endpoint-bar ${responseBody.http.method}">
-                    <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
-                    <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
-            </div>
-            <div class="card-border">
-                <div class="table-container">
-                <table>
-                    <tbody>
-                    <tr><th>Method</th><td>${responseBody.http.method}</td></tr>
-                        <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
-                        <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
-                        <tr><th>Protocol</th><td>${responseBody.http.protocol}</td></tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-
             <div class="container">
                 <div class="col-8">
                 <h2>request</h2>
@@ -352,35 +355,35 @@ function generateHtml(data) {
     }
 
     const output = pageA()
-                    +'<h1>Echo Server</h1>'
+        +'<h1>Yuan 的 HTTP Echo Server</h1>'
         // +'<div class="card">'+main(data.responseBody)+'</div>'
 
-                    +'<div class="container">'
-        // +'<div class="col-lg-9">'
-                        +'<div class="col-12">'
-                            +main(data.responseBody)
-                        +'</div>'
+        +endpointBar(data.responseBody)
 
-        // 顯示Form測試區
-        // +'<div class="col-lg-3">'
-                        +'<div class="col-12">'
-                            +'<div class="card card-border">'
-                            +'<h2>Input</h2>'
-                            +'</div>'
-                        +'</div>'
+        +'<div id="main">'
+        +'<div class="container">'
+            +'<div class="col-12">'
+                +main(data.responseBody)
+            +'</div>'
 
-        // 輸出shell範例
-        // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
-        // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
-                    +'</div>'
+            // 顯示Form測試區
+            // +'<div class="col-12">'
+            //     +'<div class="card card-border">'
+            //     +'<h2>Input</h2>'
+            //     +'</div>'
+            // +'</div>'
 
-                    +'<div class="card card-border">'
-                    +'<h3>Raw Response Body</h3>'
-                    +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
+            // 輸出shell範例
+            // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
+            // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
+            +'</div>'
 
-                    +'</div>'
-
-                    +pageB();
+            +'<div class="card card-border">'
+            +'<h3>Raw Response Body</h3>'
+            +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
+        +'</div>'
+        +'</div>'
+        +pageB();
     return output;
 }
 
