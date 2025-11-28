@@ -211,10 +211,10 @@ function generateHtml(data) {
         return `
             <div class="card card-border">
                     <h2>http</h2>
-                    "method": "${objectToTable(responseBody.http.method)}", <br>
-                    "baseUrl": "${objectToTable(responseBody.http.baseUrl)}",<br>
-                    "originalUrl": "${objectToTable(responseBody.http.originalUrl)}",<br>
-                    "protocol": "${objectToTable(responseBody.http.protocol)}"<br>
+                    "method": "${responseBody.http.method}", <br>
+                    "baseUrl": "${responseBody.http.baseUrl}",<br>
+                    "originalUrl": "${responseBody.http.originalUrl}",<br>
+                    "protocol": "${responseBody.http.protocol}"<br>
             </div>
 
             <div class="container">
