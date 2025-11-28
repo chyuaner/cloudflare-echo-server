@@ -4,6 +4,71 @@ import { generateWget } from "./generateWget.js";   // ← 新增此行
 
 export default {
   async fetch(request, env, ctx) {
+    /* ----------------------------------------------------
+       ① 直接回傳 raw body（測試檔案傳輸用）
+       ---------------------------------------------------- */
+    const rawBodyHeader = request.headers.get('x-raw-body');
+    // const wantRawBody   = rawBodyHeader && rawBodyHeader.toLowerCase() === 'true';
+    const wantRawBody = (() => {
+      if (!rawBodyHeader) return false;                     // 沒有此 Header
+      const normalized = rawBodyHeader.trim().toLowerCase(); // 去除前後空白、統一小寫
+      // 空字串、'0'、'false' 皆視為 false，其他皆視為 true
+      return !(normalized === '' || normalized === '0' || normalized === 'false');
+    })();
+
+    if (wantRawBody && request.method === 'POST' && request.body && !request.bodyUsed) {
+      // 直接把 request 的 ReadableStream 回傳，避免二次讀取
+      const bodyStream = request.clone().body;   // 需要 clone，因為 body 只能讀一次
+
+      // 依原始 Content‑Type 回傳，若沒有則以二進位流為 fallback
+      const rawContentType = request.headers.get('content-type') || 'application/octet-stream';
+
+      // 若想讓瀏覽器下載，可自行提供檔名（若無則使用 "upload.bin"）
+      const filename = request.headers.get('x-filename') || 'upload.bin';
+
+      const rawHeaders = new Headers();
+      rawHeaders.set('content-type', rawContentType);
+      rawHeaders.set('content-disposition', `attachment; filename="${filename}"`);
+      // 仍保留原始 Request headers，若需要可全部 copy：
+      // request.headers.forEach((v, k) => rawHeaders.set(k, v));
+
+      return new Response(bodyStream, { headers: rawHeaders });
+    }
+
+    /* ----------------------------------------------------
+       ② 正常流程 – 解析 body 為文字/JSON 等（保留原有邏輯）
+       ---------------------------------------------------- */
+    // ------------------- Body -------------------
+    let bodyRaw = "";
+    let body    = {};
+
+    // 如果請求本身帶有 body（ReadableStream）且尚未被消費，就讀取並解析
+    if (request.body && !request.bodyUsed) {
+      try {
+        const cloned = request.clone();               // 複製可讀的 Request
+        bodyRaw = await cloned.text();                // ---- raw 文字 ----
+
+        const contentType = request.headers.get("content-type") || "";
+
+        // ---------- 依 Content-Type 解析 ----------
+        if (contentType.includes("application/json")) {
+          // JSON → 直接回傳物件
+          body = JSON.parse(bodyRaw);
+        } else if (contentType.includes("application/x-www-form-urlencoded")) {
+          // URL‑encoded → 轉成 key/value 物件
+          body = Object.fromEntries(new URLSearchParams(bodyRaw));
+        } else {
+          // 其他類型（純文字、XML…）保留原始字串
+          body = bodyRaw;
+        }
+        // ----------------------------------------
+      } catch (_) {
+        // 任何解析錯誤都回傳空物件，且保留 raw（若有）仍是空字串
+        body = {};
+        bodyRaw = "";
+      }
+    }
+
     // 解析 URL 與查詢字串
     const url = new URL(request.url);
     const query = Object.fromEntries(url.searchParams.entries());
@@ -37,37 +102,6 @@ export default {
         const val = decodeURIComponent(rawVal.join("="));
         cookies[key] = val;
       });
-    }
-
-    // ------------------- Body -------------------
-    let bodyRaw = "";
-    let body    = {};
-
-    // 如果請求本身帶有 body（ReadableStream）且尚未被消費，就讀取並解析
-    if (request.body && !request.bodyUsed) {
-      try {
-        const cloned = request.clone();               // 複製可讀的 Request
-        bodyRaw = await cloned.text();                // ---- raw 文字 ----
-
-        const contentType = request.headers.get("content-type") || "";
-
-        // ---------- 依 Content-Type 解析 ----------
-        if (contentType.includes("application/json")) {
-          // JSON → 直接回傳物件
-          body = JSON.parse(bodyRaw);
-        } else if (contentType.includes("application/x-www-form-urlencoded")) {
-          // URL‑encoded → 轉成 key/value 物件
-          body = Object.fromEntries(new URLSearchParams(bodyRaw));
-        } else {
-          // 其他類型（純文字、XML…）保留原始字串
-          body = bodyRaw;
-        }
-        // ----------------------------------------
-      } catch (_) {
-        // 任何解析錯誤都回傳空物件，且保留 raw（若有）仍是空字串
-        body = {};
-        bodyRaw = "";
-      }
     }
 
     // 取得 client IP（Cloudflare 會在 cf 中提供）
