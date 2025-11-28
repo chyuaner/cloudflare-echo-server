@@ -211,10 +211,10 @@ function generateHtml(data) {
         return `
             <div class="card card-border">
                     <h2>http</h2>
-                    "method": "GET", <br>
-                    "baseUrl": "https://cloudflare-echo-server.chyuaner.workers.dev",<br>
-                    "originalUrl": "/",<br>
-                    "protocol": "https"<br>
+                    "method": "${objectToTable(responseBody.http.method)}", <br>
+                    "baseUrl": "${objectToTable(responseBody.http.baseUrl)}",<br>
+                    "originalUrl": "${objectToTable(responseBody.http.originalUrl)}",<br>
+                    "protocol": "${objectToTable(responseBody.http.protocol)}"<br>
             </div>
 
             <div class="container">
