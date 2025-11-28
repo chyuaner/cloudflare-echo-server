@@ -49,7 +49,6 @@ function generateHtml(data) {
             .col-12   { grid-column: span 12; }
 
             @media (min-width: 640px) {
-                body{padding:2em;}
                 .card{margin:0.5rem;padding:1rem;}
 
                 .col-1 { grid-column: span 1; }
@@ -65,6 +64,7 @@ function generateHtml(data) {
                 .col-12 { grid-column: span 12; }
             }
             @media (min-width: 1024px) {
+                body{padding:2em;}
                 .col-1 { grid-column: span 1; }
                 .col-2 { grid-column: span 2; }
                 .col-3 { grid-column: span 3; }
@@ -217,6 +217,11 @@ function generateHtml(data) {
 
                     <div class="card card-border">
                         <h3>Body</h3>
+
+                        ${responseBody.request.bodyRaw      ? `
+                            <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
+                            `: "none"}
+
                     </div>
                     <div class="card card-border">
                         <h3>Cookies</h3>
