@@ -170,6 +170,49 @@ function generateHtml(data) {
             content: ": ";
             position: absolute;
             }
+
+            /* Endpoint Bar Styles */
+            .endpoint-bar {
+                background: #dbeafe;
+                border: 1px solid #bfdbfe;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            }
+            .method-badge {
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 0.375rem;
+                font-weight: 700;
+                font-size: 0.875rem;
+                text-transform: uppercase;
+                line-height: 1;
+            }
+            .endpoint-bar.GET { background: rgba(97, 175, 254, 0.1); border-color: #61affe; }
+            .endpoint-bar.POST { background: rgba(73, 204, 144, 0.1); border-color: #49cc90; }
+            .endpoint-bar.PUT { background: rgba(252, 161, 48, 0.1); border-color: #fca130; }
+            .endpoint-bar.DELETE { background: rgba(249, 62, 62, 0.1); border-color: #f93e3e; }
+            .endpoint-bar.PATCH { background: rgba(80, 227, 194, 0.1); border-color: #50e3c2; }
+            .endpoint-bar.HEAD { background: rgba(144, 18, 254, 0.1); border-color: #9012fe; }
+            .endpoint-bar.OPTIONS { background: rgba(13, 90, 167, 0.1); border-color: #0d5aa7; }
+
+            .method-badge.GET { background: #61affe; }
+            .method-badge.POST { background: #49cc90; }
+            .method-badge.PUT { background: #fca130; }
+            .method-badge.DELETE { background: #f93e3e; }
+            .method-badge.PATCH { background: #50e3c2; }
+            .method-badge.HEAD { background: #9012fe; }
+            .method-badge.OPTIONS { background: #0d5aa7; }
+            .url-path {
+                color: #1e293b;
+                font-weight: 600;
+                font-size: 1rem;
+                word-break: break-all;
+            }
             `;
 
         const highlight = `
@@ -236,12 +279,21 @@ function generateHtml(data) {
 
     function main(responseBody) {
         return `
-            <div class="card card-border">
-                    <h2>http</h2>
-                    "method": "${responseBody.http.method}", <br>
-                    "baseUrl": "${responseBody.http.baseUrl}",<br>
-                    "originalUrl": "${responseBody.http.originalUrl}",<br>
-                    "protocol": "${responseBody.http.protocol}"<br>
+            <div class="endpoint-bar ${responseBody.http.method}">
+                    <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
+                    <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
+            </div>
+            <div class="card-border">
+                <div class="table-container">
+                <table>
+                    <tbody>
+                    <tr><th>Method</th><td>${responseBody.http.method}</td></tr>
+                        <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
+                        <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
+                        <tr><th>Protocol</th><td>${responseBody.http.protocol}</td></tr>
+                    </tbody>
+                </table>
+                </div>
             </div>
 
             <div class="container">
@@ -301,25 +353,25 @@ function generateHtml(data) {
 
     const output = pageA()
                     +'<h1>Echo Server</h1>'
-                    // +'<div class="card">'+main(data.responseBody)+'</div>'
+        // +'<div class="card">'+main(data.responseBody)+'</div>'
 
                     +'<div class="container">'
-                        // +'<div class="col-lg-9">'
+        // +'<div class="col-lg-9">'
                         +'<div class="col-12">'
                             +main(data.responseBody)
                         +'</div>'
 
-                        // 顯示Form測試區
-                        // +'<div class="col-lg-3">'
+        // 顯示Form測試區
+        // +'<div class="col-lg-3">'
                         +'<div class="col-12">'
                             +'<div class="card card-border">'
                             +'<h2>Input</h2>'
                             +'</div>'
                         +'</div>'
 
-                        // 輸出shell範例
-                        // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
-                        // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
+        // 輸出shell範例
+        // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
+        // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
                     +'</div>'
 
                     +'<div class="card card-border">'
