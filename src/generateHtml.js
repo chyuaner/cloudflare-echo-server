@@ -277,12 +277,16 @@ function generateHtml(data) {
                         +'<div class="col-12">'
                             +main(data.responseBody)
                         +'</div>'
+
+                        // 顯示Form測試區
                         // +'<div class="col-lg-3">'
                         +'<div class="col-12">'
                             +'<div class="card card-border">'
                             +'<h2>Input</h2>'
                             +'</div>'
                         +'</div>'
+
+                        // 輸出shell範例
                         // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
                         // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
                     +'</div>'
