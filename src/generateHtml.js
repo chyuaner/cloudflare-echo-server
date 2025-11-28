@@ -37,47 +37,52 @@ function generateHtml(data) {
             td,li {word-break: break-all;}
 
             /* 2️⃣ 子項目使用 span 來跨欄 */
-            .col-1   { grid-column: span 12; }
-            .col-2   { grid-column: span 12; }
-            .col-3   { grid-column: span 12; }
-            .col-lg-3 { grid-column: span 12; }
-            .col-4   { grid-column: span 12; }
-            .col-5   { grid-column: span 12; }
-            .col-6   { grid-column: span 12; }
-            .col-8   { grid-column: span 12; }
-            .col-9   { grid-column: span 12; }
-            .col-lg-9 { grid-column: span 12; }
-            .col-12   { grid-column: span 12; }
+            .col-1     { grid-column: span 12; }
+            .col-2     { grid-column: span 12; }
+            .col-3     { grid-column: span 12; }
+            .col-lg-3  { grid-column: span 12; }
+            .col-4     { grid-column: span 12; }
+            .col-lg-4  { grid-column: span 12; }
+            .col-5     { grid-column: span 12; }
+            .col-6     { grid-column: span 12; }
+            .col-8     { grid-column: span 12; }
+            .col-lg-8  { grid-column: span 12; }
+            .col-9     { grid-column: span 12; }
+            .col-lg-9  { grid-column: span 12; }
+            .col-12    { grid-column: span 12; }
 
             @media (min-width: 640px) {
-                .card{margin:0.5rem;padding:1rem;}
 
-                .col-1 { grid-column: span 1; }
-                .col-2 { grid-column: span 2; }
-                .col-3 { grid-column: span 3; }
+                .col-1    { grid-column: span 1; }
+                .col-2    { grid-column: span 2; }
+                .col-3    { grid-column: span 3; }
                 .col-lg-3 { grid-column: span 12; }
-                .col-4 { grid-column: span 4; }
-                .col-5 { grid-column: span 5; }
-                .col-6 { grid-column: span 6; }
-                .col-8 { grid-column: span 8; }
-                .col-9 { grid-column: span 9; }
+                .col-4    { grid-column: span 4; }
+                .col-lg-4 { grid-column: span 12; }
+                .col-5    { grid-column: span 5; }
+                .col-6    { grid-column: span 6; }
+                .col-8    { grid-column: span 8; }
+                .col-lg-8 { grid-column: span 12; }
+                .col-9    { grid-column: span 9; }
                 .col-lg-9 { grid-column: span 12; }
-                .col-12 { grid-column: span 12; }
+                .col-12   { grid-column: span 12; }
             }
             @media (min-width: 1024px) {
                 body{padding:2em;}
                 ul {padding-left:2.5em;}
-                .col-1 { grid-column: span 1; }
-                .col-2 { grid-column: span 2; }
-                .col-3 { grid-column: span 3; }
+                .col-1    { grid-column: span 1; }
+                .col-2    { grid-column: span 2; }
+                .col-3    { grid-column: span 3; }
                 .col-lg-3 { grid-column: span 3; }
-                .col-4 { grid-column: span 4; }
-                .col-5 { grid-column: span 5; }
-                .col-6 { grid-column: span 6; }
-                .col-8 { grid-column: span 8; }
-                .col-9 { grid-column: span 9; }
+                .col-4    { grid-column: span 4; }
+                .col-lg-4 { grid-column: span 4; }
+                .col-5    { grid-column: span 5; }
+                .col-6    { grid-column: span 6; }
+                .col-lg-8 { grid-column: span 8; }
+                .col-8    { grid-column: span 8; }
+                .col-9    { grid-column: span 9; }
                 .col-lg-9 { grid-column: span 9; }
-                .col-12 { grid-column: span 12; }
+                .col-12   { grid-column: span 12; }
             }
             #main {margin-top: 1rem;}
 
@@ -300,7 +305,7 @@ function generateHtml(data) {
     function main(responseBody) {
         return `
             <div class="container">
-                <div class="col-8">
+                <div class="col-lg-8">
                 <h2>request</h2>
 
                     <div class="container">
@@ -337,7 +342,7 @@ function generateHtml(data) {
                     </div>
                 </div>
 
-                <div class="col-4 card card-border">
+                <div class="col-lg-4 card card-border">
                     ${host(responseBody.host)}
                 </div>
             </div>
