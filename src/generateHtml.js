@@ -287,7 +287,7 @@ function generateHtml(data) {
                     <div class="table-container">
                     <table>
                         <tbody>
-                        <tr><th>Method</th><td>${responseBody.http.method}</td></tr>
+                        <tr><th>Method</th><td><span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span></td></tr>
                             <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
                             <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
                             <tr><th>Protocol</th><td>${responseBody.http.protocol}</td></tr>
