@@ -95,7 +95,7 @@ export default {
       host: {
         hostname: url.hostname,
         ip: clientIp,
-        ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
+        // ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
 
         // ── CF 資訊 ───────────────────────
         colo: cf.colo,

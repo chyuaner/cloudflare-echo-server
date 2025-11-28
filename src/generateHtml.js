@@ -4,6 +4,7 @@ function generateHtml(data) {
         const baseCss = `
             /* 1️⃣ 設定父容器為 Grid */
             body{padding:0.5rem;}
+            li {margin: 1em 0;}
             .container {
                 display: grid;                     /* 啟用 Grid */
                 grid-template-columns: repeat(12, 1fr);   /* 12 等分的欄 */
@@ -73,14 +74,33 @@ function generateHtml(data) {
         `;
     }
 
-    function main(responseBody) {
-        return `
-        <div>
-            <pre><code class="language-json">${JSON.stringify(responseBody, null, 2)}</code></pre>
-        </div>
-        `;
+    function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, postalCode, metroCode, region, regionCode, timezone} = {}) {
+
+        const outputhtml = `
+                    <h2>host</h2>
+
+                    <ul>
+                    ${hostname   ? `<li>hostname: ${hostname}</li>`   : ""}
+                    ${ip        ? `<li>IP: ${ip}</li>`               : ""}
+                    ${colo      ? `<li>Colo: ${colo}</li>`           : ""}
+                    ${country   ? `<li>Country: ${country}</li>`     : ""}
+                    ${city      ? `<li>City: ${city}</li>`           : ""}
+                    ${continent ? `<li>Continent: ${continent}</li>` : ""}
+                    ${latitude  ? `<li>Latitude: ${latitude}</li>`   : ""}
+                    ${longitude ? `<li>Longitude: ${longitude}</li>` : ""}
+                    ${postalCode? `<li>Postal Code: ${postalCode}</li>` : ""}
+                    ${metroCode ? `<li>Metro Code: ${metroCode}</li>` : ""}
+                    ${region    ? `<li>Region: ${region}</li>`       : ""}
+                    ${regionCode? `<li>Region Code: ${regionCode}</li>` : ""}
+                    ${timezone  ? `<li>Timezone: ${timezone}</li>`   : ""}
+                    </ul>
+                `;
+
+        return outputhtml;
+
     }
-    function mainTpl(responseBody) {
+
+    function main(responseBody) {
         return `
             <div class="card card-border">
                     <h2>http</h2>
@@ -113,8 +133,9 @@ function generateHtml(data) {
                         <h3>Header</h3>
                     </div>
                 </div>
+
                 <div class="col-6 card card-border">
-                    <h2>host</h2>
+                    ${host(responseBody.host)}
                 </div>
             </div>
 
@@ -136,7 +157,7 @@ function generateHtml(data) {
 
                     +'<div class="container">'
                         +'<div class="col-9">'
-                        +mainTpl(data.responseBody)
+                        +main(data.responseBody)
                         +'</div>'
                         +'<div class="col-3">'
                         +'<div class="card card-border">'
