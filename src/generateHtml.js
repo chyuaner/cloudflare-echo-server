@@ -25,6 +25,7 @@ function generateHtml(data) {
         const baseCss = `
             /* 1️⃣ 設定父容器為 Grid */
             body{padding:0.5rem;}
+            ul {padding-left:1em;}
             li {padding: 0.5em 0;}
             .container {
                 display: grid;                     /* 啟用 Grid */
@@ -65,6 +66,7 @@ function generateHtml(data) {
             }
             @media (min-width: 1024px) {
                 body{padding:2em;}
+                ul {padding-left:2.5em;}
                 .col-1 { grid-column: span 1; }
                 .col-2 { grid-column: span 2; }
                 .col-3 { grid-column: span 3; }
@@ -143,6 +145,31 @@ function generateHtml(data) {
             }
 
             h1{color:#f6821f;}
+
+            /* urltext網址結構項目化 */
+            .urltext {margin-left:1em;margin-bottom:-1em;}
+            .urltext .li {
+            display: inline-block;
+            vertical-align: middle;
+            }
+            .urltext .firstchar{padding-left:1em;}
+            .urltext .firstchar,.urltext .split, .urltext .kvsplit{
+                opacity: 0;
+            }
+            .urltext .li {
+            display: list-item;
+            margin-left: 1em;
+            position: relative;
+            top: -2em;
+            line-height: 2em;
+            }
+            .urltext .key{
+            font-weight: bold;
+            }
+            .urltext .key::after {
+            content: ": ";
+            position: absolute;
+            }
             `;
 
         const highlight = `
@@ -224,11 +251,15 @@ function generateHtml(data) {
                     <div class="container">
                         <div class="col-6 card card-border">
                             <h3>params</h3>
-                            ${objectToTable(responseBody.request.params)}
+                            <div class="urltext">
+                            <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
+                            </div>
                         </div>
                         <div class="col-6 card card-border">
                             <h3>query</h3>
-                            ${objectToTable(responseBody.request.query)}
+                            <div class="urltext">
+                            <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
+                            </div>
                         </div>
                     </div>
 
