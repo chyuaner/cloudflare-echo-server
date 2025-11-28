@@ -1,10 +1,27 @@
 function generateHtml(data) {
 
+    function objectToTable(data) {
+        return `
+            <table>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            ${Object.keys(data).map(key => `
+                <tr>
+                <td>${key}</td>
+                <td>${data[key]}</td>
+                </tr>
+            `).join('')}
+            </table>
+        `;
+    }
+
     function css() {
         const baseCss = `
             /* 1️⃣ 設定父容器為 Grid */
             body{padding:0.5rem;}
-            li {margin: 1em 0;}
+            li {padding: 0.5em 0;}
             .container {
                 display: grid;                     /* 啟用 Grid */
                 grid-template-columns: repeat(12, 1fr);   /* 12 等分的欄 */
@@ -12,15 +29,19 @@ function generateHtml(data) {
             }
             .card{margin:0.5rem;padding:1rem;}
             .card-border{background:#fff;border:1px solid #ddd;}
+            td,li {word-break: break-all;}
 
             /* 2️⃣ 子項目使用 span 來跨欄 */
             .col-1   { grid-column: span 12; }
             .col-2   { grid-column: span 12; }
             .col-3   { grid-column: span 12; }
+            .col-lg-3 { grid-column: span 12; }
             .col-4   { grid-column: span 12; }
             .col-5   { grid-column: span 12; }
             .col-6   { grid-column: span 12; }
             .col-9   { grid-column: span 12; }
+            .col-lg-9 { grid-column: span 12; }
+            .col-12   { grid-column: span 12; }
 
             @media (min-width: 640px) {
                 body{padding:2em;}
@@ -29,10 +50,25 @@ function generateHtml(data) {
                 .col-1 { grid-column: span 1; }
                 .col-2 { grid-column: span 2; }
                 .col-3 { grid-column: span 3; }
+                .col-lg-3 { grid-column: span 12; }
                 .col-4 { grid-column: span 4; }
                 .col-5 { grid-column: span 5; }
                 .col-6 { grid-column: span 6; }
                 .col-9 { grid-column: span 9; }
+                .col-lg-9 { grid-column: span 12; }
+                .col-12 { grid-column: span 12; }
+            }
+            @media (min-width: 1024px) {
+                .col-1 { grid-column: span 1; }
+                .col-2 { grid-column: span 2; }
+                .col-3 { grid-column: span 3; }
+                .col-lg-3 { grid-column: span 3; }
+                .col-4 { grid-column: span 4; }
+                .col-5 { grid-column: span 5; }
+                .col-6 { grid-column: span 6; }
+                .col-9 { grid-column: span 9; }
+                .col-lg-9 { grid-column: span 9; }
+                .col-12 { grid-column: span 12; }
             }
 
             body{font-family:system-ui,sans-serif;background:#fafafa;}
@@ -80,8 +116,12 @@ function generateHtml(data) {
                     <h2>host</h2>
 
                     <ul>
-                    ${hostname   ? `<li>hostname: ${hostname}</li>`   : ""}
-                    ${ip        ? `<li>IP: ${ip}</li>`               : ""}
+                        <li>hostname: ${hostname}</li>
+                        <li>IP: ${ip}</li>
+                        ${ips      ? `<li>ips: ${ips}</li>`           : ""}
+                    </ul>
+
+                    <ul>
                     ${colo      ? `<li>Colo: ${colo}</li>`           : ""}
                     ${country   ? `<li>Country: ${country}</li>`     : ""}
                     ${city      ? `<li>City: ${city}</li>`           : ""}
@@ -131,6 +171,7 @@ function generateHtml(data) {
                     </div>
                     <div class="card-border">
                         <h3>Header</h3>
+                        ${objectToTable(responseBody.request.headers)}
                     </div>
                 </div>
 
@@ -156,13 +197,13 @@ function generateHtml(data) {
                     // +'<div class="card">'+main(data.responseBody)+'</div>'
 
                     +'<div class="container">'
-                        +'<div class="col-9">'
-                        +main(data.responseBody)
+                        +'<div class="col-lg-9">'
+                            +main(data.responseBody)
                         +'</div>'
-                        +'<div class="col-3">'
-                        +'<div class="card card-border">'
-                        +'<h2>Input</h2>'
-                        +'</div>'
+                        +'<div class="col-lg-3">'
+                            +'<div class="card card-border">'
+                            +'<h2>Input</h2>'
+                            +'</div>'
                         +'</div>'
                         // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
                         // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
