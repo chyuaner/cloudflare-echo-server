@@ -1,4 +1,13 @@
 function generateHtml(data) {
+    const tabler_icons = {
+        "link": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-link%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M9%2015l6%20-6%22%20/%3E%3Cpath%20d=%22M11%206l.463%20-.536a5%205%200%200%201%207.071%207.072l-.534%20.464%22%20/%3E%3Cpath%20d=%22M13%2018l-.397%20.534a5.068%205.068%200%200%201%20-7.127%200a4.972%204.972%200%200%201%200%20-7.071l.524%20-.463%22%20/%3E%3C/svg%3E",
+        "http_head": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-http-head%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M3%2016v-8%22%20/%3E%3Cpath%20d=%22M7%208v8%22%20/%3E%3Cpath%20d=%22M3%2012h4%22%20/%3E%3Cpath%20d=%22M14%208h-4v8h4%22%20/%3E%3Cpath%20d=%22M10%2012h2.5%22%20/%3E%3Cpath%20d=%22M17%2016v-6a2%202%200%201%201%204%200v6%22%20/%3E%3Cpath%20d=%22M17%2013h4%22%20/%3E%3C/svg%3E",
+        "file": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-file%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M14%203v4a1%201%200%200%200%201%201h4%22%20/%3E%3Cpath%20d=%22M17%2021h-10a2%202%200%200%201%20-2%20-2v-14a2%202%200%200%201%202%20-2h7l5%205v11a2%202%200%200%201%20-2%202z%22%20/%3E%3C/svg%3E",
+        "cookie": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-cookie%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20/%3E%3Cpath%20d=%22M8%2013v.01%22%20/%3E%3Cpath%20d=%22M12%2017v.01%22%20/%3E%3Cpath%20d=%22M12%2012v.01%22%20/%3E%3Cpath%20d=%22M16%2014v.01%22%20/%3E%3Cpath%20d=%22M11%208v.01%22%20/%3E%3Cpath%20d=%22M13.148%203.476l2.667%201.104a4%204%200%200%200%204.656%206.14l.053%20.132a3%203%200%200%201%200%202.296q%20-.745%201.18%20-1.024%201.852q%20-.283%20.684%20-.66%202.216a3%203%200%200%201%20-1.624%201.623q%20-1.572%20.394%20-2.216%20.661q%20-.712%20.295%20-1.852%201.024a3%203%200%200%201%20-2.296%200q%20-1.203%20-.754%20-1.852%20-1.024q%20-.707%20-.292%20-2.216%20-.66a3%203%200%200%201%20-1.623%20-1.624q%20-.397%20-1.577%20-.661%20-2.216q%20-.298%20-.718%20-1.024%20-1.852a3%203%200%200%201%200%20-2.296q%20.719%20-1.116%201.024%20-1.852q%20.257%20-.62%20.66%20-2.216a3%203%200%200%201%201.624%20-1.623q%201.547%20-.384%202.216%20-.661q%20.687%20-.285%201.852%20-1.024a3%203%200%200%201%202.296%200%22%20/%3E%3C/svg%3E",
+        "cloud_network": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-cloud-network%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M3%2020h7%22%20/%3E%3Cpath%20d=%22M14%2020h7%22%20/%3E%3Cpath%20d=%22M10%2020a2%202%200%201%200%204%200a2%202%200%200%200%20-4%200%22%20/%3E%3Cpath%20d=%22M12%2016v2%22%20/%3E%3Cpath%20d=%22M8%2016.004h-1.343c-2.572%20-.004%20-4.657%20-2.011%20-4.657%20-4.487c0%20-2.475%202.085%20-4.482%204.657%20-4.482c.393%20-1.762%201.794%20-3.2%203.675%20-3.773c1.88%20-.572%203.956%20-.193%205.444%201c1.488%201.19%202.162%203.007%201.77%204.769h.99c1.913%200%203.464%201.56%203.464%203.486c0%201.927%20-1.551%203.487%20-3.465%203.487h-2.535%22%20/%3E%3C/svg%3E",
+        "code": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-code%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M7%208l-4%204l4%204%22%20/%3E%3Cpath%20d=%22M17%208l4%204l-4%204%22%20/%3E%3Cpath%20d=%22M14%204l-4%2016%22%20/%3E%3C/svg%3E",
+    }
+
 
     function objectToTable(data) {
         return `
@@ -263,10 +272,19 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
         `;
     }
 
+    function footer() {
+        return `
+        <div>
+            <p>Icons: https://tabler.io/icons</p>
+            <p>本網頁是以 Yuan Chiu 構建的，並部署在Cloudflare Workers</p>
+        </div>
+        `
+    }
+
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
-                    <h2>Host</h2>
+                    <h2><img class="icon" src="${tabler_icons.cloud_network}"> Host</h2>
 
                     <ul>
                         <li>IP: ${ip}</li>
@@ -319,13 +337,13 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
 
                     <div class="container">
                         <div class="col-6 card card-border">
-                            <h3>URL Params</h3>
+                            <h3><img class="icon" src="${tabler_icons.link}"> URL Params</h3>
                             <div class="urltext">
                             <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
                             </div>
                         </div>
                         <div class="col-6 card card-border">
-                            <h3>URL Query</h3>
+                            <h3><img class="icon" src="${tabler_icons.link}"> URL Query</h3>
                             <div class="urltext">
                             <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
                             </div>
@@ -333,7 +351,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                     </div>
 
                     <div class="card card-border">
-                        <h3>Post Body</h3>
+                        <h3><img class="icon" src="${tabler_icons.file}"> Post Body</h3>
 
                         ${responseBody.request.bodyRaw      ? `
                             <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
@@ -341,12 +359,12 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
 
                     </div>
                     <div class="card card-border">
-                        <h3>Cookies</h3>
+                        <h3><img class="icon" src="${tabler_icons.cookie}"> Cookies</h3>
                         ${objectToTable(responseBody.request.cookies)}
 
                     </div>
                     <div class="card card-border">
-                        <h3>Header</h3>
+                        <h3><img class="icon" src="${tabler_icons.http_head}"> Header</h3>
                         ${objectToTable(responseBody.request.headers)}
                     </div>
                 </div>
@@ -393,10 +411,14 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
             +'</div>'
 
             +'<div class="card card-border">'
-            +'<h3>Raw Response Body</h3>'
+            +'<h3><img class="icon" src="'+tabler_icons.code+'"> Raw Response Body</h3>'
             +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
         +'</div>'
         +'</div>'
+
+        +`<div id="footer">
+            ${footer()}
+        </div>`
         +pageB();
     return output;
 }
