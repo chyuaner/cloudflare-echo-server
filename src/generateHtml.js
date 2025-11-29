@@ -266,7 +266,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
-                    <h2>host</h2>
+                    <h2>Host</h2>
 
                     <ul>
                         <li>IP: ${ip}</li>
@@ -298,7 +298,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                         <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
                         <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
                 </div>
-                <div class="card-border">
+                <div class="">
                     <div class="table-container">
                     <table>
                         <tbody>
@@ -316,17 +316,16 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
         return `
             <div class="container">
                 <div class="col-lg-8">
-                <h2>request</h2>
 
                     <div class="container">
                         <div class="col-6 card card-border">
-                            <h3>params</h3>
+                            <h3>URL Params</h3>
                             <div class="urltext">
                             <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
                             </div>
                         </div>
                         <div class="col-6 card card-border">
-                            <h3>query</h3>
+                            <h3>URL Query</h3>
                             <div class="urltext">
                             <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
                             </div>
@@ -334,11 +333,11 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                     </div>
 
                     <div class="card card-border">
-                        <h3>Body</h3>
+                        <h3>Post Body</h3>
 
                         ${responseBody.request.bodyRaw      ? `
                             <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
-                            `: "none"}
+                            `: "&lt;none&gt;"}
 
                     </div>
                     <div class="card card-border">
