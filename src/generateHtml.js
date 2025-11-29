@@ -1,14 +1,13 @@
 function generateHtml(data) {
-    const tabler_icons = {
-        "variable_off": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-variable-off%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M4.675%204.68c-2.17%204.776%20-2.062%209.592%20.325%2015.32%22%20/%3E%3Cpath%20d=%22M19%204c1.959%203.917%202.383%207.834%201.272%2012.232m-.983%203.051c-.093%20.238%20-.189%20.477%20-.289%20.717%22%20/%3E%3Cpath%20d=%22M11.696%2011.696c.095%20.257%20.2%20.533%20.32%20.831c.984%202.473%20.984%203.473%201.984%203.473h1%22%20/%3E%3Cpath%20d=%22M8%2016c1.5%200%203%20-2%204%20-3.5m2.022%20-2.514c.629%20-.582%201.304%20-.986%201.978%20-.986%22%20/%3E%3Cpath%20d=%22M3%203l18%2018%22%20/%3E%3C/svg%3E",
-        "link": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-link%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M9%2015l6%20-6%22%20/%3E%3Cpath%20d=%22M11%206l.463%20-.536a5%205%200%200%201%207.071%207.072l-.534%20.464%22%20/%3E%3Cpath%20d=%22M13%2018l-.397%20.534a5.068%205.068%200%200%201%20-7.127%200a4.972%204.972%200%200%201%200%20-7.071l.524%20-.463%22%20/%3E%3C/svg%3E",
-        "http_head": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-http-head%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M3%2016v-8%22%20/%3E%3Cpath%20d=%22M7%208v8%22%20/%3E%3Cpath%20d=%22M3%2012h4%22%20/%3E%3Cpath%20d=%22M14%208h-4v8h4%22%20/%3E%3Cpath%20d=%22M10%2012h2.5%22%20/%3E%3Cpath%20d=%22M17%2016v-6a2%202%200%201%201%204%200v6%22%20/%3E%3Cpath%20d=%22M17%2013h4%22%20/%3E%3C/svg%3E",
-        "file": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-file%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M14%203v4a1%201%200%200%200%201%201h4%22%20/%3E%3Cpath%20d=%22M17%2021h-10a2%202%200%200%201%20-2%20-2v-14a2%202%200%200%201%202%20-2h7l5%205v11a2%202%200%200%201%20-2%202z%22%20/%3E%3C/svg%3E",
-        "cookie": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-cookie%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20/%3E%3Cpath%20d=%22M8%2013v.01%22%20/%3E%3Cpath%20d=%22M12%2017v.01%22%20/%3E%3Cpath%20d=%22M12%2012v.01%22%20/%3E%3Cpath%20d=%22M16%2014v.01%22%20/%3E%3Cpath%20d=%22M11%208v.01%22%20/%3E%3Cpath%20d=%22M13.148%203.476l2.667%201.104a4%204%200%200%200%204.656%206.14l.053%20.132a3%203%200%200%201%200%202.296q%20-.745%201.18%20-1.024%201.852q%20-.283%20.684%20-.66%202.216a3%203%200%200%201%20-1.624%201.623q%20-1.572%20.394%20-2.216%20.661q%20-.712%20.295%20-1.852%201.024a3%203%200%200%201%20-2.296%200q%20-1.203%20-.754%20-1.852%20-1.024q%20-.707%20-.292%20-2.216%20-.66a3%203%200%200%201%20-1.623%20-1.624q%20-.397%20-1.577%20-.661%20-2.216q%20-.298%20-.718%20-1.024%20-1.852a3%203%200%200%201%200%20-2.296q%20.719%20-1.116%201.024%20-1.852q%20.257%20-.62%20.66%20-2.216a3%203%200%200%201%201.624%20-1.623q%201.547%20-.384%202.216%20-.661q%20.687%20-.285%201.852%20-1.024a3%203%200%200%201%202.296%200%22%20/%3E%3C/svg%3E",
-        "cloud_network": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-cloud-network%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M3%2020h7%22%20/%3E%3Cpath%20d=%22M14%2020h7%22%20/%3E%3Cpath%20d=%22M10%2020a2%202%200%201%200%204%200a2%202%200%200%200%20-4%200%22%20/%3E%3Cpath%20d=%22M12%2016v2%22%20/%3E%3Cpath%20d=%22M8%2016.004h-1.343c-2.572%20-.004%20-4.657%20-2.011%20-4.657%20-4.487c0%20-2.475%202.085%20-4.482%204.657%20-4.482c.393%20-1.762%201.794%20-3.2%203.675%20-3.773c1.88%20-.572%203.956%20-.193%205.444%201c1.488%201.19%202.162%203.007%201.77%204.769h.99c1.913%200%203.464%201.56%203.464%203.486c0%201.927%20-1.551%203.487%20-3.465%203.487h-2.535%22%20/%3E%3C/svg%3E",
-        "code": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-code%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M7%208l-4%204l4%204%22%20/%3E%3Cpath%20d=%22M17%208l4%204l-4%204%22%20/%3E%3Cpath%20d=%22M14%204l-4%2016%22%20/%3E%3C/svg%3E",
+    const tabler_icons_html = {
+        "variable_off": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-variable-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4.675 4.68c-2.17 4.776 -2.062 9.592 .325 15.32" /><path d="M19 4c1.959 3.917 2.383 7.834 1.272 12.232m-.983 3.051c-.093 .238 -.189 .477 -.289 .717" /><path d="M11.696 11.696c.095 .257 .2 .533 .32 .831c.984 2.473 .984 3.473 1.984 3.473h1" /><path d="M8 16c1.5 0 3 -2 4 -3.5m2.022 -2.514c.629 -.582 1.304 -.986 1.978 -.986" /><path d="M3 3l18 18" /></svg>`,
+        "link": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 15l6 -6" /><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" /><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" /></svg>`,
+        "http_head": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-http-head"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 16v-8" /><path d="M7 8v8" /><path d="M3 12h4" /><path d="M14 8h-4v8h4" /><path d="M10 12h2.5" /><path d="M17 16v-6a2 2 0 1 1 4 0v6" /><path d="M17 13h4" /></svg>`,
+        "file": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /></svg>`,
+        "cookie": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cookie"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path stroke="none" d="M0 0h24v24H0z" /><path d="M8 13v.01" /><path d="M12 17v.01" /><path d="M12 12v.01" /><path d="M16 14v.01" /><path d="M11 8v.01" /><path d="M13.148 3.476l2.667 1.104a4 4 0 0 0 4.656 6.14l.053 .132a3 3 0 0 1 0 2.296q -.745 1.18 -1.024 1.852q -.283 .684 -.66 2.216a3 3 0 0 1 -1.624 1.623q -1.572 .394 -2.216 .661q -.712 .295 -1.852 1.024a3 3 0 0 1 -2.296 0q -1.203 -.754 -1.852 -1.024q -.707 -.292 -2.216 -.66a3 3 0 0 1 -1.623 -1.624q -.397 -1.577 -.661 -2.216q -.298 -.718 -1.024 -1.852a3 3 0 0 1 0 -2.296q .719 -1.116 1.024 -1.852q .257 -.62 .66 -2.216a3 3 0 0 1 1.624 -1.623q 1.547 -.384 2.216 -.661q .687 -.285 1.852 -1.024a3 3 0 0 1 2.296 0" /></svg>`,
+        "cloud_network": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cloud-network"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 20h7" /><path d="M14 20h7" /><path d="M10 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M12 16v2" /><path d="M8 16.004h-1.343c-2.572 -.004 -4.657 -2.011 -4.657 -4.487c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-2.535" /></svg>`,
+        "code": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4" /><path d="M17 8l4 4l-4 4" /><path d="M14 4l-4 16" /></svg>`,
     }
-
 
     function objectToTable(data) {
         if (Object.keys(data).length === 0) {
@@ -269,7 +268,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
     function none() {
         return `
             <div class="none">
-                <img class="icon" src="${tabler_icons.variable_off}">&nbsp;&lt;none&gt;
+                ${tabler_icons_html.variable_off}&nbsp;&lt;none&gt;
             </div>
         `;
     }
@@ -308,7 +307,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
-                    <h2><img class="icon" src="${tabler_icons.cloud_network}"> Host</h2>
+                    <h2>${tabler_icons_html.cloud_network} Host</h2>
 
                     <ul>
                         <li>IP: ${ip}</li>
@@ -361,14 +360,14 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
 
                     <div class="container">
                         <div class="col-6 card card-border">
-                            <h3><img class="icon" src="${tabler_icons.link}"> URL Params</h3>
+                            <h3>${tabler_icons_html.link} URL Params</h3>
                             ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
                             <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
                             </div>`}
                         </div>
                         <div class="col-6 card card-border">
-                            <h3><img class="icon" src="${tabler_icons.link}"> URL Query</h3>
+                            <h3>${tabler_icons_html.link} URL Query</h3>
                             ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
                             <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
@@ -377,7 +376,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                     </div>
 
                     <div class="card card-border">
-                        <h3><img class="icon" src="${tabler_icons.file}"> Post Body</h3>
+                        <h3>${tabler_icons_html.file} Post Body</h3>
 
                         ${responseBody.request.bodyRaw      ? `
                             <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
@@ -385,12 +384,12 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
 
                     </div>
                     <div class="card card-border">
-                        <h3><img class="icon" src="${tabler_icons.cookie}"> Cookies</h3>
+                        <h3>${tabler_icons_html.cookie} Cookies</h3>
                         ${objectToTable(responseBody.request.cookies)}
 
                     </div>
                     <div class="card card-border">
-                        <h3><img class="icon" src="${tabler_icons.http_head}"> Header</h3>
+                        <h3>${tabler_icons_html.http_head} Header</h3>
                         ${objectToTable(responseBody.request.headers)}
                     </div>
                 </div>
@@ -437,7 +436,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
             +'</div>'
 
             +'<div class="card card-border">'
-            +'<h3><img class="icon" src="'+tabler_icons.code+'"> Raw Response Body</h3>'
+            +`<h3>${tabler_icons_html.code} Raw Response Body</h3>`
             +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
         +'</div>'
         +'</div>'
