@@ -44,8 +44,12 @@ function generateHtml(data) {
             pre{background: #fff;border-color: #ddd;}
             .table-container {
                 background: light-dark( #fff, #000);
-                border-color:color-mix(in oklch, canvas, canvasText 15%)
+                border-color: color-mix(in oklch, canvas, canvasText 15%);
             }
+            #url-table .table-container {
+                border-color: color-mix(in oklch, canvas, canvasText 15%) !important;
+            }
+
             table {
                 background: #0000;
                 color: color-mix(in hsl, canvasText, #0000 30%);
@@ -53,6 +57,7 @@ function generateHtml(data) {
             thead { background: light-dark(hsl(0 0% 95%), canvas); }
             tr {
                 &:not(:last-of-type) {border-bottom-color:light-dark(hsl(0 0% 80%), canvas);}
+                border-color:color-mix(in oklch, canvas, canvasText 15%)
             }
             th {
                 background: light-dark(hsl(0 0% 95%), canvas);
@@ -149,7 +154,7 @@ function generateHtml(data) {
                 grid-template-columns: repeat(12, 1fr);   /* 12 等分的欄 */
                 gap: 0.5rem;                         /* 欄位之間的間距 */
             }
-            .card{margin:0.5rem;padding:1rem;word-break: break-all;}
+            .card{margin:0.5rem 0;padding:1rem;word-break: break-all;}
             .card-border{border-width:1px;border-style:solid;}
             @keyframes widget-title-icon-animation {
                 0%   { transform: rotate(0deg); }
@@ -229,10 +234,10 @@ function generateHtml(data) {
 
             .table-container {
                 overflow: auto;
-                border-width:1px;border-style:solid;
                 border-radius: 6px;
 
             }
+            #url-table .table-container { border: 1px solid; }
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -246,8 +251,25 @@ function generateHtml(data) {
                 &:not(:last-of-type) {
                     border-bottom-width:1px;border-bottom-style:solid;
                 }
+
+                display: block;
+                margin: 1rem 0;
+                border-width:1px;border-style:solid;
+                border-radius: 6px;
+
+            }
+            #url-table tr {
+                display: table-row;
+            }
+            th {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
             }
             @media (min-width: 640px) {
+                .table-container {
+                    border-width:1px;border-style:solid;
+                }
+                tr { display: table-row; border-width:0;}
                 th {background: none;}
             }
             td {
@@ -304,7 +326,7 @@ function generateHtml(data) {
 
             /* Endpoint Bar Styles */
             .endpoint-bar {
-                border-width:1px;border-style:solid;
+                border-width:2px;border-style:solid;
                 border-radius: 0.5rem;
                 padding: 1rem;
                 display: flex;
@@ -423,7 +445,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                         <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
                         <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
                 </div>
-                <div class="">
+                <div id="url-table">
                     <div class="table-container">
                     <table>
                         <tbody>
