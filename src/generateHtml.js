@@ -546,6 +546,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     </div>`+
                     // '<div class="card card-border">'+
                     //     '<h2>'+tabler_icons_html.send+' Test POST Request</h2>'+
+                    //     form()+
                     // '</div>'+
                 `</div>
 
@@ -556,93 +557,83 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
     function form() {
         return `
-            <div class="col-lg-4">
-                <div class="card card-border">
-                    ${host(responseBody.host)}
-                </div>
-                <div class="card card-border">
-                    <h2>${tabler_icons_html.send} Test POST Request</h2>
+            <form method="post" class="pure-form">
+                <h4>Payment form</h4>
+                <section>
+                <h5>Contact information</h5>
+                <fieldset>
+                    <legend>Title</legend>
+                    <ul>
+                    <li>
+                        <label for="title_1">
+                        <input type="radio" id="title_1" name="title" value="A" />
+                        Ace
+                        </label>
+                    </li>
+                    <li>
+                        <label for="title_2">
+                        <input type="radio" id="title_2" name="title" value="K" />
+                        King
+                        </label>
+                    </li>
+                    <li>
+                        <label for="title_3">
+                        <input type="radio" id="title_3" name="title" value="Q" />
+                        Queen
+                        </label>
+                    </li>
+                    </ul>
+                </fieldset>
+                <p>
+                    <label for="name">Name *:</label>
+                    <input type="text" id="name" name="username" />
+                </p>
+                <p>
+                    <label for="mail">Email *:</label>
+                    <input type="email" id="mail" name="user-mail" />
+                </p>
+                <p>
+                    <label for="pwd">Password *:</label>
+                    <input type="password" id="pwd" name="password" />
+                </p>
+                </section>
+                <section>
+                <h5>Payment information</h5>
+                <p>
+                    <label for="card">
+                    <span>Card type:</span>
+                    </label>
+                    <select id="card" name="user-card">
+                    <option value="visa">Visa</option>
+                    <option value="mc">Mastercard</option>
+                    <option value="amex">American Express</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="number">Card number *:</label>
+                    <input type="tel" id="number" name="card-number" />
+                </p>
+                <p>
+                    <label for="expiration">Expiration date *:</label>
+                    <input
+                    type="text"
+                    id="expiration"
+                    name="expiration"
+                    placeholder="MM/YY"
+                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
+                </p>
 
-                    <form method="post" class="pure-form">
-                        <h4>Payment form</h4>
-                        <section>
-                        <h5>Contact information</h5>
-                        <fieldset>
-                            <legend>Title</legend>
-                            <ul>
-                            <li>
-                                <label for="title_1">
-                                <input type="radio" id="title_1" name="title" value="A" />
-                                Ace
-                                </label>
-                            </li>
-                            <li>
-                                <label for="title_2">
-                                <input type="radio" id="title_2" name="title" value="K" />
-                                King
-                                </label>
-                            </li>
-                            <li>
-                                <label for="title_3">
-                                <input type="radio" id="title_3" name="title" value="Q" />
-                                Queen
-                                </label>
-                            </li>
-                            </ul>
-                        </fieldset>
-                        <p>
-                            <label for="name">Name *:</label>
-                            <input type="text" id="name" name="username" />
-                        </p>
-                        <p>
-                            <label for="mail">Email *:</label>
-                            <input type="email" id="mail" name="user-mail" />
-                        </p>
-                        <p>
-                            <label for="pwd">Password *:</label>
-                            <input type="password" id="pwd" name="password" />
-                        </p>
-                        </section>
-                        <section>
-                        <h5>Payment information</h5>
-                        <p>
-                            <label for="card">
-                            <span>Card type:</span>
-                            </label>
-                            <select id="card" name="user-card">
-                            <option value="visa">Visa</option>
-                            <option value="mc">Mastercard</option>
-                            <option value="amex">American Express</option>
-                            </select>
-                        </p>
-                        <p>
-                            <label for="number">Card number *:</label>
-                            <input type="tel" id="number" name="card-number" />
-                        </p>
-                        <p>
-                            <label for="expiration">Expiration date *:</label>
-                            <input
-                            type="text"
-                            id="expiration"
-                            name="expiration"
-                            placeholder="MM/YY"
-                            pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
-                        </p>
-
-                        <fieldset class="pure-group">
-                            <input type="text" class="pure-input-1-2" placeholder="A title" />
-                            <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
-                        </fieldset>
-                        </section>
-                        <section>
-                        <p>
-                            <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
-                        </p>
-                        </section>
-                    </form>
-
-                </div>
-            </div>
+                <fieldset class="pure-group">
+                    <input type="text" class="pure-input-1-2" placeholder="A title" />
+                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
+                </fieldset>
+                </section>
+                <section>
+                <p>
+                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
+                </p>
+                </section>
+            </form>
         `;
     }
 
@@ -666,13 +657,6 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             +'<div class="col-12">'
                 +main(data.responseBody)
             +'</div>'
-
-            // 顯示Form測試區
-            // +'<div class="col-12">'
-            //     +'<div class="card card-border">'
-            //     +'<h2>Input</h2>'
-            //     +'</div>'
-            // +'</div>'
 
             // 輸出shell範例
             // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
