@@ -512,7 +512,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         </div>
                         <div class="col-6 card card-border">
                             <h3>${tabler_icons_html.link} URL Query</h3>
-                            ${Object.keys(responseBody.request.params).length === 0 ? none() : `
+                            ${Object.keys(responseBody.request.query).length === 0 ? none() : `
                             <div class="urltext">
                             <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
                             </div>`}
