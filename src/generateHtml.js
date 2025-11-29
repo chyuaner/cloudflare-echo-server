@@ -1,5 +1,6 @@
 function generateHtml(data) {
     const tabler_icons = {
+        "variable_off": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-variable-off%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M4.675%204.68c-2.17%204.776%20-2.062%209.592%20.325%2015.32%22%20/%3E%3Cpath%20d=%22M19%204c1.959%203.917%202.383%207.834%201.272%2012.232m-.983%203.051c-.093%20.238%20-.189%20.477%20-.289%20.717%22%20/%3E%3Cpath%20d=%22M11.696%2011.696c.095%20.257%20.2%20.533%20.32%20.831c.984%202.473%20.984%203.473%201.984%203.473h1%22%20/%3E%3Cpath%20d=%22M8%2016c1.5%200%203%20-2%204%20-3.5m2.022%20-2.514c.629%20-.582%201.304%20-.986%201.978%20-.986%22%20/%3E%3Cpath%20d=%22M3%203l18%2018%22%20/%3E%3C/svg%3E",
         "link": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-link%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M9%2015l6%20-6%22%20/%3E%3Cpath%20d=%22M11%206l.463%20-.536a5%205%200%200%201%207.071%207.072l-.534%20.464%22%20/%3E%3Cpath%20d=%22M13%2018l-.397%20.534a5.068%205.068%200%200%201%20-7.127%200a4.972%204.972%200%200%201%200%20-7.071l.524%20-.463%22%20/%3E%3C/svg%3E",
         "http_head": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-http-head%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M3%2016v-8%22%20/%3E%3Cpath%20d=%22M7%208v8%22%20/%3E%3Cpath%20d=%22M3%2012h4%22%20/%3E%3Cpath%20d=%22M14%208h-4v8h4%22%20/%3E%3Cpath%20d=%22M10%2012h2.5%22%20/%3E%3Cpath%20d=%22M17%2016v-6a2%202%200%201%201%204%200v6%22%20/%3E%3Cpath%20d=%22M17%2013h4%22%20/%3E%3C/svg%3E",
         "file": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22currentColor%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20class=%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-file%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M14%203v4a1%201%200%200%200%201%201h4%22%20/%3E%3Cpath%20d=%22M17%2021h-10a2%202%200%200%201%20-2%20-2v-14a2%202%200%200%201%202%20-2h7l5%205v11a2%202%200%200%201%20-2%202z%22%20/%3E%3C/svg%3E",
@@ -10,6 +11,10 @@ function generateHtml(data) {
 
 
     function objectToTable(data) {
+        if (Object.keys(data).length === 0) {
+            return none();
+        }
+
         return `
             <div class="table-container">
             <table>
@@ -36,6 +41,10 @@ function generateHtml(data) {
             body{padding:0.5rem;}
             ul {padding-left:1em;}
             li {padding: 0.5em 0;}
+            .icon {
+                position: relative;
+                top: 0.2em;
+            }
             .container {
                 display: grid;                     /* 啟用 Grid */
                 grid-template-columns: repeat(12, 1fr);   /* 12 等分的欄 */
@@ -98,6 +107,13 @@ function generateHtml(data) {
             body{font-family:system-ui,sans-serif;background:#fafafa;}
             pre{background:#fff;padding:1em;border:1px solid #ddd;overflow:auto;}
             h2,h3 {margin-top:0;}
+            .none {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 1em 0;
+                color: gray;
+            }
 
             .table-container {
                 background: light-dark(#fff, #000);
@@ -250,6 +266,14 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                 +highlight;
     }
 
+    function none() {
+        return `
+            <div class="none">
+                <img class="icon" src="${tabler_icons.variable_off}">&nbsp;&lt;none&gt;
+            </div>
+        `;
+    }
+
     function pageA() {
         return `
         <!DOCTYPE html>
@@ -338,15 +362,17 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
                     <div class="container">
                         <div class="col-6 card card-border">
                             <h3><img class="icon" src="${tabler_icons.link}"> URL Params</h3>
+                            ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
                             <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
-                            </div>
+                            </div>`}
                         </div>
                         <div class="col-6 card card-border">
                             <h3><img class="icon" src="${tabler_icons.link}"> URL Query</h3>
+                            ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
                             <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
-                            </div>
+                            </div>`}
                         </div>
                     </div>
 
@@ -355,7 +381,7 @@ code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-fami
 
                         ${responseBody.request.bodyRaw      ? `
                             <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
-                            `: "&lt;none&gt;"}
+                            `: none()}
 
                     </div>
                     <div class="card card-border">
