@@ -167,7 +167,7 @@ function generateHtml(data) {
                 90%  { transform: rotate(5deg); }
                 100% { transform: rotate(0deg); }
             }
-            .card:hover > h2 .icon, .card:hover > h3 .icon {
+            .card:hover h2 .icon, .card:hover h3 .icon {
                 animation: widget-title-icon-animation 0.5s linear forwards;
             }
             td,li {word-break: break-all;}
@@ -239,6 +239,7 @@ function generateHtml(data) {
             }
             #main {margin-top: 1rem;}
 
+            .hide{display:none;}
             body{font-family:system-ui,sans-serif;}
             pre{padding:1em;border-width:1px;border-style:solid;overflow:auto;}
             h2,h3 {margin-top:0;}
@@ -501,6 +502,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         return `
             <div class="container">
                 <div class="col-lg-8">
+                <h2 class="hide">Request</h2>
 
                     <div class="container">
                         <div class="col-6 card card-border">
@@ -678,7 +680,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             +'</div>'
 
             +'<div class="card card-border">'
-            +`<h3>${tabler_icons_html.code} Raw Response Body</h3>`
+            +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
             +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
         +'</div>'
         +'</div>'
