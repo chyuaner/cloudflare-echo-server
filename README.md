@@ -1,16 +1,42 @@
-# README.md
+Yuan 的 HTTP Echo Server
+===
+本專案是提供CDN Edge層級的http回音鸚鵡伺服器（也提供本機端獨立運作的方式）
 
-## 🚀 專案概述
-本專案是一個 **Cloudflare Workers** 的 Echo 伺服器，示範如何使用 **Wrangler** 部署。
+就如字面上所說的，你對我發出的Request後，我的伺服器就會把我從你這邊接到的資訊：以什麼網址字串、帶了什麼Post Body、Request Header，一五一實的以ResponseBody方式回應給你。
+
+同時也可以當作MyIP查詢使用，會顯示在「Host」區塊。
+
+![screenshot](.readme/screenshot.png)
+
+## 專案特色
+* 主要針對Cloudflare Workers設計，**直接在CDN Edge層級提供完整服務**，理論上極致效能低延遲，不需在自有主機架設
+    * 亦有提供傳統獨立啟動本後端程式的功能（`npm run start`），可掛上pm2或systemd，供內部或特殊情況使用。
+* 預設以JSON格式作為Response Body輸出（主要由Header `accept`控制輸出格式），可用於Postman、Paw、Insomnia、Hoppscotch等HTTP API調試客戶端使用。
+* **有設計精美的網頁UI界面**（當Header為 `accept: text/html` 就會以網頁顯示，一般瀏覽器預設會帶入），降低辨識判讀的負擔
+    * 有特別為 **「URL Params」、「URL Query」區塊特別設計友善文字複製** 。界面乍看下是ul li項目清單，但圈選文字後，會直接複製成可直接貼上網址列的字串
+    * 本網頁兼顧美觀與效能考量，未使用前端框架，100%原生CSS排版撰寫、無額外多餘複雜的avaScript執行邏輯（Syntax Highlight用的除外）。
+    * **網頁版不會產生額外Request載入其他資源！**（像是圖片、CSS、JS等等）
+        * 所有外部資源如Icons與Syntax Highlight JS都已直接內嵌在單一這個Request。
+
+
+## 部署方式
+### 部署到Cloudflare Worker
+待補
+
+### 當作傳統後端程式獨立啟動
+```
+npm run start
+```
+
+---
+
+## 📂 目錄結構
 
 - **主要入口**: `src/index.js`（在 `wrangler.jsonc` 中指定）
 - **HTML 產生器**: `src/generateHtml.js`
 - **TypeScript 設定**: `tsconfig.json`
 - **部署設定**: `wrangler.jsonc`
 
----
-
-## 📂 目錄結構
 ```
 .
 ├─ src/
@@ -20,21 +46,15 @@
 └─ wrangler.jsonc        # Wrangler 部署與環境設定
 ```
 
----
-
 ## 🛠️ 前置條件
 - **Node.js** (v18 以上)
 - **npm** 或 **yarn**
 - **Wrangler CLI**（安裝方式：`npm i -g @cloudflare/wrangler`）
 
----
-
 ## 📦 安裝套件
 ```bash
 npm install
 ```
-
----
 
 ## 🚀 部署到 Cloudflare Workers
 1. **登入 Cloudflare**（如果尚未登入）
@@ -50,49 +70,10 @@ npm install
    - `wrangler.jsonc` 中的 `name: "cloudflare-echo-server"` 會成為 Workers 的子域名或路由。
    - `compatibility_date` 設為 `2025-04-03`，確保使用最新的 Workers Runtime。
 
-3. **若要使用 Smart Placement（可選）**
-   - 移除 `wrangler.jsonc` 中 `// "placement": { "mode": "smart" },` 前的註解，然後再次發布。
-
----
-
-## 📄 `generateHtml.js` 簡介
-`src/generateHtml.js` 內的 `generateHtml(data)` 函式接受任意資料物件，回傳一段 HTML 文字，可直接在 Workers 回應中使用。
-
-```javascript src/generateHtml.js
-function generateHtml(data) {
-  // 依需求產生 HTML，例如：
-  // return `<html><body>${JSON.stringify(data)}</body></html>`;
-  // 具體實作請自行補齊
-}
-```
-
-> **提示**：若需要在 Workers 中回傳 HTML，請在 `src/index.js` 中這樣使用：
-
-```javascript src/index.js
-import { generateHtml } from './generateHtml.js';
-
-export default {
-  async fetch(request, env, ctx) {
-    const data = { message: 'Hello from Cloudflare Workers!' };
-    return new Response(generateHtml(data), {
-      headers: { 'Content-Type': 'text/html' },
-    });
-  },
-};
-```
-
----
 
 ## 📚 參考文件
 - **Wrangler 設定**: <https://developers.cloudflare.com/workers/wrangler/configuration/>
 - **Cloudflare Workers Runtime API**: <https://developers.cloudflare.com/workers/runtime-apis/>
 - **TypeScript `tsconfig.json` 說明**: <https://aka.ms/tsconfig.json>
 
----
 
-## 📧 聯絡資訊
-若有任何問題或建議，歡迎在 GitHub Issue 中提出，或直接聯繫專案維護者。
-
----
-
-*Happy coding!* 🎉
