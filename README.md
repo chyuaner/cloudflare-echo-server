@@ -14,7 +14,7 @@ Yuan 的 HTTP Echo Server
 * 預設以JSON格式作為Response Body輸出（主要由Header `accept`控制輸出格式），可用於Postman、Paw、Insomnia、Hoppscotch等HTTP API調試客戶端使用。
 * **有設計精美的網頁UI界面**（當Header為 `accept: text/html` 就會以網頁顯示，一般瀏覽器預設會帶入），降低辨識判讀的負擔
     * 有特別為 **「URL Params」、「URL Query」區塊特別設計友善文字複製** 。界面乍看下是ul li項目清單，但圈選文字後，會直接複製成可直接貼上網址列的字串
-    * 本網頁兼顧美觀與效能考量，未使用前端框架，100%原生CSS排版撰寫、無額外多餘複雜的avaScript執行邏輯（Syntax Highlight用的除外）。
+    * 本網頁兼顧美觀與效能考量，未使用前端框架，100%原生CSS排版撰寫、無額外多餘複雜的JavaScript執行邏輯（Syntax Highlight用的除外）。
     * **網頁版不會產生額外Request載入其他資源！**（像是圖片、CSS、JS等等）
         * 所有外部資源如Icons與Syntax Highlight JS都已直接內嵌在單一這個Request。
 
