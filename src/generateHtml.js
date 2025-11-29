@@ -39,10 +39,11 @@ function generateHtml(data) {
             /* ------------------------------------------------
             // 顏色相關
             // ------------------------------------------------ */
-            .card-border{background:#fff;border-color: #ddd;}
-            pre{background:#fff;border-color: #ddd;}
+            body { background: #fafafa; }
+            .card-border{background: #fff;border-color: #ddd;}
+            pre{background: #fff;border-color: #ddd;}
             .table-container {
-                background: light-dark(#fff, #000);
+                background: light-dark( #fff, #000);
                 border-color:color-mix(in oklch, canvas, canvasText 15%)
             }
             table {
@@ -60,30 +61,77 @@ function generateHtml(data) {
             tbody tr:hover {
                 background: light-dark(hsl(0 0% 90%), canvas);;
             }
+            .urltext .li:hover {
+                background: gainsboro;
+            }
             h1{color: #f6821f;}
 
             .endpoint-bar {
                 background: #dbeafe;
                 border-color: #bfdbfe;
             }
-            .endpoint-bar.GET { background: rgba(97, 175, 254, 0.1); border-color: #61affe; }
-            .endpoint-bar.POST { background: rgba(73, 204, 144, 0.1); border-color: #49cc90; }
-            .endpoint-bar.PUT { background: rgba(252, 161, 48, 0.1); border-color: #fca130; }
-            .endpoint-bar.DELETE { background: rgba(249, 62, 62, 0.1); border-color: #f93e3e; }
-            .endpoint-bar.PATCH { background: rgba(80, 227, 194, 0.1); border-color: #50e3c2; }
-            .endpoint-bar.HEAD { background: rgba(144, 18, 254, 0.1); border-color: #9012fe; }
-            .endpoint-bar.OPTIONS { background: rgba(13, 90, 167, 0.1); border-color: #0d5aa7; }
+            .endpoint-bar.GET     { background: rgba(97, 175, 254, 0.1); border-color: #61affe; }
+            .endpoint-bar.POST    { background: rgba(73, 204, 144, 0.1); border-color: #49cc90; }
+            .endpoint-bar.PUT     { background: rgba(252, 161, 48, 0.1); border-color: #fca130; }
+            .endpoint-bar.DELETE  { background: rgba(249, 62, 62, 0.1);  border-color: #f93e3e; }
+            .endpoint-bar.PATCH   { background: rgba(80, 227, 194, 0.1); border-color: #50e3c2; }
+            .endpoint-bar.HEAD    { background: rgba(144, 18, 254, 0.1); border-color: #9012fe; }
+            .endpoint-bar.OPTIONS { background: rgba(13, 90, 167, 0.1);  border-color: #0d5aa7; }
 
-            .method-badge.GET { background: #61affe; }
-            .method-badge.POST { background: #49cc90; }
-            .method-badge.PUT { background: #fca130; }
-            .method-badge.DELETE { background: #f93e3e; }
-            .method-badge.PATCH { background: #50e3c2; }
-            .method-badge.HEAD { background: #9012fe; }
+            .method-badge.GET     { background: #61affe; }
+            .method-badge.POST    { background: #49cc90; }
+            .method-badge.PUT     { background: #fca130; }
+            .method-badge.DELETE  { background: #f93e3e; }
+            .method-badge.PATCH   { background: #50e3c2; }
+            .method-badge.HEAD    { background: #9012fe; }
             .method-badge.OPTIONS { background: #0d5aa7; }
             .url-path {
                 color: #1e293b;
             }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: #303341; color: white;}
+            .card-border{background: #282a36;border-color: oklch(43.9% 0 0);}
+            pre{background: #14151bff;border-color: #ddd;}
+            .table-container {
+                background: #282a36;
+                border-color:color-mix(in oklch, canvas, canvasText 15%)
+            }
+            table {
+                color: white;
+            }
+            thead { background: light-dark(hsl(245.2, 17.6%, 25.7%), canvas); }
+            tr {
+                &:not(:last-of-type) {border-bottom-color:light-dark(hsl(0 0% 80%), canvas);}
+            }
+            th {
+                background: light-dark(hsl(245.2, 17.6%, 25.7%), canvas);
+                color: white;
+            }
+            tbody tr:hover {
+                background: light-dark(hsl(0 0% 10%), canvas);
+            }
+            .urltext .li:hover {
+                background: light-dark(hsl(0 0% 10%), canvas);
+            }
+
+            .endpoint-bar {
+                background: #2b2f36;
+                border-color: #444;
+            }
+            .endpoint-bar.GET     { background: rgba(97, 175, 254, 0.1); border-color: #61affe; }
+            .endpoint-bar.POST    { background: rgba(73, 204, 144, 0.1); border-color: #49cc90; }
+            .endpoint-bar.PUT     { background: rgba(252, 161, 48, 0.1); border-color: #fca130; }
+            .endpoint-bar.DELETE  { background: rgba(249, 62, 62, 0.1);  border-color: #f93e3e; }
+            .endpoint-bar.PATCH   { background: rgba(80, 227, 194, 0.1); border-color: #50e3c2; }
+            .endpoint-bar.HEAD    { background: rgba(144, 18, 254, 0.1); border-color: #9012fe; }
+            .endpoint-bar.OPTIONS { background: rgba(13, 90, 167, 0.1);  border-color: #0d5aa7; }
+            .url-path {
+                color: #d1d5db;                     /* 暗色背景下的文字顏色，較亮以確保可讀性 */
+            }
+        }
+
+
 
             /* ------------------------------------------------
             // 排版相關
@@ -168,7 +216,7 @@ function generateHtml(data) {
             }
             #main {margin-top: 1rem;}
 
-            body{font-family:system-ui,sans-serif;background:#fafafa;}
+            body{font-family:system-ui,sans-serif;}
             pre{padding:1em;border-width:1px;border-style:solid;overflow:auto;}
             h2,h3 {margin-top:0;}
             .none {
@@ -234,9 +282,6 @@ function generateHtml(data) {
                 transition-property: filter, background, opacity;
                 transition-duration: 0.2s;
                 transition-timing-function: ease-out;
-            }
-            .urltext .li:hover {
-                background: gainsboro;
             }
             .urltext .firstchar{padding-left:1em;}
             .urltext .firstchar,.urltext .split, .urltext .kvsplit{
