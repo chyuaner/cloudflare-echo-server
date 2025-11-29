@@ -51,6 +51,19 @@ function generateHtml(data) {
             }
             .card{margin:0.5rem;padding:1rem;word-break: break-all;}
             .card-border{background:#fff;border:1px solid #ddd;}
+            @keyframes widget-title-icon-animation {
+                0%   { transform: rotate(0deg); }
+                15%  { transform: rotate(-15deg); }
+                30%  { transform: rotate(15deg); }
+                45%  { transform: rotate(-10deg); }
+                60%  { transform: rotate(10deg); }
+                75%  { transform: rotate(-5deg); }
+                90%  { transform: rotate(5deg); }
+                100% { transform: rotate(0deg); }
+            }
+            .card:hover > h2 .icon, .card:hover > h3 .icon {
+                animation: widget-title-icon-animation 0.5s linear forwards;
+            }
             td,li {word-break: break-all;}
 
             /* 2️⃣ 子項目使用 span 來跨欄 */
@@ -179,8 +192,16 @@ function generateHtml(data) {
             /* urltext網址結構項目化 */
             .urltext {margin-left:1em;margin-bottom:-1em;}
             .urltext .li {
-            display: inline-block;
-            vertical-align: middle;
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 0.5em;
+                border-radius: 5px;
+                transition-property: filter, background, opacity;
+                transition-duration: 0.2s;
+                transition-timing-function: ease-out;
+            }
+            .urltext .li:hover {
+                background: gainsboro;
             }
             .urltext .firstchar{padding-left:1em;}
             .urltext .firstchar,.urltext .split, .urltext .kvsplit{
