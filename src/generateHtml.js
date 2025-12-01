@@ -399,7 +399,7 @@ function generateHtml(data) {
             }
             #footer li {padding: 0;}
             #footer .container div {
-                align-self: center;
+                align-self: end;
             }
             #footer .logo svg {
                 height: 3.5rem;
@@ -485,14 +485,14 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         return `
         <div>
             <div class="container">
-                <div class="col-8">
+                <div class="col-5">
                     <p>本頁面有使用以下資源</p>
                     <ul>
                         <li>Icons: https://tabler.io/icons</li>
                         <li>PrismJS: https://prismjs.com/</li>
                     </ul>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <p>本後端執行環境：</p>
                     <div class="logo">
                     ${(() => {
@@ -510,7 +510,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     })()}
                     </div>
                 </div>
-                <div class="col-2 right">
+                <div class="col-4 right">
                     <p>本專案是由 Yuan Chiu 製作</p>
                     <p><a href="https://github.com/chyuaner/cloudflare-echo-server" target="_blank">
                         View on Github
