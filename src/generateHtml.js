@@ -567,10 +567,11 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                 <div class="col-lg-4">
 
                     <div class="card card-border">
-                        <h2>${tabler_icons_html.lock_password} TLS</h2>
+                        <h3>${tabler_icons_html.lock_password} TLS</h3>
                         <ul>
                             ${Object.entries(responseBody.http.tls)
                             .filter(([, v]) => v !== null && v !== undefined)
+                            .filter(([k]) => k !== 'tlsClientAuth')
                             .map(([k, v]) => {
                                 const keyHtml = k;
                                 if (typeof v === 'object' && v !== null) {
