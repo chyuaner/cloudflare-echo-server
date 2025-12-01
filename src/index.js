@@ -139,15 +139,15 @@ export default {
         headers,
         // headersRaw
       },
-      bot: {
-        score              : cf.botManagement.score,
-        verifiedBot        : cf.botManagement.verifiedBot,
-        staticResource     : cf.botManagement.staticResource,
-        ja3Hash            : cf.botManagement.ja3Hash,
-        ja4                : cf.botManagement.ja4,
-        jsDetectionPassed  : cf.botManagement.jsDetection.passed,
-        detectionIds       : cf.botManagement.detectionIds,
-        verifiedBotCategory: cf.verifiedBotCategory
+      botManagement: {
+        score               : cf.botManagement?.score ?? null,
+        verifiedBot         : cf.botManagement?.verifiedBot ?? null,
+        staticResource      : cf.botManagement?.staticResource ?? null,
+        ja3Hash             : cf.botManagement?.ja3Hash ?? null,
+        ja4                 : cf.botManagement?.ja4 ?? null,
+        jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
+        detectionIds        : cf.botManagement?.detectionIds ?? null,
+        verifiedBotCategory : cf.verifiedBotCategory ?? null
       },
       host: {
         ip: clientIp,
