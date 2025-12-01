@@ -111,22 +111,23 @@ export default {
     // 建立回傳的 JSON 物件
     const responseBody = {
       http: {
-        method                   : request.method,
-        baseUrl                  : `${url.protocol}//${url.host}`,
-        originalUrl              : url.pathname + url.search,
-        protocol                 : url.protocol.replace(":", ""),
-        httpProtocol             : cf.httpProtocol,
-        hostMetadata             : cf.hostMetadata,
-        requestPriority          : cf.requestPriority,
-        tlsCipher                : cf.tlsCipher,
-        tlsClientAuth            : cf.tlsClientAuth,
-        tlsClientCiphersSha1     : cf.tlsClientCiphersSha1,
-        tlsClientExtensionsSha1  : cf.tlsClientExtensionsSha1,
-        tlsClientExtensionsSha1Le: cf.tlsClientExtensionsSha1Le,
-        tlsClientHelloLength     : cf.tlsClientHelloLength,
-        tlsClientRandom          : cf.tlsClientRandom,
-        tlsVersion               : cf.tlsVersion,
-
+        method                     : request.method,
+        baseUrl                    : `${url.protocol}//${url.host}`,
+        originalUrl                : url.pathname + url.search,
+        protocol                   : url.protocol.replace(":", ""),
+        httpProtocol               : cf.httpProtocol,
+        hostMetadata               : cf.hostMetadata,
+        requestPriority            : cf.requestPriority,
+        tls: {
+          tlsCipher                : cf.tlsCipher,
+          tlsClientAuth            : cf.tlsClientAuth,
+          tlsClientCiphersSha1     : cf.tlsClientCiphersSha1,
+          tlsClientExtensionsSha1  : cf.tlsClientExtensionsSha1,
+          tlsClientExtensionsSha1Le: cf.tlsClientExtensionsSha1Le,
+          tlsClientHelloLength     : cf.tlsClientHelloLength,
+          tlsClientRandom          : cf.tlsClientRandom,
+          tlsVersion               : cf.tlsVersion,
+        }
       },
       request: {
         params,
@@ -138,26 +139,36 @@ export default {
         headers,
         // headersRaw
       },
+      bot: {
+        score              : cf.botManagement.score,
+        verifiedBot        : cf.botManagement.verifiedBot,
+        staticResource     : cf.botManagement.staticResource,
+        ja3Hash            : cf.botManagement.ja3Hash,
+        ja4                : cf.botManagement.ja4,
+        jsDetectionPassed  : cf.botManagement.jsDetection.passed,
+        detectionIds       : cf.botManagement.detectionIds,
+        verifiedBotCategory: cf.verifiedBotCategory
+      },
       host: {
         ip: clientIp,
         // ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
         hostname: url.hostname,
 
         // ── CF 資訊 ───────────────────────
-        colo: cf.colo,
-        country: cf.country,
-        city: cf.city,
-        continent: cf.continent,
-        latitude: cf.latitude,
-        longitude: cf.longitude,
-        asn: cf.asn,
-        asOrganization: cf.asOrganization	,
-        isEUCountry: cf.isEUCountry	,
-        postalCode: cf.postalCode,
-        metroCode: cf.metroCode,
-        region: cf.region,
-        regionCode: cf.regionCode,
-        timezone: cf.timezone
+        colo          : cf.colo,
+        country       : cf.country,
+        city          : cf.city,
+        continent     : cf.continent,
+        latitude      : cf.latitude,
+        longitude     : cf.longitude,
+        asn           : cf.asn,
+        asOrganization: cf.asOrganization,
+        isEUCountry   : cf.isEUCountry,
+        postalCode    : cf.postalCode,
+        metroCode     : cf.metroCode,
+        region        : cf.region,
+        regionCode    : cf.regionCode,
+        timezone      : cf.timezone
       }
     };
 

@@ -461,20 +461,20 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     </ul>
 
                     <ul>
-                    ${colo      ? `<li>Colo: ${colo}</li>`           : ""}
-                    ${country   ? `<li>Country: ${country}</li>`     : ""}
-                    ${city      ? `<li>City: ${city}</li>`           : ""}
-                    ${continent ? `<li>Continent: ${continent}</li>` : ""}
-                    ${latitude  ? `<li>Latitude: ${latitude}</li>`   : ""}
-                    ${longitude ? `<li>Longitude: ${longitude}</li>` : ""}
-                    ${asn? `<li>ASN: ${asn}</li>` : ""}
+                    ${colo          ? `<li>Colo: ${colo}</li>`           : ""}
+                    ${country       ? `<li>Country: ${country}</li>`     : ""}
+                    ${city          ? `<li>City: ${city}</li>`           : ""}
+                    ${continent     ? `<li>Continent: ${continent}</li>` : ""}
+                    ${latitude      ? `<li>Latitude: ${latitude}</li>`   : ""}
+                    ${longitude     ? `<li>Longitude: ${longitude}</li>` : ""}
+                    ${asn           ? `<li>ASN: ${asn}</li>` : ""}
                     ${asOrganization? `<li>As Organization: ${asOrganization}</li>` : ""}
-                    ${isEUCountry? `<li>Is EU Country: ${isEUCountry}</li>` : ""}
-                    ${postalCode? `<li>Postal Code: ${postalCode}</li>` : ""}
-                    ${metroCode ? `<li>Metro Code: ${metroCode}</li>` : ""}
-                    ${region    ? `<li>Region: ${region}</li>`       : ""}
-                    ${regionCode? `<li>Region Code: ${regionCode}</li>` : ""}
-                    ${timezone  ? `<li>Timezone: ${timezone}</li>`   : ""}
+                    ${isEUCountry   ? `<li>Is EU Country: ${isEUCountry}</li>` : ""}
+                    ${postalCode    ? `<li>Postal Code: ${postalCode}</li>` : ""}
+                    ${metroCode     ? `<li>Metro Code: ${metroCode}</li>` : ""}
+                    ${region        ? `<li>Region: ${region}</li>`       : ""}
+                    ${regionCode    ? `<li>Region Code: ${regionCode}</li>` : ""}
+                    ${timezone      ? `<li>Timezone: ${timezone}</li>`   : ""}
                     </ul>
                 `;
 
