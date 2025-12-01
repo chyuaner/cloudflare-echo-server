@@ -449,7 +449,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `
     }
 
-    function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, postalCode, metroCode, region, regionCode, timezone} = {}) {
+    function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
                     <h2>${tabler_icons_html.cloud_network} Host</h2>
@@ -467,6 +467,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     ${continent ? `<li>Continent: ${continent}</li>` : ""}
                     ${latitude  ? `<li>Latitude: ${latitude}</li>`   : ""}
                     ${longitude ? `<li>Longitude: ${longitude}</li>` : ""}
+                    ${asn? `<li>ASN: ${asn}</li>` : ""}
+                    ${asOrganization? `<li>As Organization: ${asOrganization}</li>` : ""}
+                    ${isEUCountry? `<li>Is EU Country: ${isEUCountry}</li>` : ""}
                     ${postalCode? `<li>Postal Code: ${postalCode}</li>` : ""}
                     ${metroCode ? `<li>Metro Code: ${metroCode}</li>` : ""}
                     ${region    ? `<li>Region: ${region}</li>`       : ""}
