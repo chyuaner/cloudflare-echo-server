@@ -2,6 +2,56 @@ import { generateHtml } from "./generateHtml.js";   // ← 新增此行
 import { generateCurl } from "./generateCurl.js";   // ← 新增此行
 import { generateWget } from "./generateWget.js";   // ← 新增此行
 
+// ----------------------------------------------------
+// 讀取環境偵測
+// ----------------------------------------------------
+let isWorker = false;   // 是否在 Cloudflare Workers
+let isDocker = false;   // 是否在 Docker (只在 Node 會有意義)
+
+(() => {
+  // Cloudflare Workers 沒有 `process`，且 `globalThis.fetch` 為函式
+  if (typeof process === "undefined" && typeof globalThis.fetch === "function") {
+    isWorker = true;
+    // 在 Workers 裡面不需要也不能檢查 Docker，直接返回
+    return;
+  }
+
+  // 若走到這裡，代表程式在 Node（本機或 Docker）
+  isWorker = false;
+
+  // 1. 先檢查常見的 Docker 環境變數
+  if (process.env.DOCKER || process.env.container) {
+    isDocker = true;
+    return;
+  }
+
+  // 2. 再檢查是否有 /.dockerenv 這個檔案（Docker 會自動掛載）
+  try {
+    const fs = require("node:fs");
+    if (fs.existsSync("/.dockerenv")) {
+      isDocker = true;
+      return;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+
+  // 3. 最後檢查 Linux cgroup 資訊 (多數 Docker 會在此留下痕跡)
+  try {
+    const fs = require("node:fs");
+    const cgroup = fs.readFileSync("/proc/1/cgroup", "utf8");
+    if (/docker|containerd/.test(cgroup)) {
+      isDocker = true;
+      return;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+})();
+
+// ----------------------------------------------------
+// 主程式主要流程
+// ----------------------------------------------------
 export default {
   async fetch(request, env, ctx) {
     /* ----------------------------------------------------
@@ -170,6 +220,13 @@ export default {
         region        : cf.region,
         regionCode    : cf.regionCode,
         timezone      : cf.timezone
+      },
+      environment: {
+        mode: isWorker
+          ? "Cloudflare Workers"
+          : isDocker
+            ? "Docker"
+            : "NodeJS"
       }
     };
 
