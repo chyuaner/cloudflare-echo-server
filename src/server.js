@@ -18,45 +18,46 @@ const server = createServer(async (req, res) => {
     // 2. 把 Node 原生的 Request 轉成 Workers 可接受的 Request 物件
     // ------------------------------------------------
     const requestUrl = new URL(req.url, `http://${req.headers.host}`);
-    const pathname = requestUrl.pathname;
+    // const pathname = requestUrl.pathname;
 
-    // ------------------------------------------------
-    // ① 靜態檔案直接映射到根路徑（/public/* => /）
-    // ------------------------------------------------
-    // 只要檔案在 public 目錄中且 URL 沒有前綴 /public，直接從 public 讀取
-    // 例如: /index.html => public/index.html
-    //          /style.css  => public/style.css
-    // 若找不到檔案，fallback 到 Worker 處理
-    const safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
-    const filePath = path.join(process.cwd(), "public", safePath);
+    // 因為已經沒有額外的靜態資源檔，此邏輯就不需要，先註解封存
+    // // ------------------------------------------------
+    // // ① 靜態檔案直接映射到根路徑（/public/* => /）
+    // // ------------------------------------------------
+    // // 只要檔案在 public 目錄中且 URL 沒有前綴 /public，直接從 public 讀取
+    // // 例如: /index.html => public/index.html
+    // //          /style.css  => public/style.css
+    // // 若找不到檔案，fallback 到 Worker 處理
+    // const safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
+    // const filePath = path.join(process.cwd(), "public", safePath);
 
-    try {
-      const data = await fs.readFile(filePath);
-      const ext = path.extname(filePath).toLowerCase();
-      const mimeMap = {
-        ".html": "text/html",
-        ".htm": "text/html",
-        ".js": "application/javascript",
-        ".mjs": "application/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".svg": "image/svg+xml",
-        ".ico": "image/x-icon",
-        ".txt": "text/plain"
-      };
-      const contentType = mimeMap[ext] || "application/octet-stream";
+    // try {
+    //   const data = await fs.readFile(filePath);
+    //   const ext = path.extname(filePath).toLowerCase();
+    //   const mimeMap = {
+    //     ".html": "text/html",
+    //     ".htm": "text/html",
+    //     ".js": "application/javascript",
+    //     ".mjs": "application/javascript",
+    //     ".css": "text/css",
+    //     ".json": "application/json",
+    //     ".png": "image/png",
+    //     ".jpg": "image/jpeg",
+    //     ".jpeg": "image/jpeg",
+    //     ".gif": "image/gif",
+    //     ".svg": "image/svg+xml",
+    //     ".ico": "image/x-icon",
+    //     ".txt": "text/plain"
+    //   };
+    //   const contentType = mimeMap[ext] || "application/octet-stream";
 
-      res.writeHead(200, { "Content-Type": contentType });
-      res.end(data);
-      return; // 已回傳靜態檔案，結束處理
-    } catch (e) {
-      // 若檔案不存在或讀取失敗，就交給 Worker 處理
-      // （此時會拋出 404，讓下面的 Worker 程式自行決定回傳內容）
-    }
+    //   res.writeHead(200, { "Content-Type": contentType });
+    //   res.end(data);
+    //   return; // 已回傳靜態檔案，結束處理
+    // } catch (e) {
+    //   // 若檔案不存在或讀取失敗，就交給 Worker 處理
+    //   // （此時會拋出 404，讓下面的 Worker 程式自行決定回傳內容）
+    // }
 
     // ------------------------------------------------
     // ② 其餘請求交給 Worker（保持原有 API 邏輯）
@@ -67,6 +68,8 @@ const server = createServer(async (req, res) => {
       headers: new Headers(req.headers),
       // 將 body 轉成 ReadableStream（Node 直接提供的就是 stream）
       body: req.method === "GET" || req.method === "HEAD" ? undefined : req,
+      // 當 body 存在時必須指定 duplex，才能在 Node 中使用 stream 作為 request body
+      ...(req.method !== "GET" && req.method !== "HEAD" ? { duplex: "half" } : {}),
       // cf 物件在本機測試沒意義，給個空物件即可
       cf: {}
     };
