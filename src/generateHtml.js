@@ -544,19 +544,32 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         </div>
                     </div>
 
-                    <div class="card card-border">
-                        <h3>${tabler_icons_html.file} Post Body</h3>
+                    ${(() => {
+                        // 取得當前請求的方法與原始 body 文字
+                        const method   = responseBody.http.method;   // e.g. "GET", "POST", "HEAD", ...
+                        const bodyRaw  = responseBody.request.bodyRaw;
 
-                        ${responseBody.request.bodyRaw      ? `
-                            <pre><code class="language-json">${responseBody.request.bodyRaw}</code></pre>
-                            `: none()}
+                        // 條件：GET / HEAD 且 body 為空 → 不顯示任何內容
+                        if ((method === 'GET' || method === 'HEAD') && (!bodyRaw || bodyRaw.trim() === '')) {
+                            return '';   // 直接返回空字串，整塊 <div> 不會產生
+                        }
 
-                    </div>
-                    <div class="card card-border">
-                        <h3>${tabler_icons_html.cookie} Cookies</h3>
-                        ${objectToTable(responseBody.request.cookies)}
+                        // 其餘情況（POST、PUT、PATCH、DELETE … 或 GET/HEAD 有 body） -> 正常顯示
+                        return `
+                            <div class="card card-border">
+                                <h3>${tabler_icons_html.file} Post Body</h3>
+                                ${bodyRaw
+                                    ? `<pre><code class="language-json">${bodyRaw}</code></pre>`
+                                    : none()}
+                            </div>`;
+                    })()}
 
-                    </div>
+                    ${Object.keys(responseBody.request.cookies).length === 0 ? `` : `
+                        <div class="card card-border">
+                            <h3>${tabler_icons_html.cookie} Cookies</h3>
+                            ${objectToTable(responseBody.request.cookies)}
+                        </div>`}
+
                     <div class="card card-border">
                         <h3>${tabler_icons_html.http_head} Header</h3>
                         ${objectToTable(responseBody.request.headers)}
