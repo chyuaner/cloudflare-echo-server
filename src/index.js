@@ -107,6 +107,7 @@ export default {
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
+    const httpProtocol = cf.httpProtocol || url.protocol.replace(":", "") || "";
 
     // 建立回傳的 JSON 物件
     const responseBody = {
@@ -115,7 +116,7 @@ export default {
         baseUrl                    : `${url.protocol}//${url.host}`,
         originalUrl                : url.pathname + url.search,
         protocol                   : url.protocol.replace(":", ""),
-        httpProtocol               : cf.httpProtocol,
+        httpProtocol               : httpProtocol,
         hostMetadata               : cf.hostMetadata,
         requestPriority            : cf.requestPriority,
         tls: {
