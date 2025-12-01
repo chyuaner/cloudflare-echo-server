@@ -569,7 +569,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     ${(() => {
                         // ① 取得 TLS 的所有欄位，過濾掉 null/undefined 與 tlsClientAuth
                         const tlsEntries = Object.entries(responseBody.http.tls)
-                            .filter(([, v]) => v !== null && v !== undefined)
+                            .filter(([, v]) => {
+                                // 排除 null、undefined、空字串、0、NaN、false 等
+                                return v != null && v !== '' && v !== 0 && !Number.isNaN(v);
+                            })
                             .filter(([k]) => k !== 'tlsClientAuth');
 
                         // ② 若沒有任何可顯示的項目，直接回傳空字串（不產出 <div>）
