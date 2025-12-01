@@ -161,6 +161,16 @@ export default {
 
     // 建立回傳的 JSON 物件
     const responseBody = {
+      request: {
+        params,
+        query,
+        cookies,
+        cookiesRaw,
+        body,
+        bodyRaw,
+        headers,
+        // headersRaw
+      },
       http: {
         method                     : request.method,
         baseUrl                    : `${url.protocol}//${url.host}`,
@@ -179,26 +189,6 @@ export default {
           tlsClientRandom          : cf.tlsClientRandom,
           tlsVersion               : cf.tlsVersion,
         }
-      },
-      request: {
-        params,
-        query,
-        cookies,               // Workers 預設不會自動解析 cookie，可自行擴充
-        cookiesRaw,
-        body,                  // 若需要解析 body，請額外加入 request.clone().json() 等
-        bodyRaw,            // 原始文字
-        headers,
-        // headersRaw
-      },
-      botManagement: {
-        score               : cf.botManagement?.score ?? null,
-        verifiedBot         : cf.botManagement?.verifiedBot ?? null,
-        staticResource      : cf.botManagement?.staticResource ?? null,
-        ja3Hash             : cf.botManagement?.ja3Hash ?? null,
-        ja4                 : cf.botManagement?.ja4 ?? null,
-        jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
-        detectionIds        : cf.botManagement?.detectionIds ?? null,
-        verifiedBotCategory : cf.verifiedBotCategory ?? null
       },
       host: {
         ip: clientIp,
@@ -220,6 +210,16 @@ export default {
         region        : cf.region,
         regionCode    : cf.regionCode,
         timezone      : cf.timezone
+      },
+      botManagement: {
+        score               : cf.botManagement?.score ?? null,
+        verifiedBot         : cf.botManagement?.verifiedBot ?? null,
+        staticResource      : cf.botManagement?.staticResource ?? null,
+        ja3Hash             : cf.botManagement?.ja3Hash ?? null,
+        ja4                 : cf.botManagement?.ja4 ?? null,
+        jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
+        detectionIds        : cf.botManagement?.detectionIds ?? null,
+        verifiedBotCategory : cf.verifiedBotCategory ?? null
       },
       environment: {
         mode: isWorker
