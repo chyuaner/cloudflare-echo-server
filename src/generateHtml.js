@@ -512,10 +512,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     <div class="table-container">
                     <table>
                         <tbody>
-                        <tr><th>Method</th><td><span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span></td></tr>
                             <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
                             <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
-                            <tr><th>Protocol</th><td>${responseBody.http.protocol}</td></tr>
+                            <tr><th>Protocol</th><td>${responseBody.http.httpProtocol}</td></tr>
                         </tbody>
                     </table>
                     </div>
