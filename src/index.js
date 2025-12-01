@@ -120,8 +120,28 @@ export default {
     }
 
     // 解析 URL 與查詢字串
+    let responseStatus = 200;
     const url = new URL(request.url);
     const query = Object.fromEntries(url.searchParams.entries());
+
+    // 處理echo_code or X-ECHO-CODE的功能
+    const echoCodeQuery = url.searchParams.get("echo_code");
+    const echoCodeHeader = request.headers.get("X-ECHO-CODE");
+    const echoCodeRaw = echoCodeQuery ?? echoCodeHeader;   // query > header
+
+    if (echoCodeRaw) {
+      const codeNum = Number(echoCodeRaw);
+      // 必須是數字且落在 200~599 之間
+      if (!Number.isNaN(codeNum) && codeNum >= 200 && codeNum <= 599) {
+        // 允許的範圍 / 特定代碼
+        // const allowedSpecific = [301, 401, 404];          // 可自行擴充
+        // const isInRange = codeNum >= 200 && codeNum <= 500; // 200~500 為允許區間
+        // if (isInRange || allowedSpecific.includes(codeNum)) {
+        //   responseStatus = codeNum;
+        // }
+        responseStatus = codeNum;
+      }
+    }
 
     // 解析路徑參數（這裡簡單把第一段作為 0 號參數）
     const pathSegments = url.pathname.split("/").filter(Boolean);
@@ -249,12 +269,14 @@ export default {
     if (wantsHTML) {
       const html = generateHtml({responseBody, curlText, wgetText});
       return new Response(html, {
+        status: responseStatus,
         headers: responseHeaders
       });
     }
 
     // 回傳
     return new Response(JSON.stringify(responseBody, null, 2), {
+      status: responseStatus,
       headers: responseHeaders
     });
   },
