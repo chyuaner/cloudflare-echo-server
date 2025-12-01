@@ -111,10 +111,22 @@ export default {
     // 建立回傳的 JSON 物件
     const responseBody = {
       http: {
-        method: request.method,
-        baseUrl: `${url.protocol}//${url.host}`,
-        originalUrl: url.pathname + url.search,
-        protocol: url.protocol.replace(":", "")
+        method                   : request.method,
+        baseUrl                  : `${url.protocol}//${url.host}`,
+        originalUrl              : url.pathname + url.search,
+        protocol                 : url.protocol.replace(":", ""),
+        httpProtocol             : cf.httpProtocol,
+        hostMetadata             : cf.hostMetadata,
+        requestPriority          : cf.requestPriority,
+        tlsCipher                : cf.tlsCipher,
+        tlsClientAuth            : cf.tlsClientAuth,
+        tlsClientCiphersSha1     : cf.tlsClientCiphersSha1,
+        tlsClientExtensionsSha1  : cf.tlsClientExtensionsSha1,
+        tlsClientExtensionsSha1Le: cf.tlsClientExtensionsSha1Le,
+        tlsClientHelloLength     : cf.tlsClientHelloLength,
+        tlsClientRandom          : cf.tlsClientRandom,
+        tlsVersion               : cf.tlsVersion,
+
       },
       request: {
         params,
@@ -138,6 +150,9 @@ export default {
         continent: cf.continent,
         latitude: cf.latitude,
         longitude: cf.longitude,
+        asn: cf.asn,
+        asOrganization: cf.asOrganization	,
+        isEUCountry: cf.isEUCountry	,
         postalCode: cf.postalCode,
         metroCode: cf.metroCode,
         region: cf.region,
