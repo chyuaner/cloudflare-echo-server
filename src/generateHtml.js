@@ -566,22 +566,34 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                 <div class="col-lg-4">
 
-                    <div class="card card-border">
-                        <h3>${tabler_icons_html.lock_password} TLS</h3>
-                        <ul>
-                            ${Object.entries(responseBody.http.tls)
+                    ${(() => {
+                        // ① 取得 TLS 的所有欄位，過濾掉 null/undefined 與 tlsClientAuth
+                        const tlsEntries = Object.entries(responseBody.http.tls)
                             .filter(([, v]) => v !== null && v !== undefined)
-                            .filter(([k]) => k !== 'tlsClientAuth')
-                            .map(([k, v]) => {
-                                const keyHtml = k;
-                                if (typeof v === 'object' && v !== null) {
-                                return `<li>${keyHtml}: ${renderObjectAsList(v)}</li>`;
-                                }
-                                return `<li>${keyHtml}: ${v}</li>`;
-                            })
-                            .join('')}
-                        </ul>
-                    </div>
+                            .filter(([k]) => k !== 'tlsClientAuth');
+
+                        // ② 若沒有任何可顯示的項目，直接回傳空字串（不產出 <div>）
+                        if (tlsEntries.length === 0) return '';
+
+                        // ③ 否則產出完整的卡片區塊
+                        return `
+                            <div class="card card-border">
+                                <h3>${tabler_icons_html.lock_password} TLS</h3>
+                                <ul>
+                                    ${tlsEntries
+                                        .map(([k, v]) => {
+                                            const keyHtml = k;
+                                            if (typeof v === 'object' && v !== null) {
+                                                // 物件 → 以遞迴方式產生子 <ul>
+                                                return `<li>${keyHtml}: ${renderObjectAsList(v)}</li>`;
+                                            }
+                                            // 基本類型直接輸出
+                                            return `<li>${keyHtml}: ${v}</li>`;
+                                        })
+                                        .join('')}
+                                </ul>
+                            </div>`;
+                    })()}
 
 
                     <div class="card card-border">
