@@ -74,6 +74,11 @@ npm install
 
 
 ## 📚 參考文件
+
+* 基礎參考： ealen/echo-server <https://ealenn.github.io/Echo-Server/>
+* Icons: <https://tabler.io/icons>
+* Highlight: <https://prismjs.com/>
+
 - **Wrangler 設定**: <https://developers.cloudflare.com/workers/wrangler/configuration/>
 - **Cloudflare Workers Runtime API**: <https://developers.cloudflare.com/workers/runtime-apis/>
 - **TypeScript `tsconfig.json` 說明**: <https://aka.ms/tsconfig.json>

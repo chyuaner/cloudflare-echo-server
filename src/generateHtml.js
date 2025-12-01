@@ -492,7 +492,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     <p>本頁面有使用以下資源</p>
                     <ul>
                         <li>Icons: https://tabler.io/icons</li>
-                        <li>PrismJS: https://prismjs.com/</li>
+                        <li>Highlight: https://prismjs.com/</li>
                     </ul>
                 </div>
                 <div class="col-3">
