@@ -40,9 +40,10 @@ jobs:
         with:
           context: .
           push: true
+          # 只保留合法的 tag，若是 master 分支則同時打上 master 標籤
           tags: |
             chyuaner/echo-server:latest
-            chyuaner/echo-server:${{ github.ref_name }}   # 例: v1.2.3
+            ${{ github.ref == 'refs/heads/master' && 'chyuaner/echo-server:master' || '' }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=chyuaner/echo-server:buildcache
           cache-to: type=registry,ref=chyuaner/echo-server:buildcache,mode=max
