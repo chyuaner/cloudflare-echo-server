@@ -783,7 +783,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     }
 
     const output = pageA()
-        +'<h1>Yuan 的 HTTP Echo Server</h1>'
+        +'<h1>HTTP Echo Server</h1>'
         // +'<div class="card">'+main(data.responseBody)+'</div>'
 
         +endpointBar(data.responseBody)
