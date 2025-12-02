@@ -11,8 +11,9 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 ![screenshot](.readme/screenshot.png)
 
 ## ✨ 專案特色
-* 主要針對Cloudflare Workers設計，**直接在CDN Edge層級提供完整服務**，理論上極致效能低延遲，不需在自有主機架設
-    * 亦有提供傳統獨立啟動本後端程式的功能（`npm run start`），可掛上pm2或systemd，供內部或特殊情況使用。
+* 主要針對Cloudflare Workers設計，**在CDN Edge層級直接提供完整服務**，不需在自有主機架設，理論上極致效能低延遲
+    * 亦有提供Docker快速架設方案，可用單行指令就可以快速啟動本伺服器，方便臨時測試用。
+    * 也有提供傳統獨立啟動本後端程式的功能（`npm run start`），可掛上pm2或systemd，供內部或特殊情況使用。
 * 預設以JSON格式作為Response Body輸出（主要由Header `accept`控制輸出格式），可用於Postman、Paw、Insomnia、Hoppscotch等HTTP API調試客戶端使用。
 * **有設計精美的網頁UI界面**（當Header為 `accept: text/html` 就會以網頁顯示，一般瀏覽器預設會帶入），降低辨識判讀的負擔
     * 有特別為 **「URL Params」、「URL Query」區塊特別設計友善文字複製** 。界面乍看下是ul li項目清單，但圈選文字後，會直接複製成可直接貼上網址列的字串
