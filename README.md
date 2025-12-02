@@ -10,6 +10,8 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 
 ![screenshot](.readme/screenshot.png)
 
+![postman screenshot](.readme/postman.png)
+
 ## ✨ 專案特色
 * 主要針對Cloudflare Workers設計，**在CDN Edge層級直接提供完整服務**，不需在自有主機架設，理論上極致效能低延遲
     * 亦有提供Docker快速架設方案，可用單行指令就可以快速啟動本伺服器，方便臨時測試用。
@@ -45,24 +47,24 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 
 ### 📦 Docker快速部署
 #### 直接從Docker Hub快速使用
-```
+```bash
 docker run -p 3000:3000 --pull=always chyuaner/echo-server
 ```
 
 #### 以背景方式從Docker Hub快速使用
 
 ##### 以背景方式啟動
-```
+```bash
 docker run -d -p 3000:3000 --pull=always chyuaner/echo-server
 ```
 
 ##### 關閉這個後端
-```
+```bash
 docker ps -q --filter ancestor=chyuaner/echo-server | xargs -r docker stop
 ```
 
 ##### 關閉這個後端，並移除該Container
-```
+```bash
 docker rm -f $(docker ps -q --filter ancestor=chyuaner/echo-server)
 ```
 
@@ -73,7 +75,7 @@ docker rm -f $(docker ps -q --filter ancestor=chyuaner/echo-server)
 <details>
   <summary>以這份原始碼去Build</summary>
 
-```
+```bash
 docker build -t yuan-echo-server .
 docker run --rm -p 3000:3000 yuan-echo-server
 ```
@@ -83,7 +85,7 @@ docker run --rm -p 3000:3000 yuan-echo-server
 
 
 ### 📦 當作傳統後端程式獨立啟動
-```
+```bash
 npm i
 npm run start
 ```
