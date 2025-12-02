@@ -294,7 +294,7 @@ export default {
     }
 
     // 回傳
-    return new Response(JSON.stringify(responseBody, null, 2), {
+    return new Response(JSON.stringify(responseBody), {
       status: responseStatus,
       headers: responseHeaders
     });
