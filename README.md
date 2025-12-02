@@ -10,7 +10,7 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 
 ![screenshot](.readme/screenshot.png)
 
-## 專案特色
+## ✨ 專案特色
 * 主要針對Cloudflare Workers設計，**直接在CDN Edge層級提供完整服務**，理論上極致效能低延遲，不需在自有主機架設
     * 亦有提供傳統獨立啟動本後端程式的功能（`npm run start`），可掛上pm2或systemd，供內部或特殊情況使用。
 * 預設以JSON格式作為Response Body輸出（主要由Header `accept`控制輸出格式），可用於Postman、Paw、Insomnia、Hoppscotch等HTTP API調試客戶端使用。
@@ -22,16 +22,34 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 * 提供 URL Query 參數 `echo_code=200` or Header `X-ECHO-CODE: 200` 控制要回傳的 HTTP Status Code
 * 提供 URL Query 參數 `echo_time=3000` or Header `X-ECHO-TIME: 3000` 控制伺服器要延遲多久才會送 Response ，給你模擬較差網路品質狀況使用
 
+## 🛠️ 部署方式
+注意！ GeoIP資料（Host相關的：Colo, Country, City, Continent, ASN, As Organization, Region, Region Code, Timezone等）是直接取用Cloudflare提供的，本程式暫無自身取得GeoIP資料的功能，所以以其他非Cloudflare Worker的方式會沒有這些資訊。
 
-## 部署方式
-### 部署到Cloudflare Worker
-待補
+### 🚀 部署到 Cloudflare Workers （推薦方式）
+1. **登入 Cloudflare**（如果尚未登入）
+   ```bash
+   npx wrangler login
+   ```
 
-### Docker快速部署
+2. **發布到預設環境**
+   ```bash
+   npx wrangler publish
+   ```
 
+   - `wrangler.jsonc` 中的 `name: "cloudflare-echo-server"` 會成為 Workers 的子域名或路由。
+   - `compatibility_date` 設為 `2025-04-03`，確保使用最新的 Workers Runtime。
+
+
+### 📦 Docker快速部署
 #### 直接從Docker Hub快速使用
 ```
 docker run -p 3000:3000 chyuaner/echo-server
+```
+
+若想取用最新的版本，可進一步加上 `--pull=always` 參數，用法範例：
+
+```
+docker run -p 3000:3000 --pull=always chyuaner/echo-server
 ```
 
 #### 以這份原始碼去Build
@@ -40,10 +58,13 @@ docker build -t yuan-echo-server .
 docker run --rm -p 3000:3000 yuan-echo-server
 ```
 
-### 當作傳統後端程式獨立啟動
+### 📦 當作傳統後端程式獨立啟動
 ```
+npm i
 npm run start
 ```
+
+將會啟動在 3000 Port。
 
 ---
 
@@ -59,34 +80,10 @@ npm run start
 ├─ src/
 │   ├─ index.js          # Workers 主程式入口
 │   └─ generateHtml.js   # 產生 HTML 的輔助函式
+│   └─ server.js         # 由NodeJS自身獨立啟動伺服器專用
 ├─ tsconfig.json         # TypeScript 編譯選項（允許 .js、.json）
 └─ wrangler.jsonc        # Wrangler 部署與環境設定
 ```
-
-## 🛠️ 前置條件
-- **Node.js** (v18 以上)
-- **npm** 或 **yarn**
-- **Wrangler CLI**（安裝方式：`npm i -g @cloudflare/wrangler`）
-
-## 📦 安裝套件
-```bash
-npm install
-```
-
-## 🚀 部署到 Cloudflare Workers
-1. **登入 Cloudflare**（如果尚未登入）
-   ```bash
-   npx wrangler login
-   ```
-
-2. **發布到預設環境**
-   ```bash
-   npx wrangler publish
-   ```
-
-   - `wrangler.jsonc` 中的 `name: "cloudflare-echo-server"` 會成為 Workers 的子域名或路由。
-   - `compatibility_date` 設為 `2025-04-03`，確保使用最新的 Workers Runtime。
-
 
 ## 📚 參考文件
 
