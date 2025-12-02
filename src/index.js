@@ -54,6 +54,31 @@ let isDocker = false;   // 是否在 Docker (只在 Node 會有意義)
 // ----------------------------------------------------
 export default {
   async fetch(request, env, ctx) {
+
+    // 解析 URL 與查詢字串
+    let responseStatus = 200;
+    const url = new URL(request.url);
+    const query = Object.fromEntries(url.searchParams.entries());
+
+    // 處理echo_code or X-ECHO-CODE的功能
+    const echoCodeQuery = url.searchParams.get("echo_code");
+    const echoCodeHeader = request.headers.get("X-ECHO-CODE");
+    const echoCodeRaw = echoCodeQuery ?? echoCodeHeader;   // query > header
+
+    if (echoCodeRaw) {
+      const codeNum = Number(echoCodeRaw);
+      // 必須是數字且落在 200~599 之間
+      if (!Number.isNaN(codeNum) && codeNum >= 200 && codeNum <= 599) {
+        // 允許的範圍 / 特定代碼
+        // const allowedSpecific = [301, 401, 404];          // 可自行擴充
+        // const isInRange = codeNum >= 200 && codeNum <= 500; // 200~500 為允許區間
+        // if (isInRange || allowedSpecific.includes(codeNum)) {
+        //   responseStatus = codeNum;
+        // }
+        responseStatus = codeNum;
+      }
+    }
+
     /* ----------------------------------------------------
        ① 直接回傳 raw body（測試檔案傳輸用）
        ---------------------------------------------------- */
@@ -82,7 +107,10 @@ export default {
       // 仍保留原始 Request headers，若需要可全部 copy：
       // request.headers.forEach((v, k) => rawHeaders.set(k, v));
 
-      return new Response(bodyStream, { headers: rawHeaders });
+      return new Response(bodyStream, {
+        status: responseStatus,
+        headers: rawHeaders
+      });
     }
 
     /* ----------------------------------------------------
@@ -116,30 +144,6 @@ export default {
         // 任何解析錯誤都回傳空物件，且保留 raw（若有）仍是空字串
         body = {};
         bodyRaw = "";
-      }
-    }
-
-    // 解析 URL 與查詢字串
-    let responseStatus = 200;
-    const url = new URL(request.url);
-    const query = Object.fromEntries(url.searchParams.entries());
-
-    // 處理echo_code or X-ECHO-CODE的功能
-    const echoCodeQuery = url.searchParams.get("echo_code");
-    const echoCodeHeader = request.headers.get("X-ECHO-CODE");
-    const echoCodeRaw = echoCodeQuery ?? echoCodeHeader;   // query > header
-
-    if (echoCodeRaw) {
-      const codeNum = Number(echoCodeRaw);
-      // 必須是數字且落在 200~599 之間
-      if (!Number.isNaN(codeNum) && codeNum >= 200 && codeNum <= 599) {
-        // 允許的範圍 / 特定代碼
-        // const allowedSpecific = [301, 401, 404];          // 可自行擴充
-        // const isInRange = codeNum >= 200 && codeNum <= 500; // 200~500 為允許區間
-        // if (isInRange || allowedSpecific.includes(codeNum)) {
-        //   responseStatus = codeNum;
-        // }
-        responseStatus = codeNum;
       }
     }
 
