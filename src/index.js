@@ -248,16 +248,18 @@ export default {
         regionCode    : cf.regionCode,
         timezone      : cf.timezone
       },
-      botManagement: {
-        score               : cf.botManagement?.score ?? null,
-        verifiedBot         : cf.botManagement?.verifiedBot ?? null,
-        staticResource      : cf.botManagement?.staticResource ?? null,
-        ja3Hash             : cf.botManagement?.ja3Hash ?? null,
-        ja4                 : cf.botManagement?.ja4 ?? null,
-        jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
-        detectionIds        : cf.botManagement?.detectionIds ?? null,
-        verifiedBotCategory : cf.verifiedBotCategory ?? null
-      },
+      ...(isWorker ? {
+        botManagement: {
+          score               : cf.botManagement?.score ?? null,
+          verifiedBot         : cf.botManagement?.verifiedBot ?? null,
+          staticResource      : cf.botManagement?.staticResource ?? null,
+          ja3Hash             : cf.botManagement?.ja3Hash ?? null,
+          ja4                 : cf.botManagement?.ja4 ?? null,
+          jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
+          detectionIds        : cf.botManagement?.detectionIds ?? null,
+          verifiedBotCategory : cf.verifiedBotCategory ?? null
+        }
+      } : {}),
       environment: {
         mode: isWorker
           ? "Cloudflare Workers"
