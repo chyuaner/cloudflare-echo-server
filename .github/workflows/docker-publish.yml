@@ -3,8 +3,6 @@ name: Build & Push Docker Image
 on:
   push:
     branches: [master]
-    tags:
-      - 'v*.*.*'        # 只在版本標籤時執行（如 v1.2.3）
   workflow_dispatch:   # 手動觸發也可以
 
 jobs:
