@@ -17,6 +17,9 @@ COPY src/ ./src/
 ENV NODE_ENV=production
 RUN npm ci --only=production --omit=dev && npm cache clean --force
 
+# ✅ 加入 Docker 標記（保證 env 判斷通過）
+ENV DOCKER=true
+
 # 5️⃣ 暴露埠號（依照 server.js 的監聽埠調整，這裡預設 8080）
 EXPOSE 3000
 
