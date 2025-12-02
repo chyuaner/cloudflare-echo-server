@@ -1,7 +1,6 @@
 {
-	"name": "cloudflare-echo-server",
-	"version": "0.0.0",
-	"private": true,
+	"name": "echo-server",
+	"version": "2.0.0",
 	"type": "module",
 	"scripts": {
 		"deploy": "wrangler deploy",
