@@ -27,6 +27,19 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 ### 部署到Cloudflare Worker
 待補
 
+### Docker快速部署
+
+#### 直接從Docker Hub快速使用
+```
+docker run -p 3000:3000 chyuaner/echo-server
+```
+
+#### 以這份原始碼去Build
+```
+docker build -t yuan-echo-server .
+docker run --rm -p 3000:3000 yuan-echo-server
+```
+
 ### 當作傳統後端程式獨立啟動
 ```
 npm run start
