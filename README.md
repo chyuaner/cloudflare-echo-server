@@ -19,6 +19,8 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
     * 本網頁兼顧美觀與效能考量，未使用前端框架，100%原生CSS排版撰寫、無額外多餘複雜的JavaScript執行邏輯（Syntax Highlight用的除外）。
     * **網頁版不會產生額外Request載入其他資源！**（像是圖片、CSS、JS等等）
         * 所有外部資源如Icons與Syntax Highlight JS都已直接內嵌在單一這個Request。
+    * 有特別花心力調整 小平板 與 手機版的UI界面，尤其是表格有特別真對手機版設計過。
+    * 也有花心力調整過適合Dark Mode的配色
 * 提供 URL Query 參數 `echo_code=200` or Header `X-ECHO-CODE: 200` 控制要回傳的 HTTP Status Code
 * 提供 URL Query 參數 `echo_time=3000` or Header `X-ECHO-TIME: 3000` 控制伺服器要延遲多久才會送 Response ，給你模擬較差網路品質狀況使用
 
