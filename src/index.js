@@ -1,4 +1,3 @@
-import timers from "node:timers";
 import { generateHtml } from "./generateHtml.js";
 // import { generateCurl } from "./generateCurl.js";
 // import { generateWget } from "./generateWget.js";
@@ -88,8 +87,7 @@ export default {
       // 必須是數字且落在 0 ~ 60000（60 秒）之間
       if (!Number.isNaN(timeMs) && timeMs >= 0 && timeMs <= 60000) {
         // 使用 Promise 延遲，await 讓後續回應在指定時間後才送出
-        // await new Promise(res => setTimeout(res, timeMs));
-        await timers.promises.setTimeout(timeMs);
+        await new Promise(res => setTimeout(res, timeMs));
       }
     }
 
