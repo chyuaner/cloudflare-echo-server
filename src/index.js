@@ -1,6 +1,6 @@
-import { generateHtml } from "./generateHtml.js";   // ← 新增此行
-import { generateCurl } from "./generateCurl.js";   // ← 新增此行
-import { generateWget } from "./generateWget.js";   // ← 新增此行
+import { generateHtml } from "./generateHtml.js";
+// import { generateCurl } from "./generateCurl.js";
+// import { generateWget } from "./generateWget.js";
 
 // ----------------------------------------------------
 // 讀取環境偵測
@@ -267,8 +267,8 @@ export default {
       }
     };
 
-    const curlText = generateCurl(responseBody);
-    const wgetText = generateWget(responseBody);
+    // const curlText = generateCurl(responseBody);
+    // const wgetText = generateWget(responseBody);
 
     // -------------------------------------------------
     // 最後輸出
@@ -284,7 +284,7 @@ export default {
     );
 
     if (wantsHTML) {
-      const html = generateHtml({responseBody, curlText, wgetText});
+      const html = generateHtml({responseBody});
       return new Response(html, {
         status: responseStatus,
         headers: responseHeaders
