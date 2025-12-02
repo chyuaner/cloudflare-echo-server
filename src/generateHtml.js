@@ -495,8 +495,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                 <div class="col-5">
                     <p>本頁面有使用以下資源</p>
                     <ul>
-                        <li>Icons: https://tabler.io/icons</li>
-                        <li>Highlight: https://prismjs.com/</li>
+                        <li><a href="https://tabler.io/icons" target="_blank">Icons: tabler.io</a></li>
+                        <li><a href="https://prismjs.com/" target="_blank">Highlight: prismjs</a></li>
+                        <li><a href="https://codepo8.github.io/css-fork-on-github-ribbon/" target="_blank">"Fork me on GitHub" ribbon</a></li>
                     </ul>
                 </div>
                 <div class="col-3">
