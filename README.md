@@ -46,20 +46,18 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 ### 📦 Docker快速部署
 #### 直接從Docker Hub快速使用
 ```
-docker run -p 3000:3000 chyuaner/echo-server
-```
-
-若想取用最新的版本，可進一步加上 `--pull=always` 參數，用法範例：
-
-```
 docker run -p 3000:3000 --pull=always chyuaner/echo-server
 ```
 
-#### 以這份原始碼去Build
+<details>
+  <summary>以這份原始碼去Build</summary>
+
 ```
 docker build -t yuan-echo-server .
 docker run --rm -p 3000:3000 yuan-echo-server
 ```
+
+</details>
 
 ### 📦 當作傳統後端程式獨立啟動
 ```
