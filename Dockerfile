@@ -13,9 +13,19 @@ COPY src/ ./src/
 # COPY public/ ./public/
 # COPY ./*.json ./
 
-# 4️⃣ 安裝 **production** 相依（不包含開發工具）
+# -------------------------------------------------
+# 4️⃣ 安裝 production 相依（只安裝正式依賴）
+# -------------------------------------------------
 ENV NODE_ENV=production
-RUN npm ci --only=production --omit=dev && npm cache clean --force
+
+# ① 先安裝編譯原生模組所需的工具 (若你的套件不需要可自行省略)
+#    alpine 中最常需要的：python3、make、g++、pkgconfig
+RUN apk add --no-cache python3 make g++ pkgconfig
+
+# ② 只執行一次 npm ci，省掉 devDependencies
+#    為了避免前一個 RUN 中的 && 失效，分成兩行寫比較好閱讀
+RUN npm ci --omit=dev && \
+    npm cache clean --force
 
 # ✅ 加入 Docker 標記（保證 env 判斷通過）
 ENV DOCKER=true
