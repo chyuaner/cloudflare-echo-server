@@ -60,11 +60,10 @@ export default {
     const url = new URL(request.url);
     const query = Object.fromEntries(url.searchParams.entries());
 
-    // 處理echo_code or X-ECHO-CODE的功能
+    // 處理 echo_code or X-ECHO-CODE的功能
     const echoCodeQuery = url.searchParams.get("echo_code");
     const echoCodeHeader = request.headers.get("X-ECHO-CODE");
     const echoCodeRaw = echoCodeQuery ?? echoCodeHeader;   // query > header
-
     if (echoCodeRaw) {
       const codeNum = Number(echoCodeRaw);
       // 必須是數字且落在 200~599 之間
@@ -78,6 +77,20 @@ export default {
         responseStatus = codeNum;
       }
     }
+
+    // 處理 echo_time (query 或 header) 並做延遲
+    const echoTimeQuery = url.searchParams.get("echo_time");
+    const echoTimeHeader = request.headers.get("X-ECHO-TIME");
+    const echoTimeRaw = echoTimeQuery ?? echoTimeHeader;
+    if (echoTimeRaw) {
+      const timeMs = Number(echoTimeRaw);
+      // 必須是數字且落在 0 ~ 60000（60 秒）之間
+      if (!Number.isNaN(timeMs) && timeMs >= 0 && timeMs <= 60000) {
+        // 使用 Promise 延遲，await 讓後續回應在指定時間後才送出
+        await new Promise(res => setTimeout(res, timeMs));
+      }
+    }
+
 
     /* ----------------------------------------------------
        ① 直接回傳 raw body（測試檔案傳輸用）
