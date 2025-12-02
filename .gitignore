@@ -5,10 +5,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# 包含套件的 lock 檔（若你想保留可自行移除）
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# # 包含套件的 lock 檔（若你想保留可自行移除）
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
 
 # Build/產出
 dist/

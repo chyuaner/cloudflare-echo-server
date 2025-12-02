@@ -19,7 +19,7 @@ COPY package*.json ./
 # 4️⃣ 若你的套件需要編譯原生模組，先安裝 build tools
 #    （如果全都是純 JavaScript，可直接移除）
 # -------------------------------------------------
-RUN apk add --no-cache python3 make g++ pkgconfig
+# RUN apk add --no-cache python3 make g++ pkgconfig
 
 # -------------------------------------------------
 # 5️⃣ 安裝 **production** 相依（不含 devDependencies）
