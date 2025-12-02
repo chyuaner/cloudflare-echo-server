@@ -49,6 +49,27 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 docker run -p 3000:3000 --pull=always chyuaner/echo-server
 ```
 
+#### 以背景方式從Docker Hub快速使用
+
+##### 以背景方式啟動
+```
+docker run -d -p 3000:3000 --pull=always chyuaner/echo-server
+```
+
+##### 關閉這個後端
+```
+docker ps -q --filter ancestor=chyuaner/echo-server | xargs -r docker stop
+```
+
+##### 關閉這個後端，並移除該Container
+```
+docker rm -f $(docker ps -q --filter ancestor=chyuaner/echo-server)
+```
+
+#### 使用範例
+![terminal example](.readme/terminal.png)
+
+
 <details>
   <summary>以這份原始碼去Build</summary>
 
@@ -58,6 +79,8 @@ docker run --rm -p 3000:3000 yuan-echo-server
 ```
 
 </details>
+
+
 
 ### 📦 當作傳統後端程式獨立啟動
 ```
