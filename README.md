@@ -31,6 +31,12 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 注意！ GeoIP資料（Host相關的：Colo, Country, City, Continent, ASN, As Organization, Region, Region Code, Timezone等）是直接取用Cloudflare提供的，本程式暫無自身取得GeoIP資料的功能，所以以其他非Cloudflare Worker的方式會沒有這些資訊。
 
 ### 🚀 部署到 Cloudflare Workers （推薦方式）
+
+#### 一鍵快速部署
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/chyuaner/cloudflare-echo-server)
+
+#### 手動建置
 1. **登入 Cloudflare**（如果尚未登入）
    ```bash
    npx wrangler login
