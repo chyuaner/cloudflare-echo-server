@@ -446,7 +446,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         const highlight = ''
             +`<script>${prismJsContent}</script>`
             +`<style>${prismCssContent}</style>`
-            // +`<style>${purecssContent}</style>`
+            +`<style>${purecssContent}</style>`
         ;
         return '<style>'
                 +baseCss
@@ -680,10 +680,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     <div class="card card-border">
                         ${host(responseBody.host)}
                     </div>`+
-                    // '<div class="card card-border">'+
-                    //     '<h2>'+tabler_icons_html.send+' Test POST Request</h2>'+
-                    //     form()+
-                    // '</div>'+
+                    '<div class="card card-border">'+
+                        '<h2>'+tabler_icons_html.send+' Test POST Request</h2>'+
+                        form()+
+                    '</div>'+
                 `</div>
 
             </div>
@@ -693,83 +693,227 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
     function form() {
         return `
-            <form method="post" class="pure-form">
-                <h4>Payment form</h4>
-                <section>
-                <h5>Contact information</h5>
-                <fieldset>
-                    <legend>Title</legend>
-                    <ul>
-                    <li>
-                        <label for="title_1">
-                        <input type="radio" id="title_1" name="title" value="A" />
-                        Ace
-                        </label>
-                    </li>
-                    <li>
-                        <label for="title_2">
-                        <input type="radio" id="title_2" name="title" value="K" />
-                        King
-                        </label>
-                    </li>
-                    <li>
-                        <label for="title_3">
-                        <input type="radio" id="title_3" name="title" value="Q" />
-                        Queen
-                        </label>
-                    </li>
-                    </ul>
-                </fieldset>
-                <p>
-                    <label for="name">Name *:</label>
-                    <input type="text" id="name" name="username" />
-                </p>
-                <p>
-                    <label for="mail">Email *:</label>
-                    <input type="email" id="mail" name="user-mail" />
-                </p>
-                <p>
-                    <label for="pwd">Password *:</label>
-                    <input type="password" id="pwd" name="password" />
-                </p>
-                </section>
-                <section>
-                <h5>Payment information</h5>
-                <p>
-                    <label for="card">
-                    <span>Card type:</span>
-                    </label>
-                    <select id="card" name="user-card">
-                    <option value="visa">Visa</option>
-                    <option value="mc">Mastercard</option>
-                    <option value="amex">American Express</option>
-                    </select>
-                </p>
-                <p>
-                    <label for="number">Card number *:</label>
-                    <input type="tel" id="number" name="card-number" />
-                </p>
-                <p>
-                    <label for="expiration">Expiration date *:</label>
-                    <input
-                    type="text"
-                    id="expiration"
-                    name="expiration"
-                    placeholder="MM/YY"
-                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
-                </p>
+        <style>
+        /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
 
-                <fieldset class="pure-group">
-                    <input type="text" class="pure-input-1-2" placeholder="A title" />
-                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
-                </fieldset>
-                </section>
-                <section>
-                <p>
-                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
-                </p>
-                </section>
-            </form>
+/* Modal Content */
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 0.5rem 1rem;
+  background-color: #5cb85c;
+  color: white;
+}
+.modal-header h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+        </style>
+
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+        <!-- The Modal -->
+        <div id="myFormModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <form method="post" class="pure-form">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2>Modal Header</h2>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="col-4">
+                                <h4>Payment form</h4>
+                                <h5>Contact information</h5>
+                                <fieldset>
+                                    <legend>Title</legend>
+                                    <ul>
+                                    <li>
+                                        <label for="title_1">
+                                        <input type="radio" id="title_1" name="title" value="A" />
+                                        Ace
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label for="title_2">
+                                        <input type="radio" id="title_2" name="title" value="K" />
+                                        King
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label for="title_3">
+                                        <input type="radio" id="title_3" name="title" value="Q" />
+                                        Queen
+                                        </label>
+                                    </li>
+                                    </ul>
+                                </fieldset>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    <label for="name">Name *:</label>
+                                    <input type="text" id="name" name="username" />
+                                </p>
+                                <p>
+                                    <label for="mail">Email *:</label>
+                                    <input type="email" id="mail" name="user-mail" />
+                                </p>
+                                <p>
+                                    <label for="pwd">Password *:</label>
+                                    <input type="password" id="pwd" name="password" />
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <section>
+                                <h5>Payment information</h5>
+                                <p>
+                                    <label for="card">
+                                    <span>Card type:</span>
+                                    </label>
+                                    <select id="card" name="user-card">
+                                    <option value="visa">Visa</option>
+                                    <option value="mc">Mastercard</option>
+                                    <option value="amex">American Express</option>
+                                    </select>
+                                </p>
+                                <p>
+                                    <label for="number">Card number *:</label>
+                                    <input type="tel" id="number" name="card-number" />
+                                </p>
+                                <p>
+                                    <label for="expiration">Expiration date *:</label>
+                                    <input
+                                    type="text"
+                                    id="expiration"
+                                    name="expiration"
+                                    placeholder="MM/YY"
+                                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
+                                </p>
+
+                                <fieldset class="pure-group">
+                                    <input type="text" class="pure-input-1-2" placeholder="A title" />
+                                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
+                                </fieldset>
+                                </section>
+                                <section>
+                                <p>
+                                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
+                                </p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <h3>Modal Footer</h3>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+<script>
+// Get the modal
+var modal = document.getElementById("myFormModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
         `;
     }
 
