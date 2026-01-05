@@ -110,9 +110,10 @@ npm run start
 ```
 .
 ├─ src/
-│   ├─ index.js          # Workers 主程式入口
-│   └─ generateHtml.js   # 產生 HTML 的輔助函式
-│   └─ server.js         # 由NodeJS自身獨立啟動伺服器專用
+│   ├─ core.js           # Workers 主程式入口
+│   └─ node.js           # 由NodeJS自身獨立啟動伺服器專用
+│   └─ html.js           # 產生 HTML 的輔助函式
+│   └─ snippets.js       # 產生 Request curl測試片段 的輔助函式
 ├─ tsconfig.json         # TypeScript 編譯選項（允許 .js、.json）
 └─ wrangler.jsonc        # Wrangler 部署與環境設定
 ```

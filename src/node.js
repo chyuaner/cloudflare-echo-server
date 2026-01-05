@@ -4,7 +4,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 // 匯入我們在 Workers 中寫好的 handler
-import worker from "./index.js";
+import worker from "./core.js";
 
 // 取得埠號（預設 3000，可透過環境變數覆寫）
 const PORT = process.env.PORT || 3000;

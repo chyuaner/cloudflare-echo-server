@@ -1,6 +1,5 @@
-import { generateHtml } from "./generateHtml.js";
-// import { generateCurl } from "./generateCurl.js";
-// import { generateWget } from "./generateWget.js";
+import { generateHtml } from "./html.js";
+import { generateCurl } from "./snippets.js";
 
 // ----------------------------------------------------
 // 讀取環境偵測
