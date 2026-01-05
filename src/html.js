@@ -1075,7 +1075,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     margin-bottom: 0;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {padding: 1.5rem 1rem;}
 
 .modal-footer {
   padding: 2px 16px;
@@ -1126,7 +1126,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         </style>
 
         <!-- Trigger/Open The Modal -->
-        <button id="myBtn" class="pure-button pure-button-primary" style="display:none">Open Modal</button>
+        <button id="myBtn" class="pure-button pure-button-primary" style="display:none; margin-left: 2em;">Open POST Form Dialog</button>
         <!-- The Modal -->
         <div id="myFormModal" class="modal">
 
@@ -1134,7 +1134,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             <div class="modal-content">
                 <div class="modal-header" style="display:none">
                     <span class="close">&times;</span>
-                    <h2>Modal Header</h2>
+                    <h2>Test POST Request</h2>
                 </div>
 
 
