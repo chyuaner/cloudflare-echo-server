@@ -1040,7 +1040,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
 /* The Close Button */
 .close {
-  color: white;
+  color: white, #000;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -1048,7 +1048,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: #000, white;
   text-decoration: none;
   cursor: pointer;
 }
@@ -1349,7 +1349,7 @@ window.addEventListener('click', function(event) {
         if (!fileList) return;
         fileList.innerHTML = '';
         if (files.length === 0) return;
-        
+
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             var li = document.createElement('li');
