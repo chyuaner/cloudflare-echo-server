@@ -1155,7 +1155,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                 <div class="modal-body">
                     <div class="pre-container">
-                        <div class="col-8">
+                        <div class="col-lg-8">
                             <fieldset>
                                 <legend>HTML5 表單各類型測試</legend>
                                 <form method="post" action="form-test" class="pure-form pure-form-stacked">
@@ -1263,7 +1263,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             </fieldset>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-lg-4">
                             <fieldset>
                                 <legend>檔案上傳測試</legend>
                                 <form id="uploadForm" method="post" action="upload-test" enctype="multipart/form-data" class="pure-form">
