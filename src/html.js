@@ -1027,11 +1027,19 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     overflow: auto;
     border-top: 1px solid light-dark(#ddd, #444);
     box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
-    -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
-    animation-name: slideIn;
-    animation-duration: 0.4s
+    -webkit-animation: slideIn 0.4s;
+    animation: slideIn 0.4s;
     }
+
+.modal-js.closing {
+  -webkit-animation: fadeOut 0.4s;
+  animation: fadeOut 0.4s;
+}
+
+.modal-content-js.closing {
+  -webkit-animation: slideOut 0.4s;
+  animation: slideOut 0.4s;
+}
 
 /* For showing the modal */
 .modal-js.modal-show {
@@ -1086,6 +1094,16 @@ https://github.com/pure-css/pure/blob/master/LICENSE
   to {bottom: 0; opacity: 1}
 }
 
+@-webkit-keyframes slideOut {
+  from {bottom: 0; opacity: 1}
+  to {bottom: -300px; opacity: 0}
+}
+
+@keyframes slideOut {
+  from {bottom: 0; opacity: 1}
+  to {bottom: -300px; opacity: 0}
+}
+
 @-webkit-keyframes fadeIn {
   from {opacity: 0}
   to {opacity: 1}
@@ -1094,6 +1112,16 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 @keyframes fadeIn {
   from {opacity: 0}
   to {opacity: 1}
+}
+
+@-webkit-keyframes fadeOut {
+  from {opacity: 1}
+  to {opacity: 0}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1}
+  to {opacity: 0}
 }
         </style>
 
@@ -1270,22 +1298,36 @@ if (modal && modalContent && btn) {
     if (modalFooter) modalFooter.style.display = "block";
 }
 
+// function to close modal with animation
+function closeModal() {
+  if (modal.classList.contains("modal-show")) {
+    modal.classList.add("closing");
+    modalContent.classList.add("closing");
+    // Wait for animation to finish then hide
+    setTimeout(function() {
+      modal.classList.remove("modal-show");
+      modal.classList.remove("closing");
+      modalContent.classList.remove("closing");
+    }, 380); // Slightly less than 0.4s to avoid flicker
+  }
+}
+
 // When the user clicks the button, open the modal
 btn.onclick = function() {
+  modal.classList.remove("closing");
+  modalContent.classList.remove("closing");
   modal.classList.add("modal-show");
 }
 
 // When the user clicks on <span> (x), close the modal
 if (span) {
-    span.onclick = function() {
-      modal.classList.remove("modal-show");
-    }
+    span.onclick = closeModal;
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.addEventListener('click', function(event) {
     if (modal && event.target == modal) {
-        modal.classList.remove("modal-show");
+        closeModal();
     }
 });
 
