@@ -912,12 +912,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
 
                 <div class="modal-body">
-                    <div class="container">
+                    <div class="pre-container">
                         <div class="col-8">
                             <fieldset>
                                 <legend>HTML5 表單各類型測試</legend>
                                 <form method="post" class="pure-form pure-form-stacked">
-                                    <div class="container">
+                                    <div class="pre-container">
                                         <div class="col-6">
                                             <p>
                                                 <label for="t_text">Text</label>
@@ -1051,10 +1051,15 @@ var modalHeader = document.querySelector(".modal-header");
 var modalFooter = document.querySelector(".modal-footer");
 
 // If JS is enabled, enable modal behavior and show the trigger button
-if (modal && modalContent && modalGrid && btn) {
+if (modal && modalContent && btn) {
     modal.classList.add("modal-js");
     modalContent.classList.add("modal-content-js");
-    modalGrid.classList.add("container");
+    // Promote pre-container to container for grid layout
+    modal.querySelectorAll(".pre-container").forEach(function(el) {
+        el.classList.remove("pre-container");
+        el.classList.add("container");
+    });
+
     // Since we want traditional layout when JS is off, we hide/show elements
     btn.style.display = "block";
     if (modalHeader) modalHeader.style.display = "block";
