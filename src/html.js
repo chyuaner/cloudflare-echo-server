@@ -10,6 +10,7 @@ function generateHtml(data) {
         "code": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4" /><path d="M17 8l4 4l-4 4" /><path d="M14 4l-4 16" /></svg>`,
         "file_code": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M10 13l-1 2l1 2" /><path d="M14 13l1 2l-1 2" /></svg>`,
         "send": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" /></svg>`,
+        "upload": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 9l5 -5l5 5" /><path d="M12 4l0 12" /></svg>`,
     }
 
     function objectToTable(data) {
@@ -399,6 +400,103 @@ function generateHtml(data) {
             .pure-group input:last-child, .pure-group textarea:last-child {
                 border-bottom-left-radius: 6px;
                 border-bottom-right-radius: 6px;
+            }
+
+            /* ------------------------------------------------
+            // Upload UI
+            // ------------------------------------------------ */
+            .drop-zone {
+                border: 2px dashed light-dark(#ccc, #4b5563);
+                border-radius: 8px;
+                padding: 1.5rem;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.2s;
+                background: light-dark(#f9fafb, #2b2f36);
+                color: light-dark(#6b7280, #9ca3af);
+            }
+            .drop-zone:hover, .drop-zone.dragover {
+                border-color: #f6821f;
+                background: light-dark(#fff7ed, #3f3532);
+                color: #f6821f;
+            }
+            .drop-zone .icon {
+                width: 32px;
+                height: 32px;
+                margin-bottom: 0.5rem;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .drop-zone p {
+                margin: 0.5rem 0;
+                font-size: 0.9rem;
+            }
+            .file-list {
+                margin-top: 1rem;
+                list-style: none;
+                padding: 0;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            .file-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem;
+                border-bottom: 1px solid light-dark(#eee, #374151);
+                font-size: 0.85rem;
+            }
+            .file-item:last-child {
+                border-bottom: none;
+            }
+            .file-info {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .file-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .file-size {
+                color: #999;
+                font-size: 0.75rem;
+                flex-shrink: 0;
+                margin-left: 0.5rem;
+            }
+            /* ------------------------------------------------
+            // noscript Fallback & Logic
+            // ------------------------------------------------ */
+            #file_upload {
+                display: block;
+                margin-bottom: 0.5rem;
+                width: 100%;
+            }
+            .js-only {
+                display: none !important;
+            }
+
+            .js .js-only {
+                display: block !important;
+            }
+            .js #file_upload {
+                display: none !important;
+            }
+
+            .upload-actions {
+                display: block;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+            }
+            .js .upload-actions {
+                display: flex;
+            }
+            .upload-actions > * {
+                flex: 1;
             }
             .pure-input-1 { width: 100%; }
             .pure-input-1-2 { width: 50%; }
@@ -1125,14 +1223,19 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         <div class="col-4">
                             <fieldset>
                                 <legend>檔案上傳測試</legend>
-                                <form method="post" action="upload-test" enctype="multipart/form-data" class="pure-form">
-                                    <div>
-                                        <label for="file">Choose file to upload</label>
-                                        <input type="file" id="file" name="file" multiple />
+                                <form id="uploadForm" method="post" action="upload-test" enctype="multipart/form-data" class="pure-form">
+                                    <div id="dropZone" class="drop-zone js-only">
+                                        ${tabler_icons_html.upload}
+                                        <p>Drag & drop files here</p>
                                     </div>
-                                    <div>
-                                        <button class="pure-button pure-button-primary">Submit</button>
+                                    <div class="upload-actions">
+                                        <label for="file_upload" class="pure-button js-only" style="margin: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                            ${tabler_icons_html.file} 選擇檔案...
+                                        </label>
+                                        <input type="file" id="file_upload" name="file" multiple />
+                                        <button type="submit" class="pure-button pure-button-primary">開始上傳</button>
                                     </div>
+                                    <ul id="fileList" class="file-list js-only"></ul>
                                 </form>
                             </fieldset>
                         </div>
@@ -1173,16 +1276,99 @@ btn.onclick = function() {
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.classList.remove("modal-show");
+if (span) {
+    span.onclick = function() {
+      modal.classList.remove("modal-show");
+    }
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.classList.remove("modal-show");
-  }
-}
+window.addEventListener('click', function(event) {
+    if (modal && event.target == modal) {
+        modal.classList.remove("modal-show");
+    }
+});
+
+// File Upload Logic
+(function() {
+    var dropZone = document.getElementById('dropZone');
+    var fileInput = document.getElementById('file_upload');
+    var fileList = document.getElementById('fileList');
+    var fileIcon = ${JSON.stringify(tabler_icons_html.file)};
+
+    // Global drag event prevention (CRITICAL for Firefox)
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function(eventName) {
+        window.addEventListener(eventName, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+    });
+
+    if (dropZone && fileInput) {
+        // Drop zone local event prevention & highlight
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function(eventName) {
+            dropZone.addEventListener(eventName, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(function(eventName) {
+            dropZone.addEventListener(eventName, function() {
+                dropZone.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(function(eventName) {
+            dropZone.addEventListener(eventName, function() {
+                dropZone.classList.remove('dragover');
+            }, false);
+        });
+
+        // Handle drop specifically on the zone
+        dropZone.addEventListener('drop', function(e) {
+            var dt = e.dataTransfer;
+            var files = dt.files;
+            if (files && files.length > 0) {
+                // Use DataTransfer object to safely update file input
+                var dataTransfer = new DataTransfer();
+                for (var i = 0; i < files.length; i++) {
+                    dataTransfer.items.add(files[i]);
+                }
+                fileInput.files = dataTransfer.files;
+                updateFileList(fileInput.files);
+            }
+        }, false);
+
+        fileInput.onchange = function() {
+            updateFileList(fileInput.files);
+        };
+    }
+
+    function updateFileList(files) {
+        if (!fileList) return;
+        fileList.innerHTML = '';
+        if (files.length === 0) return;
+        
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var li = document.createElement('li');
+            li.className = 'file-item';
+            li.innerHTML = fileIcon + '<div class="file-info"><span class="file-name">' + file.name + '</span><span class="file-size">' + formatBytes(file.size) + '</span></div>';
+            fileList.appendChild(li);
+        }
+    }
+
+    function formatBytes(bytes, decimals) {
+        if (bytes === 0) return '0 Bytes';
+        decimals = decimals || 2;
+        var k = 1024;
+        var dm = decimals < 0 ? 0 : decimals;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+})();
 </script>
 
         `;
