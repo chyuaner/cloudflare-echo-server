@@ -170,7 +170,7 @@ function generateHtml(data) {
             // 排版相關
             // ------------------------------------------------ */
             /* 1️⃣ 設定父容器為 Grid */
-            body{padding:0.5rem;}
+            body{padding:0.5rem; color-scheme: light dark;}
             ul {padding-left:1em;}
             li {padding: 0.5em 0;}
             .icon {
@@ -247,29 +247,110 @@ function generateHtml(data) {
                 .col-lg-9 { grid-column: span 9; }
                 .col-12   { grid-column: span 12; }
             }
-            form.form-example {
-            display: table;
+            /* ------------------------------------------------
+            // 表單相關
+            // ------------------------------------------------ */
+            fieldset {
+                border: 1px solid light-dark(#ddd, #444);
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1rem;
             }
-
-            div.form-example {
-            display: table-row;
+            legend {
+                font-weight: 600;
+                padding: 0 0.5rem;
+                color: light-dark(#666, #aaa);
             }
-
-            label,
-            input {
-            display: table-cell;
-            margin-bottom: 10px;
-            }
-
             label {
-            padding-right: 10px;
+                display: block;
+                margin-bottom: 0.25rem;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: light-dark(#4b5563, #d1d5db);
             }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="tel"],
+            input[type="url"],
+            select,
+            textarea {
+                width: 100%;
+                padding: 0.5rem 0.75rem;
+                border: 1px solid light-dark(#ccc, #4b5563);
+                border-radius: 6px;
+                background: light-dark(#fff, #1e2128);
+                color: light-dark(#111, #eee);
+                transition: border-color 0.2s, box-shadow 0.2s;
+                font-family: inherit;
+                font-size: 1rem;
+                box-sizing: border-box;
+            }
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: #f6821f;
+                box-shadow: 0 0 0 3px rgba(246, 130, 31, 0.2);
+            }
+            .pure-button {
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                font-weight: 600;
+                border-radius: 6px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s;
+                background: light-dark(#e5e7eb, #374151);
+                color: light-dark(#374151, #e5e7eb);
+                text-decoration: none;
+                line-height: normal;
+                white-space: nowrap;
+                vertical-align: middle;
+                text-align: center;
+            }
+            .pure-button:hover {
+                background: light-dark(#d1d5db, #4b5563);
+                text-decoration: none;
+            }
+            .pure-button-primary {
+                background: #f6821f;
+                color: white;
+            }
+            .pure-button-primary:hover {
+                background: #e67610;
+            }
+            input[type="radio"], input[type="checkbox"] {
+                width: auto;
+                margin-right: 0.5rem;
+                accent-color: #f6821f;
+                vertical-align: middle;
+            }
+            .pure-group input, .pure-group textarea {
+                border-radius: 0;
+                margin-top: -1px;
+            }
+            .pure-group input:first-child {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                margin-top: 0;
+            }
+            .pure-group input:last-child, .pure-group textarea:last-child {
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+            .pure-input-1 { width: 100%; }
+            .pure-input-1-2 { width: 50%; }
+            .pure-input-1-3 { width: 33.3333%; }
+            .pure-input-2-3 { width: 66.6666%; }
+            .pure-input-1-4 { width: 25%; }
+            .pure-input-3-4 { width: 75%; }
+
             #main {margin-top: 1rem;}
 
             .hide{display:none;}
             body{font-family:system-ui,sans-serif;}
             pre{padding:1em;border-width:1px;border-style:solid;overflow:auto;}
-            h2,h3 {margin-top:0;}
+            h2,h3,h4,h5 {margin-top:0;}
+            h4,h5 { color: light-dark(#1f2937, #f9fafb); }
             .none {
                 display: flex;
                 justify-content: center;
@@ -338,6 +419,16 @@ function generateHtml(data) {
                 text-align: left;
                 font-weight: 500;
             }
+
+            form ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            form li {
+                padding: 0.25rem 0;
+            }
+
 
 
             /* urltext網址結構項目化 */
@@ -716,20 +807,17 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 .modal-content-js {
     position: fixed;
     bottom: 0;
-    background-color: #fff;
+    max-height: 85vh;
+    background-color: light-dark(#fff, #282a36);
     width: 100%;
-    max-height: 100%;
     overflow: auto;
+    border-top: 1px solid light-dark(#ddd, #444);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
     animation-duration: 0.4s
     }
-@media (prefers-color-scheme: dark) {
-    .modal-content-js {
-        background: #303341;
-    }
-}
 
 /* For showing the modal */
 .modal-js.modal-show {
@@ -752,16 +840,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 }
 
 .modal-header {
-  padding: 0.5rem 1rem;
-  background-color: light-dark(hsl(0 0% 95%), canvas);;
-  color: white;
+  padding: 0.75rem 1rem;
+  background-color: light-dark(hsl(0 0% 95%), hsl(245, 18%, 20%));
+  color: light-dark(#333, #fff);
+  border-bottom: 1px solid light-dark(#ddd, #444);
 }
-@media (prefers-color-scheme: dark) {
-    .modal-header {
-        background-color: light-dark(hsl(245.2, 17.6%, 25.7%), canvas);
-        color: white;
-    }
-}
+
 
 .modal-header h2 {
         margin-top: 0;
