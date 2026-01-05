@@ -987,7 +987,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     </div>`+
                     '<div class="card card-border">'+
                         '<h2>'+tabler_icons_html.send+' Test POST Request</h2>'+
-                        form()+
+                        form(responseBody)+
                     '</div>'+
                 `</div>
 
@@ -996,7 +996,22 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `;
     }
 
-    function form() {
+    function form(responseBody) {
+        const reqBody = (typeof responseBody?.request?.body === 'object' && responseBody?.request?.body !== null)
+            ? responseBody.request.body
+            : {};
+        const isReqEmpty = Object.keys(reqBody).length === 0;
+
+        const getV = (name, def = '') => isReqEmpty ? def : (reqBody[name] ?? '');
+        const getC = (name, val, def = false) => {
+            if (isReqEmpty) return def ? 'checked' : '';
+            return reqBody[name] === val ? 'checked' : '';
+        };
+        const getS = (name, val, def = false) => {
+            if (isReqEmpty) return def ? 'selected' : '';
+            return reqBody[name] === val ? 'selected' : '';
+        };
+
         return `
         <style>
 /* The Modal (background) - JS ONLY */
@@ -1148,90 +1163,90 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                         <div class="col-6">
                                             <p>
                                                 <label for="t_text">Text</label>
-                                                <input type="text" id="t_text" name="t_text" placeholder="文字輸入" />
+                                                <input type="text" id="t_text" name="t_text" placeholder="文字輸入" value="${getV('t_text')}" />
                                             </p>
                                             <p>
                                                 <label for="t_password">Password</label>
-                                                <input type="password" id="t_password" name="t_password" placeholder="密碼輸入" />
+                                                <input type="password" id="t_password" name="t_password" placeholder="密碼輸入" value="${getV('t_password')}" />
                                             </p>
                                             <p>
                                                 <label for="t_email">Email</label>
-                                                <input type="email" id="t_email" name="t_email" placeholder="email@example.com" />
+                                                <input type="email" id="t_email" name="t_email" placeholder="email@example.com" value="${getV('t_email')}" />
                                             </p>
                                             <p>
                                                 <label for="t_url">URL</label>
-                                                <input type="url" id="t_url" name="t_url" placeholder="https://example.com" />
+                                                <input type="url" id="t_url" name="t_url" placeholder="https://example.com" value="${getV('t_url')}" />
                                             </p>
                                             <p>
                                                 <label for="t_tel">Tel</label>
-                                                <input type="tel" id="t_tel" name="t_tel" placeholder="0911-222-333" />
+                                                <input type="tel" id="t_tel" name="t_tel" placeholder="0911-222-333" value="${getV('t_tel')}" />
                                             </p>
                                             <p>
                                                 <label for="t_search">Search</label>
-                                                <input type="search" id="t_search" name="t_search" placeholder="搜尋關鍵字" />
+                                                <input type="search" id="t_search" name="t_search" placeholder="搜尋關鍵字" value="${getV('t_search')}" />
                                             </p>
                                             <p>
                                                 <label for="t_number">Number</label>
-                                                <input type="number" id="t_number" name="t_number" placeholder="123" />
+                                                <input type="number" id="t_number" name="t_number" placeholder="123" value="${getV('t_number')}" />
                                             </p>
                                             <p>
                                                 <label for="t_range">Range (0-100)</label>
-                                                <input type="range" id="t_range" name="t_range" min="0" max="100" />
+                                                <input type="range" id="t_range" name="t_range" min="0" max="100" value="${getV('t_range', '50')}" />
                                             </p>
                                             <p>
                                                 <label for="t_color">Color</label>
-                                                <input type="color" id="t_color" name="t_color" value="#f6821f" />
+                                                <input type="color" id="t_color" name="t_color" value="${getV('t_color', '#f6821f')}" />
                                             </p>
                                         </div>
                                         <div class="col-6">
                                             <p>
                                                 <label for="t_date">Date</label>
-                                                <input type="date" id="t_date" name="t_date" />
+                                                <input type="date" id="t_date" name="t_date" value="${getV('t_date')}" />
                                             </p>
                                             <p>
                                                 <label for="t_datetime">Datetime Local</label>
-                                                <input type="datetime-local" id="t_datetime" name="t_datetime" />
+                                                <input type="datetime-local" id="t_datetime" name="t_datetime" value="${getV('t_datetime')}" />
                                             </p>
                                             <p>
                                                 <label for="t_month">Month</label>
-                                                <input type="month" id="t_month" name="t_month" />
+                                                <input type="month" id="t_month" name="t_month" value="${getV('t_month')}" />
                                             </p>
                                             <p>
                                                 <label for="t_week">Week</label>
-                                                <input type="week" id="t_week" name="t_week" />
+                                                <input type="week" id="t_week" name="t_week" value="${getV('t_week')}" />
                                             </p>
                                             <p>
                                                 <label for="t_time">Time</label>
-                                                <input type="time" id="t_time" name="t_time" />
+                                                <input type="time" id="t_time" name="t_time" value="${getV('t_time')}" />
                                             </p>
                                             <p>
                                                 <label for="t_select">Select</label>
                                                 <select id="t_select" name="t_select" style="width:100%">
-                                                    <option value="opt1">選項一</option>
-                                                    <option value="opt2">選項二</option>
+                                                    <option value="opt1" ${getS('t_select', 'opt1', true)}>選項一</option>
+                                                    <option value="opt2" ${getS('t_select', 'opt2')}>選項二</option>
                                                 </select>
                                             </p>
                                             <p>
                                                 <label>Radio</label>
                                                 <label for="r1" style="display:inline-block; margin-right: 1em;">
-                                                    <input type="radio" id="r1" name="t_radio" value="R1" checked /> R1
+                                                    <input type="radio" id="r1" name="t_radio" value="R1" ${getC('t_radio', 'R1', true)} /> R1
                                                 </label>
                                                 <label for="r2" style="display:inline-block;">
-                                                    <input type="radio" id="r2" name="t_radio" value="R2" /> R2
+                                                    <input type="radio" id="r2" name="t_radio" value="R2" ${getC('t_radio', 'R2')} /> R2
                                                 </label>
                                             </p>
                                             <p>
                                                 <label>Checkbox</label>
                                                 <label for="c1" style="display:inline-block; margin-right: 1em;">
-                                                    <input type="checkbox" id="c1" name="t_checkbox" value="C1" checked /> C1
+                                                    <input type="checkbox" id="c1" name="t_checkbox" value="C1" ${getC('t_checkbox', 'C1', true)} /> C1
                                                 </label>
                                                 <label for="c2" style="display:inline-block;">
-                                                    <input type="checkbox" id="c2" name="t_checkbox" value="C2" /> C2
+                                                    <input type="checkbox" id="c2" name="t_checkbox" value="C2" ${getC('t_checkbox', 'C2')} /> C2
                                                 </label>
                                             </p>
                                             <p>
                                                 <label for="t_textarea">Textarea</label>
-                                                <textarea id="t_textarea" name="t_textarea" rows="2" placeholder="多行文字輸入"></textarea>
+                                                <textarea id="t_textarea" name="t_textarea" rows="2" placeholder="多行文字輸入">${getV('t_textarea')}</textarea>
                                             </p>
                                             <p>
                                                 <label for="t_file">File</label>
@@ -1240,7 +1255,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                         </div>
                                     </div>
                                     <div style="text-align: center; margin-top: 1rem;">
-                                        <input type="hidden" name="t_hidden" value="Hidden Value" />
+                                        <input type="hidden" name="t_hidden" value="${getV('t_hidden', 'Hidden Value')}" />
                                         <button type="submit" class="pure-button pure-button-primary">Submit POST Echo</button>
                                         <button type="reset" class="pure-button">Reset</button>
                                     </div>
