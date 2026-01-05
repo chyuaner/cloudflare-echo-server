@@ -848,8 +848,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
 
 .modal-header h2 {
-        margin-top: 0;
-        margin-bottom: 0;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .modal-body {padding: 2px 16px;}
@@ -883,103 +884,155 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         </style>
 
         <!-- Trigger/Open The Modal -->
-        <button id="myBtn" style="display:none">Open Modal</button>
+        <button id="myBtn" class="pure-button pure-button-primary" style="display:none">Open Modal</button>
         <!-- The Modal -->
         <div id="myFormModal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
-                <form method="post" class="pure-form">
-                    <div class="modal-header" style="display:none">
-                        <span class="close">&times;</span>
-                        <h2>Modal Header</h2>
-                    </div>
+                <div class="modal-header" style="display:none">
+                    <span class="close">&times;</span>
+                    <h2>Modal Header</h2>
+                </div>
 
 
-                    <div class="modal-body">
-                        <div>
-                            <div class="col-4">
-                                <h4>Payment form</h4>
-                                <h5>Contact information</h5>
-                                <fieldset>
-                                    <legend>Title</legend>
-                                    <ul>
-                                    <li>
-                                        <label for="title_1">
-                                        <input type="radio" id="title_1" name="title" value="A" />
-                                        Ace
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label for="title_2">
-                                        <input type="radio" id="title_2" name="title" value="K" />
-                                        King
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label for="title_3">
-                                        <input type="radio" id="title_3" name="title" value="Q" />
-                                        Queen
-                                        </label>
-                                    </li>
-                                    </ul>
-                                </fieldset>
-                            </div>
-                            <div class="col-4">
-                                <p>
-                                    <label for="name">Name *:</label>
-                                    <input type="text" id="name" name="username" />
-                                </p>
-                                <p>
-                                    <label for="mail">Email *:</label>
-                                    <input type="email" id="mail" name="user-mail" />
-                                </p>
-                                <p>
-                                    <label for="pwd">Password *:</label>
-                                    <input type="password" id="pwd" name="password" />
-                                </p>
-                            </div>
-                            <div class="col-4">
-                                <section>
-                                <h5>Payment information</h5>
-                                <p>
-                                    <label for="card">
-                                    <span>Card type:</span>
-                                    </label>
-                                    <select id="card" name="user-card">
-                                    <option value="visa">Visa</option>
-                                    <option value="mc">Mastercard</option>
-                                    <option value="amex">American Express</option>
-                                    </select>
-                                </p>
-                                <p>
-                                    <label for="number">Card number *:</label>
-                                    <input type="tel" id="number" name="card-number" />
-                                </p>
-                                <p>
-                                    <label for="expiration">Expiration date *:</label>
-                                    <input
-                                    type="text"
-                                    id="expiration"
-                                    name="expiration"
-                                    placeholder="MM/YY"
-                                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
-                                </p>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="col-8">
+                            <fieldset>
+                                <legend>一般表單測試</legend>
+                                <form method="post" class="pure-form">
+                                    <div class="container">
+                                        <div class="col-6">
 
-                                <fieldset class="pure-group">
-                                    <input type="text" class="pure-input-1-2" placeholder="A title" />
-                                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
-                                </fieldset>
-                                </section>
-                                <section>
-                                <p>
-                                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
-                                </p>
-                                </section>
-                            </div>
+                                            <h4>Payment form</h4>
+                                            <h5>Contact information</h5>
+
+                                            <div class="container">
+                                                <div class="col-6">
+                                                    <p> Choose one:
+                                                        <ul>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_1">
+                                                            <input type="radio" id="title_1" name="title" value="A" />
+                                                            Ace
+                                                            </label>
+                                                        </li>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_2">
+                                                            <input type="radio" id="title_2" name="title" value="K" />
+                                                            King
+                                                            </label>
+                                                        </li>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_3">
+                                                            <input type="radio" id="title_3" name="title" value="Q" />
+                                                            Queen
+                                                            </label>
+                                                        </li>
+                                                        </ul>
+                                                    </p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p> Choose one:
+                                                        <ul>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_1">
+                                                            <input type="radio" id="title_1" name="title" value="A" />
+                                                            Ace
+                                                            </label>
+                                                        </li>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_2">
+                                                            <input type="radio" id="title_2" name="title" value="K" />
+                                                            King
+                                                            </label>
+                                                        </li>
+                                                        <li style="display: inline-block;">
+                                                            <label for="title_3">
+                                                            <input type="radio" id="title_3" name="title" value="Q" />
+                                                            Queen
+                                                            </label>
+                                                        </li>
+                                                        </ul>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                <label for="name">Name *:</label>
+                                                <input type="text" id="name" name="username" />
+                                            </p>
+                                            <p>
+                                                <label for="mail">Email *:</label>
+                                                <input type="email" id="mail" name="user-mail" />
+                                            </p>
+                                            <p>
+                                                <label for="pwd">Password *:</label>
+                                                <input type="password" id="pwd" name="password" />
+                                            </p>
+
+                                        </div>
+                                        <div class="col-6">
+
+                                            <section>
+                                                <h5>Payment information</h5>
+                                                <p>
+                                                    <label for="card">
+                                                    <span>Card type:</span>
+                                                    </label>
+                                                    <select id="card" name="user-card">
+                                                    <option value="visa">Visa</option>
+                                                    <option value="mc">Mastercard</option>
+                                                    <option value="amex">American Express</option>
+                                                    </select>
+                                                </p>
+                                                <p>
+                                                    <label for="number">Card number *:</label>
+                                                    <input type="tel" id="number" name="card-number" />
+                                                </p>
+                                                <p>
+                                                    <label for="expiration">Expiration date *:</label>
+                                                    <input
+                                                    type="text"
+                                                    id="expiration"
+                                                    name="expiration"
+                                                    placeholder="MM/YY"
+                                                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
+                                                </p>
+
+                                                <fieldset class="pure-group">
+                                                    <input type="text" class="pure-input-1-2" placeholder="A title" />
+                                                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
+                                                </fieldset>
+                                                </section>
+                                                <section>
+                                                <p>
+                                                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
+                                                </p>
+                                            </section>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+
+                        </div>
+                        <div class="col-4">
+                            <fieldset>
+                                <legend>檔案上傳測試</legend>
+                                <form method="post" enctype="multipart/form-data" class="pure-form">
+                                    <div>
+                                        <label for="file">Choose file to upload</label>
+                                        <input type="file" id="file" name="file" multiple />
+                                    </div>
+                                    <div>
+                                        <button class="pure-button pure-button-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </fieldset>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
 
         </div>
