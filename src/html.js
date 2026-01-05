@@ -273,6 +273,13 @@ function generateHtml(data) {
             input[type="password"],
             input[type="tel"],
             input[type="url"],
+            input[type="search"],
+            input[type="number"],
+            input[type="date"],
+            input[type="datetime-local"],
+            input[type="month"],
+            input[type="week"],
+            input[type="time"],
             select,
             textarea {
                 width: 100%;
@@ -285,6 +292,14 @@ function generateHtml(data) {
                 font-family: inherit;
                 font-size: 1rem;
                 box-sizing: border-box;
+            }
+            input[type="color"] {
+                height: 2.5rem;
+                padding: 0.2rem;
+            }
+            input[type="range"] {
+                width: 100%;
+                margin: 0.5rem 0;
             }
             input:focus, select:focus, textarea:focus {
                 outline: none;
@@ -900,118 +915,107 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     <div class="container">
                         <div class="col-8">
                             <fieldset>
-                                <legend>一般表單測試</legend>
-                                <form method="post" class="pure-form">
+                                <legend>HTML5 表單各類型測試</legend>
+                                <form method="post" class="pure-form pure-form-stacked">
                                     <div class="container">
                                         <div class="col-6">
-
-                                            <h4>Payment form</h4>
-                                            <h5>Contact information</h5>
-
-                                            <div class="container">
-                                                <div class="col-6">
-                                                    <p> Choose one:
-                                                        <ul>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_1">
-                                                            <input type="radio" id="title_1" name="title" value="A" />
-                                                            Ace
-                                                            </label>
-                                                        </li>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_2">
-                                                            <input type="radio" id="title_2" name="title" value="K" />
-                                                            King
-                                                            </label>
-                                                        </li>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_3">
-                                                            <input type="radio" id="title_3" name="title" value="Q" />
-                                                            Queen
-                                                            </label>
-                                                        </li>
-                                                        </ul>
-                                                    </p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p> Choose one:
-                                                        <ul>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_1">
-                                                            <input type="radio" id="title_1" name="title" value="A" />
-                                                            Ace
-                                                            </label>
-                                                        </li>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_2">
-                                                            <input type="radio" id="title_2" name="title" value="K" />
-                                                            King
-                                                            </label>
-                                                        </li>
-                                                        <li style="display: inline-block;">
-                                                            <label for="title_3">
-                                                            <input type="radio" id="title_3" name="title" value="Q" />
-                                                            Queen
-                                                            </label>
-                                                        </li>
-                                                        </ul>
-                                                    </p>
-                                                </div>
-                                            </div>
                                             <p>
-                                                <label for="name">Name *:</label>
-                                                <input type="text" id="name" name="username" />
+                                                <label for="t_text">Text</label>
+                                                <input type="text" id="t_text" name="t_text" placeholder="文字輸入" />
                                             </p>
                                             <p>
-                                                <label for="mail">Email *:</label>
-                                                <input type="email" id="mail" name="user-mail" />
+                                                <label for="t_password">Password</label>
+                                                <input type="password" id="t_password" name="t_password" placeholder="密碼輸入" />
                                             </p>
                                             <p>
-                                                <label for="pwd">Password *:</label>
-                                                <input type="password" id="pwd" name="password" />
+                                                <label for="t_email">Email</label>
+                                                <input type="email" id="t_email" name="t_email" placeholder="email@example.com" />
                                             </p>
-
+                                            <p>
+                                                <label for="t_url">URL</label>
+                                                <input type="url" id="t_url" name="t_url" placeholder="https://example.com" />
+                                            </p>
+                                            <p>
+                                                <label for="t_tel">Tel</label>
+                                                <input type="tel" id="t_tel" name="t_tel" placeholder="0911-222-333" />
+                                            </p>
+                                            <p>
+                                                <label for="t_search">Search</label>
+                                                <input type="search" id="t_search" name="t_search" placeholder="搜尋關鍵字" />
+                                            </p>
+                                            <p>
+                                                <label for="t_number">Number</label>
+                                                <input type="number" id="t_number" name="t_number" placeholder="123" />
+                                            </p>
+                                            <p>
+                                                <label for="t_range">Range (0-100)</label>
+                                                <input type="range" id="t_range" name="t_range" min="0" max="100" />
+                                            </p>
+                                            <p>
+                                                <label for="t_color">Color</label>
+                                                <input type="color" id="t_color" name="t_color" value="#f6821f" />
+                                            </p>
                                         </div>
                                         <div class="col-6">
-
-                                            <section>
-                                                <h5>Payment information</h5>
-                                                <p>
-                                                    <label for="card">
-                                                    <span>Card type:</span>
-                                                    </label>
-                                                    <select id="card" name="user-card">
-                                                    <option value="visa">Visa</option>
-                                                    <option value="mc">Mastercard</option>
-                                                    <option value="amex">American Express</option>
-                                                    </select>
-                                                </p>
-                                                <p>
-                                                    <label for="number">Card number *:</label>
-                                                    <input type="tel" id="number" name="card-number" />
-                                                </p>
-                                                <p>
-                                                    <label for="expiration">Expiration date *:</label>
-                                                    <input
-                                                    type="text"
-                                                    id="expiration"
-                                                    name="expiration"
-                                                    placeholder="MM/YY"
-                                                    pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" />
-                                                </p>
-
-                                                <fieldset class="pure-group">
-                                                    <input type="text" class="pure-input-1-2" placeholder="A title" />
-                                                    <textarea class="pure-input-1-2" placeholder="Textareas work too"></textarea>
-                                                </fieldset>
-                                                </section>
-                                                <section>
-                                                <p>
-                                                    <button class="pure-button pure-button-primary" type="submit">Validate the payment</button>
-                                                </p>
-                                            </section>
-
+                                            <p>
+                                                <label for="t_date">Date</label>
+                                                <input type="date" id="t_date" name="t_date" />
+                                            </p>
+                                            <p>
+                                                <label for="t_datetime">Datetime Local</label>
+                                                <input type="datetime-local" id="t_datetime" name="t_datetime" />
+                                            </p>
+                                            <p>
+                                                <label for="t_month">Month</label>
+                                                <input type="month" id="t_month" name="t_month" />
+                                            </p>
+                                            <p>
+                                                <label for="t_week">Week</label>
+                                                <input type="week" id="t_week" name="t_week" />
+                                            </p>
+                                            <p>
+                                                <label for="t_time">Time</label>
+                                                <input type="time" id="t_time" name="t_time" />
+                                            </p>
+                                            <p>
+                                                <label for="t_select">Select</label>
+                                                <select id="t_select" name="t_select" style="width:100%">
+                                                    <option value="opt1">選項一</option>
+                                                    <option value="opt2">選項二</option>
+                                                </select>
+                                            </p>
+                                            <p>
+                                                <label>Radio</label>
+                                                <label for="r1" style="display:inline-block; margin-right: 1em;">
+                                                    <input type="radio" id="r1" name="t_radio" value="R1" checked /> R1
+                                                </label>
+                                                <label for="r2" style="display:inline-block;">
+                                                    <input type="radio" id="r2" name="t_radio" value="R2" /> R2
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label>Checkbox</label>
+                                                <label for="c1" style="display:inline-block; margin-right: 1em;">
+                                                    <input type="checkbox" id="c1" name="t_checkbox" value="C1" checked /> C1
+                                                </label>
+                                                <label for="c2" style="display:inline-block;">
+                                                    <input type="checkbox" id="c2" name="t_checkbox" value="C2" /> C2
+                                                </label>
+                                            </p>
+                                            <p>
+                                                <label for="t_textarea">Textarea</label>
+                                                <textarea id="t_textarea" name="t_textarea" rows="2" placeholder="多行文字輸入"></textarea>
+                                            </p>
+                                            <p>
+                                                <label for="t_file">File</label>
+                                                <input type="file" id="t_file" name="t_file" />
+                                            </p>
                                         </div>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 1rem;">
+                                        <input type="hidden" name="t_hidden" value="Hidden Value" />
+                                        <button type="submit" class="pure-button pure-button-primary">Submit POST Echo</button>
+                                        <button type="reset" class="pure-button">Reset</button>
                                     </div>
                                 </form>
                             </fieldset>
