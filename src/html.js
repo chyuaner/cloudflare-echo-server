@@ -446,7 +446,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         const highlight = ''
             +`<script>${prismJsContent}</script>`
             +`<style>${prismCssContent}</style>`
-            +`<style>${purecssContent}</style>`
+            // +`<style>${purecssContent}</style>`
         ;
         return '<style>'
                 +baseCss
@@ -694,11 +694,11 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     function form() {
         return `
         <style>
-        /* The Modal (background) */
-.modal {
+/* The Modal (background) - JS ONLY */
+.modal-js {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 1000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -712,18 +712,28 @@ https://github.com/pure-css/pure/blob/master/LICENSE
   animation-duration: 0.4s
 }
 
-/* Modal Content */
-.modal-content {
-  position: fixed;
-  bottom: 0;
-  background-color: #fefefe;
-  width: 100%;
-  max-height: 100%;
-  overflow: auto;
-  -webkit-animation-name: slideIn;
-  -webkit-animation-duration: 0.4s;
-  animation-name: slideIn;
-  animation-duration: 0.4s
+/* Modal Content - JS ONLY */
+.modal-content-js {
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slideIn;
+    animation-duration: 0.4s
+    }
+@media (prefers-color-scheme: dark) {
+    .modal-content-js {
+        background: #303341;
+    }
+}
+
+/* For showing the modal */
+.modal-js.modal-show {
+  display: block;
 }
 
 /* The Close Button */
@@ -743,9 +753,16 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
 .modal-header {
   padding: 0.5rem 1rem;
-  background-color: #5cb85c;
+  background-color: light-dark(hsl(0 0% 95%), canvas);;
   color: white;
 }
+@media (prefers-color-scheme: dark) {
+    .modal-header {
+        background-color: light-dark(hsl(245.2, 17.6%, 25.7%), canvas);
+        color: white;
+    }
+}
+
 .modal-header h2 {
         margin-top: 0;
         margin-bottom: 0;
@@ -782,21 +799,21 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         </style>
 
         <!-- Trigger/Open The Modal -->
-        <button id="myBtn">Open Modal</button>
+        <button id="myBtn" style="display:none">Open Modal</button>
         <!-- The Modal -->
         <div id="myFormModal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
                 <form method="post" class="pure-form">
-                    <div class="modal-header">
+                    <div class="modal-header" style="display:none">
                         <span class="close">&times;</span>
                         <h2>Modal Header</h2>
                     </div>
 
 
                     <div class="modal-body">
-                        <div class="container">
+                        <div>
                             <div class="col-4">
                                 <h4>Payment form</h4>
                                 <h5>Contact information</h5>
@@ -878,38 +895,45 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <h3>Modal Footer</h3>
-                    </div>
                 </form>
             </div>
 
         </div>
 <script>
-// Get the modal
+// Get the modal elements
 var modal = document.getElementById("myFormModal");
-
-// Get the button that opens the modal
+var modalContent = modal ? modal.querySelector(".modal-content") : null;
+var modalGrid = modal ? modal.querySelector(".modal-body > div") : null;
 var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+var modalHeader = document.querySelector(".modal-header");
+var modalFooter = document.querySelector(".modal-footer");
+
+// If JS is enabled, enable modal behavior and show the trigger button
+if (modal && modalContent && modalGrid && btn) {
+    modal.classList.add("modal-js");
+    modalContent.classList.add("modal-content-js");
+    modalGrid.classList.add("container");
+    // Since we want traditional layout when JS is off, we hide/show elements
+    btn.style.display = "block";
+    if (modalHeader) modalHeader.style.display = "block";
+    if (modalFooter) modalFooter.style.display = "block";
+}
 
 // When the user clicks the button, open the modal
 btn.onclick = function() {
-  modal.style.display = "block";
+  modal.classList.add("modal-show");
 }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-  modal.style.display = "none";
+  modal.classList.remove("modal-show");
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    modal.classList.remove("modal-show");
   }
 }
 </script>
