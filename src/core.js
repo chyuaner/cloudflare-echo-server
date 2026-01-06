@@ -48,6 +48,35 @@ let isDocker = false;   // 是否在 Docker (只在 Node 會有意義)
   }
 })();
 
+export function reorderObject(obj, priorityKeys = [], lastKeys = []) {
+    if (!obj || typeof obj !== 'object') return {};
+    const newObj = {};
+
+    // 1. Priority Keys
+    priorityKeys.forEach(key => {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            newObj[key] = obj[key];
+        }
+    });
+
+    // 2. Remaining Keys
+    const keys = Object.keys(obj);
+    keys.forEach(key => {
+        if (!priorityKeys.includes(key) && !lastKeys.includes(key)) {
+            newObj[key] = obj[key];
+        }
+    });
+
+    // 3. Last Keys
+    lastKeys.forEach(key => {
+        if (Object.prototype.hasOwnProperty.call(obj, key) && !priorityKeys.includes(key)) {
+            newObj[key] = obj[key];
+        }
+    });
+
+    return newObj;
+}
+
 // ----------------------------------------------------
 // 主程式主要流程
 // ----------------------------------------------------
