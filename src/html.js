@@ -1075,6 +1075,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         <h3>${tabler_icons_html.http_head} Header</h3>
                         ${objectToTable(responseBody.request.headers)}
                     </div>
+
+                    <div class="card card-border">${curl(responseBody)}</div>
+
                 </div>
 
                 <div class="col-lg-4">
@@ -1136,7 +1139,6 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                 +container
 
                 // 輸出shell範例
-                +'<div class="col-6 card card-border">'+curl(data.responseBody)+'</div>'
                 // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
 
                 +'<div class="card card-border">'
