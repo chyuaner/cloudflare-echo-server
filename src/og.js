@@ -3,14 +3,19 @@ import { tabler_icons_html } from './html.js';
 
 const baseFontSize = 22;
 
-// Helper to create React-element-like objects
+// iconCache to avoid repetitive base64 encoding
+const iconCache = new Map();
+
+// Optimized helper to create React-element-like objects
 const h = (type, props, ...children) => {
-    const filteredChildren = children.flat().filter(c => c != null && c !== false);
     const style = props.style || {};
     
     // Satori rule: elements with > 1 children should have explicit display
     // We default everything to flex since that's what Satori expects
-    if (filteredChildren.length > 1 && !style.display) {
+    // Flattening and filtering is expensive, we do it minimally
+    const flatChildren = children.flat(2).filter(c => c != null && c !== false);
+
+    if (flatChildren.length > 1 && !style.display) {
         style.display = 'flex';
     }
 
@@ -19,7 +24,7 @@ const h = (type, props, ...children) => {
         props: {
             ...props,
             style,
-            children: filteredChildren
+            children: flatChildren.length === 1 ? flatChildren[0] : flatChildren
         }
     };
 };
@@ -27,34 +32,48 @@ const h = (type, props, ...children) => {
 function icon(name) {
     const svg = tabler_icons_html[name];
     if (!svg) return null;
-    const b64 = typeof btoa === 'function' 
-        ? btoa(svg) 
-        : Buffer.from(svg).toString('base64');
+    
+    if (!iconCache.has(name)) {
+        const b64 = typeof btoa === 'function' 
+            ? btoa(svg) 
+            : Buffer.from(svg).toString('base64');
+        iconCache.set(name, b64);
+    }
     
     return h('img', {
-        src: `data:image/svg+xml;base64,${b64}`,
+        src: `data:image/svg+xml;base64,${iconCache.get(name)}`,
         width: 24,
         height: 24,
         style: { marginRight: 8 }
     });
 }
 
-function objectToListElements(obj) {
+// Optimized list generator: added limit to reduce DOM nodes
+function objectToListElements(obj, limit = 20) {
     const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined);
-    if (entries.length === 0) return [];
+    const displayEntries = entries.slice(0, limit);
+    const hasMore = entries.length > limit;
 
-    return entries.map(([k, v]) => {
-        if (typeof v === 'object' && v !== null) {
-            return h('div', { style: { display: 'flex', flexDirection: 'column', marginLeft: 10, width: '100%' } },
-                h('span', { style: { fontWeight: 'bold', wordBreak: 'break-all', width: '100%' } }, `${k}:`),
-                ...objectToListElements(v)
-            );
-        }
-        return h('div', { style: { display: 'flex', flexDirection: 'row', fontSize: baseFontSize, marginBottom: 4, width: '100%' } },
+    const list = displayEntries.map(([k, v]) => {
+        return h('div', { 
+            style: { 
+                display: 'flex', 
+                flexDirection: 'row', 
+                fontSize: baseFontSize - 2, 
+                marginBottom: 2, 
+                width: '100%',
+                overflow: 'hidden'
+            } 
+        },
             h('span', { style: { fontWeight: 'bold', marginRight: 5, color: '#666', flexShrink: 0 } }, `${k}:`),
-            h('span', { style: { wordBreak: 'break-all', color: '#333', flex: 1 } }, String(v))
+            h('span', { style: { wordBreak: 'break-all', color: '#333', flex: 1, height: 26, overflow: 'hidden' } }, String(v))
         );
     });
+
+    if (hasMore) {
+        list.push(h('div', { style: { color: '#999', fontSize: 16, marginTop: 4 } }, `... and ${entries.length - limit} more`));
+    }
+    return list;
 }
 
 function hostCard(hostData) {
@@ -63,7 +82,6 @@ function hostCard(hostData) {
             display: 'flex', 
             flexDirection: 'column', 
             border: '1px solid #ddd', 
-            // borderRadius: 12, 
             padding: 20, 
             backgroundColor: 'white',
             flex: 1,
@@ -71,12 +89,12 @@ function hostCard(hostData) {
             overflow: 'hidden'
         } 
     },
-        h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: (baseFontSize), margin: '0 0 10px 0' } },
-            // icon('cloud_network'),
+        h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: baseFontSize, margin: '0 0 10px 0' } },
+            icon('cloud_network'),
             'Host'
         ),
         h('div', { style: { display: 'flex', flexDirection: 'column', gap: 5, width: '100%' } },
-            ...objectToListElements(hostData)
+            ...objectToListElements(hostData, 10)
         )
     );
 }
@@ -113,7 +131,6 @@ function endpointBar(responseBody) {
         style: {
             borderWidth: '2px',
             borderStyle: 'solid',
-            // borderRadius: '8px',
             padding: '16px',
             display: 'flex',
             alignItems: 'center',
@@ -127,9 +144,8 @@ function endpointBar(responseBody) {
             style: {
                 color: 'white',
                 padding: '4px 12px',
-                // borderRadius: '6px',
                 fontWeight: 700,
-                fontSize: (baseFontSize)+'px',
+                fontSize: baseFontSize + 'px',
                 textTransform: 'uppercase',
                 lineHeight: 1,
                 backgroundColor: colors.border,
@@ -139,7 +155,7 @@ function endpointBar(responseBody) {
         h('span', {
             style: {
                 fontWeight: 600,
-                fontSize: (baseFontSize+2)+'px',
+                fontSize: (baseFontSize + 2) + 'px',
                 wordBreak: 'break-all',
                 color: '#333'
             }
@@ -151,68 +167,13 @@ export function generateOgImage(responseBody) {
     const method = responseBody.http.method;
     const bodyRaw = responseBody.request.bodyRaw;
     
-    // Check if we should display body
     const showBody = !((method === 'GET' || method === 'HEAD') && (!bodyRaw || bodyRaw.trim() === ''));
     
-    // Headers processing - Get individual elements
-    const headerElements = objectToListElements(responseBody.request.headers);
-    
-    // Prepare ALL items for the wrap container
-    const requestItems = [];
-    
-    // 1. Post Body block
-    if (showBody) {
-        let displayContent = bodyRaw || '';
-        if (displayContent.length > 500) {
-           displayContent = displayContent.substring(0, 500) + '... [Truncated]';
-        }
-        
-        requestItems.push(
-            h('div', { style: { display: 'flex', flexDirection: 'column', marginTop: -20, marginBottom: 20, width: '48%' } },
-                h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10 } },
-                    // icon('file'),
-                    h('span', { style: { fontSize: (baseFontSize)+'px', fontWeight: 'bold' } }, 'Post Body')
-                ),
-                h('div', { 
-                    style: { 
-                        display: 'flex',
-                        backgroundColor: '#f8f9fa', 
-                        padding: 12, 
-                        // borderRadius: 8, 
-                        fontFamily: 'monospace',
-                        fontSize: (baseFontSize),
-                        maxHeight: 250,
-                        overflow: 'hidden',
-                        wordBreak: 'break-all',
-                        color: '#444',
-                        border: '1px solid #eee',
-                        width: '100%'
-                    } 
-                }, displayContent)
-            )
-        );
-    }
-    
-    // 2. Header Title block
-    requestItems.push(
-        h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10, width: '48%' } },
-            // icon('http_head'),
-            h('span', { style: { fontSize: (baseFontSize), fontWeight: 'bold' } }, 'Header')
-        )
-    );
-
-    // 3. Spreading individual header items
-    headerElements.forEach(el => {
-        const item = { ...el };
-        item.props = { 
-            ...el.props,
-            style: {
-                ...el.props.style,
-                width: '48%', 
-            }
-        };
-        requestItems.push(item);
-    });
+    // Performance optimization: Manual 2-column layout instead of flexWrap
+    const headerElements = objectToListElements(responseBody.request.headers, 24);
+    const mid = Math.ceil(headerElements.length / 2);
+    const leftHeaders = headerElements.slice(0, mid);
+    const rightHeaders = headerElements.slice(mid);
 
     const element = h('div', {
         style: {
@@ -226,10 +187,8 @@ export function generateOgImage(responseBody) {
             color: '#333'
         }
     },
-        // 1. Top Bar: Endpoint Info
         endpointBar(responseBody),
 
-        // 2. Bottom Area: Two Columns
         h('div', { style: { display: 'flex', width: '100%', flex: 1, gap: 20 } },
             // Left Column (Request info)
             h('div', { 
@@ -238,27 +197,43 @@ export function generateOgImage(responseBody) {
                     flexDirection: 'column', 
                     flex: 3,
                     border: '1px solid #ddd',
-                    // borderRadius: 12,
-                    padding: 10,
+                    padding: 15,
                     backgroundColor: 'white',
-                    // height: 480, 
                     overflow: 'hidden'
                 } 
             },
-                h('div', { style: { display: 'flex', fontSize: (baseFontSize), fontWeight: 'bold', marginBottom: 15, color: '#999' } }, ''),
-                h('div', {
-                    style: {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flexWrap: 'wrap',
-                        alignContent: 'flex-start',
-                        width: '100%',
-                        // height: 480, // 核心高度：增加到 450px 減少換到第三欄的機率
-                        columnGap: 10, // 強制使用較大的固定像素間距
-                        rowGap: 0
-                    }
-                },
-                    ...requestItems
+                // Post Body block (if exists)
+                showBody ? h('div', { style: { display: 'flex', flexDirection: 'column', marginBottom: 15 } },
+                    h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 5 } },
+                        icon('file'),
+                        h('span', { style: { fontSize: baseFontSize, fontWeight: 'bold' } }, 'Post Body')
+                    ),
+                    h('div', { 
+                        style: { 
+                            display: 'flex',
+                            backgroundColor: '#f8f9fa', 
+                            padding: 10, 
+                            fontFamily: 'monospace',
+                            fontSize: baseFontSize - 4,
+                            maxHeight: 120,
+                            overflow: 'hidden',
+                            wordBreak: 'break-all',
+                            color: '#444',
+                            border: '1px solid #eee'
+                        } 
+                    }, (bodyRaw || '').substring(0, 300) + (bodyRaw && bodyRaw.length > 300 ? '...' : ''))
+                ) : null,
+
+                // Header blockTitle
+                h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10 } },
+                    icon('http_head'),
+                    h('span', { style: { fontSize: baseFontSize, fontWeight: 'bold' } }, 'Headers')
+                ),
+
+                // Manual 2-column list
+                h('div', { style: { display: 'flex', flexDirection: 'row', width: '100%', gap: 10 } },
+                    h('div', { style: { display: 'flex', flexDirection: 'column', flex: 1 } }, ...leftHeaders),
+                    h('div', { style: { display: 'flex', flexDirection: 'column', flex: 1 } }, ...rightHeaders)
                 )
             ),
             
