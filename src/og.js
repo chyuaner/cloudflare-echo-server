@@ -1,7 +1,7 @@
 import { ImageResponse } from '@cf-wasm/og';
 import { tabler_icons_html } from './html.js';
 
-const baseFontSize = 22;
+const baseFontSize = 23;
 
 // iconCache to avoid repetitive base64 encoding
 const iconCache = new Map();
@@ -94,7 +94,7 @@ function hostCard(hostData) {
             'Host'
         ),
         h('div', { style: { display: 'flex', flexDirection: 'column', gap: 5, width: '100%' } },
-            ...objectToListElements(hostData, 10)
+            ...objectToListElements(hostData, 11)
         )
     );
 }
@@ -195,7 +195,7 @@ export function generateOgImage(responseBody) {
                 style: { 
                     display: 'flex', 
                     flexDirection: 'column', 
-                    flex: 3,
+                    flex: 2,
                     border: '1px solid #ddd',
                     padding: 15,
                     backgroundColor: 'white',
