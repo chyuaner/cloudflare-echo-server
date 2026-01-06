@@ -1483,12 +1483,17 @@ window.addEventListener('click', function(event) {
             fetch(rawForm.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': contentType
+                    'Content-Type': contentType,
+                    'Accept': 'text/html'
                 },
                 body: body
             }).then(function(response) {
                 return response.text();
             }).then(function(html) {
+                // 1. 手動更新網址列，並產生歷史紀錄 (就像真實換頁一樣)
+                history.pushState({}, '', rawForm.action); 
+                
+                // 2. 覆寫整個頁面內容
                 document.open();
                 document.write(html);
                 document.close();
