@@ -1117,7 +1117,79 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         return output;
     }
 
+    function simpleMain(responseBody) {
+        const container = `
+            <div class="container">
+                <div class="col-lg-9 card card-border" style="column-count: 2;">
+                <h2 class="hide">Request</h2>
 
+                    ${(() => {
+                        // 取得當前請求的方法與原始 body 文字
+                        const method   = responseBody.http.method;   // e.g. "GET", "POST", "HEAD", ...
+                        const bodyRaw  = responseBody.request.bodyRaw;
+                        const body     = responseBody.request.body;  // Parsed body (JSON object or Form object)
+
+                        // 條件：GET / HEAD 且 body 為空 → 不顯示任何內容
+                        if ((method === 'GET' || method === 'HEAD') && (!bodyRaw || bodyRaw.trim() === '')) {
+                            return '';   // 直接返回空字串，整塊 <div> 不會產生
+                        }
+
+                        // 其餘情況（POST、PUT、PATCH、DELETE … 或 GET/HEAD 有 body） -> 正常顯示
+                        return `
+                            <div class="">
+                                <h3>${tabler_icons_html.file} Post Body</h3>
+                                ${/* 2. 顯示原始 Raw Body (含行號) */
+                                  (() => {
+                                      if (!bodyRaw) return none();
+
+                                      // 1. Truncate if too long (to prevent DOM performance issues)
+                                      const MAX_LENGTH = 10000;
+                                      let displayContent = bodyRaw;
+                                      let truncated = false;
+                                    //   if (displayContent.length > MAX_LENGTH) {
+                                    //       displayContent = displayContent.substring(0, MAX_LENGTH);
+                                    //       truncated = true;
+                                    //   }
+
+                                      // 2. Escape HTML (CRITICAL for preventing DOM breakage)
+                                      displayContent = displayContent
+                                          .replace(/&/g, "&amp;")
+                                          .replace(/</g, "&lt;")
+                                          .replace(/>/g, "&gt;")
+                                          .replace(/"/g, "&quot;")
+                                          .replace(/'/g, "&#039;");
+
+                                      if (truncated) {
+                                          displayContent += `\n\n... [Content Truncated: Original size ${bodyRaw.length} bytes] ...`;
+                                      }
+
+                                      return `<span class="" style="white-space: pre-wrap;word-break: break-all;">${displayContent}</span>`;
+                                  })()
+                                }
+                            </div>`;
+                    })()}
+
+                    <div class="">
+                        <h3>${tabler_icons_html.http_head} Header</h3>
+                        ${renderObjectAsList(responseBody.request.headers)}
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="card card-border">
+                        ${host(responseBody.host)}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const output = endpointBar(data.responseBody)
+            +'<div id="main">'
+                +container
+            +'</div>';
+
+        return output;
+    }
 
     function form(responseBody) {
         const reqBody = (typeof responseBody?.request?.body === 'object' && responseBody?.request?.body !== null)
@@ -1651,6 +1723,7 @@ window.addEventListener('click', function(event) {
     const output = pageA(data.responseBody)
         +'<h1>HTTP Echo Server</h1>'
         +main(data.responseBody)
+        // +simpleMain(data.responseBody)
         +`<div id="footer">
             ${footer(data.responseBody.environment.mode)}
         </div>`
