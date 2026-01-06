@@ -856,7 +856,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
         const methodText = responseBody.http.method;
         const filteredUrl = filterUrl(responseBody.http.originalUrl);
-        const urlText = `${responseBody.http.protocol}://${responseBody.host.hostname}${filteredUrl}`;
+        const urlText = `${responseBody.http.baseUrl}${filteredUrl}`;
         const originalUrl = filteredUrl;
 
         const bodyRaw = responseBody.request.bodyRaw;
@@ -958,7 +958,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         const displayUrl = filterUrl(responseBody.http.originalUrl);
         return `<div class="endpoint-bar ${responseBody.http.method}">
                         <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
-                        <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${displayUrl}</span>
+                        <span class="url-path">${responseBody.http.baseUrl}${displayUrl}</span>
                 </div>`;
     }
     function endpointBarInfo(responseBody) {

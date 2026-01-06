@@ -159,7 +159,7 @@ function endpointBar(responseBody) {
                 wordBreak: 'break-all',
                 color: '#333'
             }
-        }, `${responseBody.http.protocol}://${responseBody.host.hostname}${filterUrl(responseBody.http.originalUrl)}`)
+        }, `${responseBody.http.baseUrl}${filterUrl(responseBody.http.originalUrl)}`)
     );
 }
 

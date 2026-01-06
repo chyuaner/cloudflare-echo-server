@@ -1,8 +1,8 @@
 import { CurlGenerator } from "curl-generator";
 
 function generateCurl(response) {
-  // 1. 完整 URL（protocol + hostname + originalUrl）
-  const url = `${response.http.protocol}://${response.host.hostname}${response.http.originalUrl}`;
+  // 1. 完整 URL (baseUrl + originalUrl)
+  const url = `${response.http.baseUrl}${response.http.originalUrl}`;
 
   // 2. HTTP 方法（若有 echo_method 會在 core.js 內部改寫，直接使用最終 method）
   const method = response.http.method?.toUpperCase() ?? "GET";
@@ -65,7 +65,7 @@ export function generateWget(response) {
   return `wget --method=${http.method} \\
   ${headers}
   ${body}
-  '${http.originalUrl}'
+  '${http.baseUrl}${http.originalUrl}'
 `;
 }
 
