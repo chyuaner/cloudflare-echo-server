@@ -72,7 +72,7 @@ function hostCard(hostData) {
         } 
     },
         h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: (baseFontSize), margin: '0 0 10px 0' } },
-            icon('cloud_network'),
+            // icon('cloud_network'),
             'Host'
         ),
         h('div', { style: { display: 'flex', flexDirection: 'column', gap: 5, width: '100%' } },
@@ -170,7 +170,7 @@ export function generateOgImage(responseBody) {
         requestItems.push(
             h('div', { style: { display: 'flex', flexDirection: 'column', marginTop: -20, marginBottom: 20, width: '48%' } },
                 h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10 } },
-                    icon('file'),
+                    // icon('file'),
                     h('span', { style: { fontSize: (baseFontSize)+'px', fontWeight: 'bold' } }, 'Post Body')
                 ),
                 h('div', { 
@@ -196,7 +196,7 @@ export function generateOgImage(responseBody) {
     // 2. Header Title block
     requestItems.push(
         h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10, width: '48%' } },
-            icon('http_head'),
+            // icon('http_head'),
             h('span', { style: { fontSize: (baseFontSize), fontWeight: 'bold' } }, 'Header')
         )
     );
