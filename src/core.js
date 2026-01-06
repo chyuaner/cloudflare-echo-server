@@ -1,4 +1,5 @@
 import { generateHtml } from "./html.js";
+import { generateOgImage } from "./og.js";
 import { generateCurl } from "./snippets.js";
 
 // ----------------------------------------------------
@@ -322,12 +323,30 @@ export default {
       wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
     );
 
+
+    // Priority 1: Force PNG via query
+    const echoPng = url.searchParams.get("echo_png");
+    const isTruthy = (val) => {
+      if (val === null || val === undefined) return false;
+      const v = val.toLowerCase().trim();
+      return v !== "0" && v !== "false" && v !== "off" && v !== "no" && v !== "null" && v !== "undefined";
+    };
+
+    if (isTruthy(echoPng)) {
+      return generateOgImage(responseBody);
+    }
+
     if (wantsHTML) {
       const html = generateHtml({responseBody});
       return new Response(html, {
         status: responseStatus,
         headers: responseHeaders
       });
+    }
+
+    // Priority 2: Accept header includes image/png (and not handled by wantsHTML)
+    if ((request.headers.get("accept") || "").toLowerCase().includes("image/png")) {
+      return generateOgImage(responseBody);
     }
 
     // 回傳
