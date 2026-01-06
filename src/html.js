@@ -1281,6 +1281,38 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                     <ul id="fileList" class="file-list js-only"></ul>
                                 </form>
                             </fieldset>
+
+                            <fieldset>
+                                <legend>RAW Body文字測試</legend>
+                                <form id="rawForm" method="post" action="raw-test" enctype="multipart/form-data" class="pure-form">
+                                    <div class="js-only">
+                                        <p>
+                                            <label for="rt_select">類型 (Content-Type)</label>
+                                            <select id="rt_select" name="rt_select" style="width:100%">
+                                                <option value="text/plain" ${getS('rt_select', 'text/plain', true)}>text/plain</option>
+                                                <option value="application/json" ${getS('rt_select', 'application/json')}>application/json</option>
+                                                <option value="application/xml" ${getS('rt_select', 'application/xml')}>application/xml</option>
+                                                <option value="text/xml" ${getS('rt_select', 'text/xml')}>text/xml</option>
+                                                <option value="multipart/form-data" ${getS('rt_select', 'multipart/form-data')}>multipart/form-data</option>
+                                                <option value="application/x-www-form-urlencoded" ${getS('rt_select', 'application/x-www-form-urlencoded')}>application/x-www-form-urlencoded</option>
+                                                <option value="custom" ${getS('rt_select', 'custom')}>其他 (輸入文字)</option>
+                                            </select>
+                                        </p>
+                                        <p id="rt_custom_wrapper" style="display:none">
+                                            <label for="rt_custom">自訂類型</label>
+                                            <input type="text" id="rt_custom" name="rt_custom" placeholder="例如: application/xml" value="${getV('rt_custom')}" />
+                                        </p>
+                                    </div>
+                                    <p>
+                                        <label for="rt_textarea">內容</label>
+                                        <textarea id="rt_textarea" name="rt_textarea" rows="2" placeholder="多行文字輸入" style="height: 100%">${getV('rt_textarea')}</textarea>
+                                    </p>
+                                    <div style="text-align: center; margin-top: 1rem;">
+                                        <button type="submit" class="pure-button pure-button-primary">Submit POST Echo</button>
+                                        <button type="reset" class="pure-button">Reset</button>
+                                    </div>
+                                </form>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
@@ -1425,6 +1457,46 @@ window.addEventListener('click', function(event) {
         var i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
+
+    // RAW Body Form Logic
+    (function() {
+        var rawForm = document.getElementById('rawForm');
+        var rtSelect = document.getElementById('rt_select');
+        var rtCustomWrapper = document.getElementById('rt_custom_wrapper');
+        var rtCustom = document.getElementById('rt_custom');
+        var rtTextarea = document.getElementById('rt_textarea');
+
+        if (!rawForm || !rtSelect) return;
+
+        rtSelect.onchange = function() {
+            rtCustomWrapper.style.display = (rtSelect.value === 'custom') ? 'block' : 'none';
+        };
+        // Initial check
+        if (rtSelect.value === 'custom') rtCustomWrapper.style.display = 'block';
+
+        rawForm.onsubmit = function(e) {
+            e.preventDefault();
+            var contentType = rtSelect.value;
+            if (contentType === 'custom') contentType = rtCustom.value;
+            var body = rtTextarea.value;
+            
+            fetch(rawForm.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': contentType
+                },
+                body: body
+            }).then(function(response) {
+                return response.text();
+            }).then(function(html) {
+                document.open();
+                document.write(html);
+                document.close();
+            }).catch(function(err) {
+                alert('Error: ' + err);
+            });
+        };
+    })();
 })();
 </script>
 
