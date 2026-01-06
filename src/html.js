@@ -923,7 +923,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
-                    <h2>${tabler_icons_html.cloud_network} Host</h2>
+                    <h2>${tabler_icons_html.cloud_network} Host  <small style="font-size: 0.6em;"><a href="https://myip.yuaner.tw" target="_blank">[Link to MyIP]</a></small></h2>
 
                     <ul>
                         <li>IP: ${ip}</li>
