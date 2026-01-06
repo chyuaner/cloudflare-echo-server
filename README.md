@@ -132,4 +132,9 @@ npm run start
 - **Cloudflare Workers Runtime API**: <https://developers.cloudflare.com/workers/runtime-apis/>
 - **TypeScript `tsconfig.json` 說明**: <https://aka.ms/tsconfig.json>
 
+## 授權
+本專案採用 Apache License 2.0 ，授權條文請見`LICENSE`檔案。
 
+This project was originally released under the MIT License.
+As of **2026-01-06**, it is licensed under the **Apache License 2.0**.
+See the `LICENSE` file for full terms.
