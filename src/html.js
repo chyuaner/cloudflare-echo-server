@@ -1263,7 +1263,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             </fieldset>
 
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <fieldset>
                                 <legend>檔案上傳測試</legend>
                                 <form id="uploadForm" method="post" action="upload-test" enctype="multipart/form-data" class="pure-form">
@@ -1282,9 +1282,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                 </form>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset style="flex: 1; display: flex; flex-direction: column;">
                                 <legend>RAW Body文字測試</legend>
-                                <form id="rawForm" method="post" action="raw-test" enctype="multipart/form-data" class="pure-form">
+                                <form id="rawForm" method="post" action="raw-test" enctype="multipart/form-data" class="pure-form" style="flex: 1; display: flex; flex-direction: column;">
                                     <div class="js-only">
                                         <p>
                                             <label for="rt_select">類型 (Content-Type)</label>
@@ -1303,9 +1303,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                             <input type="text" id="rt_custom" name="rt_custom" placeholder="例如: application/xml" value="${getV('rt_custom')}" />
                                         </p>
                                     </div>
-                                    <p>
+                                    <p style="flex: 1; display: flex; flex-direction: column;">
                                         <label for="rt_textarea">內容</label>
-                                        <textarea id="rt_textarea" name="rt_textarea" rows="2" placeholder="多行文字輸入" style="height: 100%">${getV('rt_textarea')}</textarea>
+                                        <textarea id="rt_textarea" name="rt_textarea" placeholder="多行文字輸入" style="flex: 1; min-height: 100px;">${getV('rt_textarea')}</textarea>
                                     </p>
                                     <div style="text-align: center; margin-top: 1rem;">
                                         <button type="submit" class="pure-button pure-button-primary">Submit POST Echo</button>
