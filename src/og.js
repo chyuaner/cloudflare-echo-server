@@ -1,6 +1,8 @@
 import { ImageResponse } from '@cf-wasm/og';
 import { tabler_icons_html } from './html.js';
 
+const baseFontSize = 22;
+
 // Helper to create React-element-like objects
 const h = (type, props, ...children) => {
     const filteredChildren = children.flat().filter(c => c != null && c !== false);
@@ -48,7 +50,7 @@ function objectToListElements(obj) {
                 ...objectToListElements(v)
             );
         }
-        return h('div', { style: { display: 'flex', flexDirection: 'row', fontSize: 14, marginBottom: 4, width: '100%' } },
+        return h('div', { style: { display: 'flex', flexDirection: 'row', fontSize: baseFontSize, marginBottom: 4, width: '100%' } },
             h('span', { style: { fontWeight: 'bold', marginRight: 5, color: '#666', flexShrink: 0 } }, `${k}:`),
             h('span', { style: { wordBreak: 'break-all', color: '#333', flex: 1 } }, String(v))
         );
@@ -61,7 +63,7 @@ function hostCard(hostData) {
             display: 'flex', 
             flexDirection: 'column', 
             border: '1px solid #ddd', 
-            borderRadius: 12, 
+            // borderRadius: 12, 
             padding: 20, 
             backgroundColor: 'white',
             flex: 1,
@@ -69,7 +71,7 @@ function hostCard(hostData) {
             overflow: 'hidden'
         } 
     },
-        h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: 24, margin: '0 0 10px 0' } },
+        h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: (baseFontSize), margin: '0 0 10px 0' } },
             icon('cloud_network'),
             'Host'
         ),
@@ -97,7 +99,7 @@ function endpointBar(responseBody) {
         style: {
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderRadius: '8px',
+            // borderRadius: '8px',
             padding: '16px',
             display: 'flex',
             alignItems: 'center',
@@ -111,9 +113,9 @@ function endpointBar(responseBody) {
             style: {
                 color: 'white',
                 padding: '4px 12px',
-                borderRadius: '6px',
+                // borderRadius: '6px',
                 fontWeight: 700,
-                fontSize: '14px',
+                fontSize: (baseFontSize)+'px',
                 textTransform: 'uppercase',
                 lineHeight: 1,
                 backgroundColor: colors.border,
@@ -123,7 +125,7 @@ function endpointBar(responseBody) {
         h('span', {
             style: {
                 fontWeight: 600,
-                fontSize: '16px',
+                fontSize: (baseFontSize+2)+'px',
                 wordBreak: 'break-all',
                 color: '#333'
             }
@@ -152,19 +154,19 @@ export function generateOgImage(responseBody) {
         }
         
         requestItems.push(
-            h('div', { style: { display: 'flex', flexDirection: 'column', marginBottom: 20, width: '46%' } },
+            h('div', { style: { display: 'flex', flexDirection: 'column', marginTop: -20, marginBottom: 20, width: '48%' } },
                 h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10 } },
                     icon('file'),
-                    h('span', { style: { fontSize: 20, fontWeight: 'bold' } }, 'Post Body')
+                    h('span', { style: { fontSize: (baseFontSize)+'px', fontWeight: 'bold' } }, 'Post Body')
                 ),
                 h('div', { 
                     style: { 
                         display: 'flex',
                         backgroundColor: '#f8f9fa', 
                         padding: 12, 
-                        borderRadius: 8, 
+                        // borderRadius: 8, 
                         fontFamily: 'monospace',
-                        fontSize: 14,
+                        fontSize: (baseFontSize),
                         maxHeight: 250,
                         overflow: 'hidden',
                         wordBreak: 'break-all',
@@ -181,7 +183,7 @@ export function generateOgImage(responseBody) {
     requestItems.push(
         h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10, width: '48%' } },
             icon('http_head'),
-            h('span', { style: { fontSize: 20, fontWeight: 'bold' } }, 'Header')
+            h('span', { style: { fontSize: (baseFontSize), fontWeight: 'bold' } }, 'Header')
         )
     );
 
@@ -222,14 +224,14 @@ export function generateOgImage(responseBody) {
                     flexDirection: 'column', 
                     flex: 3,
                     border: '1px solid #ddd',
-                    borderRadius: 12,
-                    padding: 25,
+                    // borderRadius: 12,
+                    padding: 10,
                     backgroundColor: 'white',
                     // height: 480, 
                     overflow: 'hidden'
                 } 
             },
-                h('div', { style: { display: 'flex', fontSize: 24, fontWeight: 'bold', marginBottom: 15, color: '#999' } }, ''),
+                h('div', { style: { display: 'flex', fontSize: (baseFontSize), fontWeight: 'bold', marginBottom: 15, color: '#999' } }, ''),
                 h('div', {
                     style: {
                         display: 'flex',
