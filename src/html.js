@@ -1244,7 +1244,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 .modal-js {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
+  z-index: 10000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -1565,6 +1565,8 @@ var modalFooter = document.querySelector(".modal-footer");
 
 // If JS is enabled, enable modal behavior and show the trigger button
 if (modal && modalContent && btn) {
+    // 關鍵修復：將 Modal 移到 body 最底層，避免被其他卡片的層疊上下文 (Stacking Context) 遮擋
+    document.body.appendChild(modal);
     modal.classList.add("modal-js");
     modalContent.classList.add("modal-content-js");
     // Promote pre-container to container for grid layout
