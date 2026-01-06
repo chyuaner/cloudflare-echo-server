@@ -875,7 +875,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
         const title = 'HTTP Echo Server ➤ '+methodText+' '+originalUrl;
         const description = (bodyRawText ? bodyRawText + '; ' : '') +'◆header▶ '+headersText+'; '+'◆host▶ '+hostText;
-        
+
         // 使用 URL API 處理 Query 字串相接與編碼問題
         const ogUrlObj = new URL(filteredUrl, responseBody.http.baseUrl);
         ogUrlObj.searchParams.set("echo_png", "1");
@@ -892,6 +892,8 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         <meta property="og:type" content="website" />
         <meta property="og:url" content="/" />
         <meta property="og:image" content="${ogImgUrl}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="${title}" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="${title}" />
