@@ -274,8 +274,17 @@ export default {
     // -------------------------------------------------
     // 最後輸出
     // -------------------------------------------------
-    const acceptHeader = request.headers.get("accept") || "";
-    const wantsHTML = acceptHeader.includes("text/html");
+
+    function isHtmlRequest(req) {
+      const accept = (req.headers.get("accept") || "").toLowerCase();
+      const ua = (req.headers.get("user-agent") || "").toLowerCase();
+
+      const isCrawler = /facebookexternalhit|twitterbot|slackbot|discordbot|whatsapp|googlebot|bingbot|crawler|bot/i.test(ua);
+      return accept.includes("text/html") ||
+            isCrawler
+            // || (accept.includes("*/*") && !/curl|wget|httpie/i.test(ua));
+    }
+    const wantsHTML = isHtmlRequest(request);
 
     // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
     const responseHeaders = new Headers();
