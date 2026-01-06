@@ -875,7 +875,15 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
         const title = 'HTTP Echo Server ➤ '+methodText+' '+originalUrl;
         const description = (bodyRawText ? bodyRawText + '; ' : '') +'◆header▶ '+headersText+'; '+'◆host▶ '+hostText;
-        const ogImgUrl = '';
+        
+        // 使用 URL API 處理 Query 字串相接與編碼問題
+        const ogUrlObj = new URL(filteredUrl, responseBody.http.baseUrl);
+        ogUrlObj.searchParams.set("echo_png", "1");
+        ogUrlObj.searchParams.set("echo_method", methodText);
+        if (bodyRaw) {
+            ogUrlObj.searchParams.set("echo_postbody", bodyRaw);
+        }
+        const ogImgUrl = ogUrlObj.toString();
 
         const outputHtml = `
         <meta name="description" content="${description}" />
