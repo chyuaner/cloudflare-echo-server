@@ -930,8 +930,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         return `<div class="endpoint-bar ${responseBody.http.method}">
                         <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
                         <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
-                </div>
-                <div id="url-table">
+                </div>`;
+    }
+    function endpointBarInfo(responseBody) {
+        return `<div id="url-table">
                     <div class="table-container">
                     <table>
                         <tbody>
@@ -1083,6 +1085,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `;
 
         const output = endpointBar(data.responseBody)
+            +endpointBarInfo(data.responseBody)
             +'<div id="main">'
             +'<div class="container">'
                 +'<div class="col-12">'
@@ -1102,6 +1105,8 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
         return output;
     }
+
+
 
     function form(responseBody) {
         const reqBody = (typeof responseBody?.request?.body === 'object' && responseBody?.request?.body !== null)
