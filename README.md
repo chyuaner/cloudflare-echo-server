@@ -24,6 +24,9 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
         * 所有外部資源如Icons與Syntax Highlight JS都已直接內嵌在單一這個Request。
     * 有特別花心力調整 小平板 與 手機版的UI界面，尤其是表格有特別真對手機版設計過。
     * 也有花心力調整過適合Dark Mode的配色
+* 支援Facebook、Telegram、Discord連結摘文，**在預覽圖直接顯示Echo內容**（可直接用預覽圖Debug），可拿來作為觀察其他平台的流量行為使用。
+    * 在網址參數帶入 `echo_png=1` 將會直接輸出成png圖片。並整合到 `og:image` meta標籤使用
+    * 因應本需求，所設置的meta標籤也是以直接輸出Echo內容，方便你Debug用。（不過因為平台摘文都有字數限制，內容優先順序還有待優化）
 * 提供 URL Query 參數 `echo_code=200` or Header `X-ECHO-CODE: 200` 控制要回傳的 HTTP Status Code
 * 提供 URL Query 參數 `echo_time=3000` or Header `X-ECHO-TIME: 3000` 控制伺服器要延遲多久才會送 Response ，給你模擬較差網路品質狀況使用
 
@@ -113,6 +116,7 @@ npm run start
 │   ├─ core.js           # Workers 主程式入口
 │   └─ node.js           # 由NodeJS自身獨立啟動伺服器專用
 │   └─ html.js           # 產生 HTML 的輔助函式
+│   └─ og.js             # 產生 png 圖檔
 │   └─ snippets.js       # 產生 Request curl測試片段 的輔助函式
 ├─ tsconfig.json         # TypeScript 編譯選項（允許 .js、.json）
 └─ wrangler.jsonc        # Wrangler 部署與環境設定
