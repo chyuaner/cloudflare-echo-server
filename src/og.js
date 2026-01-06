@@ -152,7 +152,7 @@ export function generateOgImage(responseBody) {
         }
         
         requestItems.push(
-            h('div', { style: { display: 'flex', flexDirection: 'column', marginBottom: 20, width: '48%' } },
+            h('div', { style: { display: 'flex', flexDirection: 'column', marginBottom: 20, width: '46%' } },
                 h('div', { style: { display: 'flex', alignItems: 'center', marginBottom: 10 } },
                     icon('file'),
                     h('span', { style: { fontSize: 20, fontWeight: 'bold' } }, 'Post Body')
@@ -237,8 +237,9 @@ export function generateOgImage(responseBody) {
                         flexWrap: 'wrap',
                         alignContent: 'flex-start',
                         width: '100%',
-                        // height: 480, 
-                        gap: '2%'
+                        // height: 480, // 核心高度：增加到 450px 減少換到第三欄的機率
+                        columnGap: 10, // 強制使用較大的固定像素間距
+                        rowGap: 0
                     }
                 },
                     ...requestItems
