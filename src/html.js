@@ -1116,13 +1116,14 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             </div>`;
                     })()}
 
-
-                    <div class="card card-border">
-                        ${host(responseBody.host)}
-                    </div>
-                    <div class="card card-border">
-                        <h2>${tabler_icons_html.send} Test POST Request</h2>
-                        ${form(responseBody)}
+                    <div style="position: sticky;top: 5px;">
+                        <div class="card card-border">
+                            ${host(responseBody.host)}
+                        </div>
+                        <div class="card card-border">
+                            <h2>${tabler_icons_html.send} Test POST Request</h2>
+                            ${form(responseBody)}
+                        </div>
                     </div>
                 </div>
             </div>
