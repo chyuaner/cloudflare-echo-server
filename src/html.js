@@ -945,7 +945,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     }
 
     function main(responseBody) {
-        return `
+        const container = `
             <div class="container">
                 <div class="col-lg-8">
                 <h2 class="hide">Request</h2>
@@ -1073,16 +1073,34 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                     <div class="card card-border">
                         ${host(responseBody.host)}
-                    </div>`+
-                    '<div class="card card-border">'+
-                        '<h2>'+tabler_icons_html.send+' Test POST Request</h2>'+
-                        form(responseBody)+
-                    '</div>'+
-                `</div>
-
+                    </div>
+                    <div class="card card-border">
+                        <h2>${tabler_icons_html.send} Test POST Request</h2>
+                        ${form(responseBody)}
+                    </div>
+                </div>
             </div>
-
         `;
+
+        const output = endpointBar(data.responseBody)
+            +'<div id="main">'
+            +'<div class="container">'
+                +'<div class="col-12">'
+                    +container
+                +'</div>'
+
+                // 輸出shell範例
+                // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
+                // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
+                +'</div>'
+
+                +'<div class="card card-border">'
+                +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
+                +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
+            +'</div>'
+            +'</div>';
+
+        return output;
     }
 
     function form(responseBody) {
@@ -1616,27 +1634,7 @@ window.addEventListener('click', function(event) {
 
     const output = pageA(data.responseBody)
         +'<h1>HTTP Echo Server</h1>'
-        // +'<div class="card">'+main(data.responseBody)+'</div>'
-
-        +endpointBar(data.responseBody)
-
-        +'<div id="main">'
-        +'<div class="container">'
-            +'<div class="col-12">'
-                +main(data.responseBody)
-            +'</div>'
-
-            // 輸出shell範例
-            // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
-            // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
-            +'</div>'
-
-            +'<div class="card card-border">'
-            +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
-            +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
-        +'</div>'
-        +'</div>'
-
+        +main(data.responseBody)
         +`<div id="footer">
             ${footer(data.responseBody.environment.mode)}
         </div>`
