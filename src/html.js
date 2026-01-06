@@ -58,6 +58,24 @@ function generateHtml(data) {
         return `<ul>${items.join('')}</ul>`;
     }
 
+    function objectToText(obj) {
+        // 只保留有值的屬性
+        const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined);
+        if (entries.length === 0) return '';
+
+        const items = entries.map(([k, v]) => {
+            const keyHtml = k;
+            if (typeof v === 'object' && v !== null) {
+            // 子物件 → 再包一層 <ul>
+            return `{keyHtml}: ${objectToText(v)}`;
+            }
+            const valHtml = v;
+            return `${keyHtml}: ${valHtml}`;
+        });
+
+        return `${items.join(', ')}`;
+    }
+
     function css() {
         const baseCss = `
             /* ------------------------------------------------
@@ -761,13 +779,14 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `;
     }
 
-    function pageA() {
+    function pageA(responseBody) {
         return `
         <!DOCTYPE html>
         <html lang="zh-Hant">
         <head>
             <meta charset="UTF-8">
             <title>Echo Server</title>
+            `+meta(responseBody)+`
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
             <script>document.documentElement.classList.add('js')</script>
@@ -826,6 +845,45 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             </div>
         </div>
         `
+    }
+
+    function meta(responseBody) {
+
+        const methodText = responseBody.http.method;
+        const urlText = `${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}`;
+        const originalUrl = responseBody.http.originalUrl;
+
+        const bodyRaw = responseBody.request.bodyRaw;
+        const bodyRawText = bodyRaw.replace(/&/g, "&amp;")
+                             .replace(/</g, "&lt;")
+                             .replace(/>/g, "&gt;")
+                             .replace(/"/g, "&quot;")
+                             .replace(/'/g, "&#039;");
+        const headers = responseBody.request.headers;
+        const headersText = objectToText(headers);
+        const host = responseBody.host;
+        const hostText = objectToText(host);
+
+
+        const title = 'HTTP Echo Server ➤ '+methodText+' '+originalUrl;
+        const description = (bodyRawText ? bodyRawText + '; ' : '') +'◆header▶ '+headersText+'; '+'◆host▶ '+hostText;
+        const ogImgUrl = '';
+
+        const outputHtml = `
+        <meta name="description" content="${description}" />
+        <meta property="og:title" content="${title}" />
+        <meta property="og:description" content="${description}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="/" />
+        <meta property="og:image" content="${ogImgUrl}" />
+        <meta property="og:site_name" content="${title}" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${title}" />
+        <meta name="twitter:description" content="${description}" />
+        <meta name="twitter:image" content="${ogImgUrl}" />
+        `;
+
+        return outputHtml;
     }
 
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
@@ -1549,7 +1607,7 @@ window.addEventListener('click', function(event) {
             <pre><code class="language-bash">${data}</code></pre>`;
     }
 
-    const output = pageA()
+    const output = pageA(data.responseBody)
         +'<h1>HTTP Echo Server</h1>'
         // +'<div class="card">'+main(data.responseBody)+'</div>'
 
