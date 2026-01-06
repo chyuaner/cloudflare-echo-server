@@ -923,9 +923,33 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                     : ''
                                 }
                                 ${/* 2. 顯示原始 Raw Body (含行號) */
-                                  bodyRaw
-                                    ? `<pre class="line-numbers"><code class="language-url">${bodyRaw}</code></pre>`
-                                    : none()}
+                                  (() => {
+                                      if (!bodyRaw) return none();
+
+                                      // 1. Truncate if too long (to prevent DOM performance issues)
+                                      const MAX_LENGTH = 10000;
+                                      let displayContent = bodyRaw;
+                                      let truncated = false;
+                                    //   if (displayContent.length > MAX_LENGTH) {
+                                    //       displayContent = displayContent.substring(0, MAX_LENGTH);
+                                    //       truncated = true;
+                                    //   }
+
+                                      // 2. Escape HTML (CRITICAL for preventing DOM breakage)
+                                      displayContent = displayContent
+                                          .replace(/&/g, "&amp;")
+                                          .replace(/</g, "&lt;")
+                                          .replace(/>/g, "&gt;")
+                                          .replace(/"/g, "&quot;")
+                                          .replace(/'/g, "&#039;");
+
+                                      if (truncated) {
+                                          displayContent += `\n\n... [Content Truncated: Original size ${bodyRaw.length} bytes] ...`;
+                                      }
+
+                                      return `<pre class="line-numbers"><code class="language-url">${displayContent}</code></pre>`;
+                                  })()
+                                }
                             </div>`;
                     })()}
 
