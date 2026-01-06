@@ -852,8 +852,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     function meta(responseBody) {
 
         const methodText = responseBody.http.method;
-        const urlText = `${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}`;
-        const originalUrl = responseBody.http.originalUrl;
+        const filteredUrl = filterUrl(responseBody.http.originalUrl);
+        const urlText = `${responseBody.http.protocol}://${responseBody.host.hostname}${filteredUrl}`;
+        const originalUrl = filteredUrl;
 
         const bodyRaw = responseBody.request.bodyRaw;
         const bodyRawText = bodyRaw.replace(/&/g, "&amp;")
@@ -893,6 +894,20 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         return outputHtml;
     }
 
+    function filterUrl(originalUrl) {
+        if (!originalUrl) return "";
+        try {
+            const url = new URL(originalUrl, "http://localhost");
+            url.searchParams.delete("echo_method");
+            url.searchParams.delete("echo_postbody");
+            let target = url.pathname + url.search;
+            if (target === "/?") target = "/";
+            return target;
+        } catch (e) {
+            return originalUrl;
+        }
+    }
+
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
@@ -927,9 +942,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     }
 
     function endpointBar(responseBody) {
+        const displayUrl = filterUrl(responseBody.http.originalUrl);
         return `<div class="endpoint-bar ${responseBody.http.method}">
                         <span class="method-badge ${responseBody.http.method}">${responseBody.http.method}</span>
-                        <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}</span>
+                        <span class="url-path">${responseBody.http.protocol}://${responseBody.host.hostname}${displayUrl}</span>
                 </div>`;
     }
     function endpointBarInfo(responseBody) {
@@ -938,7 +954,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     <table>
                         <tbody>
                             <tr><th>BaseUrl</th><td>${responseBody.http.baseUrl}</td></tr>
-                            <tr><th>OriginalUrl</th><td>${responseBody.http.originalUrl}</td></tr>
+                            <tr><th>OriginalUrl</th><td>${filterUrl(responseBody.http.originalUrl)}</td></tr>
                             <tr><th>Protocol</th><td>${responseBody.http.httpProtocol}</td></tr>
                         </tbody>
                     </table>

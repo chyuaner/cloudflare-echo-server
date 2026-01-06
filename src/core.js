@@ -89,6 +89,16 @@ export default {
     const url = new URL(request.url);
     const query = Object.fromEntries(url.searchParams.entries());
 
+    // 處理 echo_method 強制模擬 Method (例如 POST, PUT, DELETE)
+    const echoMethod = url.searchParams.get("echo_method");
+    let finalMethod = request.method;
+    if (echoMethod) {
+      const m = echoMethod.toUpperCase();
+      if (["POST", "PUT", "DELETE"].includes(m)) {
+        finalMethod = m;
+      }
+    }
+
     // 處理 echo_code or X-ECHO-CODE的功能
     const echoCodeQuery = url.searchParams.get("echo_code");
     const echoCodeHeader = request.headers.get("X-ECHO-CODE");
@@ -162,8 +172,19 @@ export default {
     let bodyRaw = "";
     let body    = {};
 
+    const echoPostBody = url.searchParams.get("echo_postbody");
+
+    // Fix: 支援 echo_postbody 強制模擬 Body 內容
+    if (echoPostBody !== null) {
+      try {
+        bodyRaw = decodeURIComponent(echoPostBody);
+      } catch (e) {
+        bodyRaw = echoPostBody;
+      }
+      body = bodyRaw;
+    }
     // 如果請求本身帶有 body（ReadableStream）且尚未被消費，就讀取並解析
-    if (request.body && !request.bodyUsed) {
+    else if (request.body && !request.bodyUsed) {
       try {
         const cloned = request.clone();               // 複製可讀的 Request
         bodyRaw = await cloned.text();                // ---- raw 文字 ----
@@ -238,7 +259,7 @@ export default {
         // headersRaw
       },
       http: {
-        method                     : request.method,
+        method                     : finalMethod,
         baseUrl                    : `${url.protocol}//${url.host}`,
         originalUrl                : url.pathname + url.search,
         protocol                   : url.protocol.replace(":", ""),

@@ -91,6 +91,20 @@ const METHOD_COLORS = {
     OPTIONS: { bg: 'rgba(13, 90, 167, 0.1)', border: '#0d5aa7' },
 };
 
+function filterUrl(originalUrl) {
+    if (!originalUrl) return "";
+    try {
+        const url = new URL(originalUrl, "http://localhost");
+        url.searchParams.delete("echo_method");
+        url.searchParams.delete("echo_postbody");
+        let target = url.pathname + url.search;
+        if (target === "/?") target = "/";
+        return target;
+    } catch (e) {
+        return originalUrl;
+    }
+}
+
 function endpointBar(responseBody) {
     const method = responseBody.http.method;
     const colors = METHOD_COLORS[method] || { bg: '#eee', border: '#444' };
@@ -129,7 +143,7 @@ function endpointBar(responseBody) {
                 wordBreak: 'break-all',
                 color: '#333'
             }
-        }, `${responseBody.http.protocol}://${responseBody.host.hostname}${responseBody.http.originalUrl}`)
+        }, `${responseBody.http.protocol}://${responseBody.host.hostname}${filterUrl(responseBody.http.originalUrl)}`)
     );
 }
 
