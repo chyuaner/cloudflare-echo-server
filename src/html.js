@@ -69,7 +69,7 @@ function generateHtml(data) {
             const keyHtml = k;
             if (typeof v === 'object' && v !== null) {
             // 子物件 → 再包一層 <ul>
-            return `{keyHtml}: ${objectToText(v)}`;
+            return `${keyHtml}: ${objectToText(v)}`;
             }
             const valHtml = v;
             return `${keyHtml}：${valHtml}`;
@@ -801,7 +801,6 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
     function pageB() {
         return `
-        </div>
         </body>
         </html>
         `;
@@ -957,14 +956,30 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             <h3>${tabler_icons_html.link} URL Params</h3>
                             ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
-                            <span class="firstchar">/</span>${Object.entries(responseBody.request.params).map(([key, value]) => `<span class="li" style="list-style-type: symbols;"><span class="part">${value}</span>`).join(`<span class="split">/</span></span>`)}
+                                <span class="firstchar">/</span>
+                                ${Object.entries(responseBody.request.params).map(([key, value], i, arr) => `
+                                    <span class="li" style="list-style-type: symbols;">
+                                        <span class="part">${value}</span>
+                                        ${i < arr.length - 1 ? '<span class="split">/</span>' : ''}
+                                    </span>
+                                `).join('')}
                             </div>`}
                         </div>
                         <div class="col-6 card card-border">
                             <h3>${tabler_icons_html.link} URL Query</h3>
                             ${Object.keys(responseBody.request.query).length === 0 ? none() : `
                             <div class="urltext">
-                            <span class="firstchar">?</span>${Object.entries(responseBody.request.query).map(([key, value]) => `<span class="li"><span class="part"><span class="key">${key}</span><span class="kvsplit">=</span>${value}</span>`).join(`<span class="split">&</span></span>`)}
+                                <span class="firstchar">?</span>
+                                ${Object.entries(responseBody.request.query).map(([key, value], i, arr) => `
+                                    <span class="li">
+                                        <span class="part">
+                                            <span class="key">${key}</span>
+                                            <span class="kvsplit">=</span>
+                                            ${value}
+                                        </span>
+                                        ${i < arr.length - 1 ? '<span class="split">&</span>' : ''}
+                                    </span>
+                                `).join('')}
                             </div>`}
                         </div>
                     </div>
@@ -1087,20 +1102,16 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         const output = endpointBar(data.responseBody)
             +endpointBarInfo(data.responseBody)
             +'<div id="main">'
-            +'<div class="container">'
-                +'<div class="col-12">'
-                    +container
-                +'</div>'
+                +container
 
                 // 輸出shell範例
                 // +'<div class="col-6 card card-border">'+curl(data.curlText)+'</div>'
                 // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
-                +'</div>'
 
                 +'<div class="card card-border">'
-                +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
-                +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2)}</code></pre>`
-            +'</div>'
+                    +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
+                    +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2).replace(/</g, '&lt;')}</code></pre>`
+                +'</div>'
             +'</div>';
 
         return output;
