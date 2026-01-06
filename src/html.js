@@ -1090,7 +1090,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     margin-bottom: 0;
 }
 
-.modal-body {padding: 1.5rem 1rem;}
+.modal-body {padding: 1.5rem 1rem;padding-bottom: 0;}
 
 .modal-footer {
   padding: 2px 16px;
@@ -1226,24 +1226,32 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                                     <option value="opt2" ${getS('t_select', 'opt2')}>選項二</option>
                                                 </select>
                                             </p>
-                                            <p>
-                                                <label>Radio</label>
-                                                <label for="r1" style="display:inline-block; margin-right: 1em;">
-                                                    <input type="radio" id="r1" name="t_radio" value="R1" ${getC('t_radio', 'R1', true)} /> R1
-                                                </label>
-                                                <label for="r2" style="display:inline-block;">
-                                                    <input type="radio" id="r2" name="t_radio" value="R2" ${getC('t_radio', 'R2')} /> R2
-                                                </label>
-                                            </p>
-                                            <p>
-                                                <label>Checkbox</label>
-                                                <label for="c1" style="display:inline-block; margin-right: 1em;">
-                                                    <input type="checkbox" id="c1" name="t_checkbox" value="C1" ${getC('t_checkbox', 'C1', true)} /> C1
-                                                </label>
-                                                <label for="c2" style="display:inline-block;">
-                                                    <input type="checkbox" id="c2" name="t_checkbox" value="C2" ${getC('t_checkbox', 'C2')} /> C2
-                                                </label>
-                                            </p>
+
+                                            <div class="pre-container">
+                                            <div class="col-6">
+                                                <p>
+                                                    <label>Radio</label>
+                                                    <label for="r1" style="display:inline-block; margin-right: 1em;">
+                                                        <input type="radio" id="r1" name="t_radio" value="R1" ${getC('t_radio', 'R1', true)} /> R1
+                                                    </label>
+                                                    <label for="r2" style="display:inline-block;">
+                                                        <input type="radio" id="r2" name="t_radio" value="R2" ${getC('t_radio', 'R2')} /> R2
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p>
+                                                    <label>Checkbox</label>
+                                                    <label for="c1" style="display:inline-block; margin-right: 1em;">
+                                                        <input type="checkbox" id="c1" name="t_checkbox" value="C1" ${getC('t_checkbox', 'C1', true)} /> C1
+                                                    </label>
+                                                    <label for="c2" style="display:inline-block;">
+                                                        <input type="checkbox" id="c2" name="t_checkbox" value="C2" ${getC('t_checkbox', 'C2')} /> C2
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            </div>
+
                                             <p>
                                                 <label for="t_textarea">Textarea</label>
                                                 <textarea id="t_textarea" name="t_textarea" rows="2" placeholder="多行文字輸入">${getV('t_textarea')}</textarea>
@@ -1479,7 +1487,7 @@ window.addEventListener('click', function(event) {
             var contentType = rtSelect.value;
             if (contentType === 'custom') contentType = rtCustom.value;
             var body = rtTextarea.value;
-            
+
             fetch(rawForm.action, {
                 method: 'POST',
                 headers: {
@@ -1491,8 +1499,8 @@ window.addEventListener('click', function(event) {
                 return response.text();
             }).then(function(html) {
                 // 1. 手動更新網址列，並產生歷史紀錄 (就像真實換頁一樣)
-                history.pushState({}, '', rawForm.action); 
-                
+                history.pushState({}, '', rawForm.action);
+
                 // 2. 覆寫整個頁面內容
                 document.open();
                 document.write(html);
