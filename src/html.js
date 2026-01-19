@@ -794,6 +794,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             `+meta(responseBody)+`
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+            <meta name="color-scheme" content="light dark" />
+            <meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)" />
+            <meta name="theme-color" content="#2b2a3c" media="(prefers-color-scheme: dark)" />
             <script>document.documentElement.classList.add('js')</script>
             `+css()+`
             `+forkGithub+`
