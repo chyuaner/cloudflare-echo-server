@@ -1,6 +1,7 @@
 import { generateHtml } from "./html.js";
 import { generateOgImage } from "./og.js";
 import { generateCurl } from "./snippets.js";
+var UAParser = require('ua-parser-js');
 
 // ----------------------------------------------------
 // 讀取環境偵測
@@ -240,7 +241,12 @@ export default {
         cookies[key] = val;
       });
     }
+    // ------------------- User Agent -------------------
+    const userAgentRaw = request.headers.get("user-agent") ?? "";
+    const userAgentParser = new UAParser(userAgentRaw);
+    const userAgent = userAgentParser.getResult();
 
+    // ------------------- 取得 client IP -------------------
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
@@ -251,10 +257,12 @@ export default {
       request: {
         params,
         query,
-        cookies,
-        cookiesRaw,
         body,
         bodyRaw,
+        cookies,
+        cookiesRaw,
+        userAgent,
+        userAgentRaw,
         headers,
         // headersRaw
       },
