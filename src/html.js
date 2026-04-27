@@ -1079,38 +1079,36 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                     ${Object.entries(responseBody.request.userAgent)
                         .filter(([key]) => key !== 'ua')
-                        .some(([_, val]) => val && Object.keys(val).length > 0)
+                        .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
                             <h3>${tabler_icons_html.device_desktop} User Agent</h3>
 
                             <div class="container">
                                 <div class="col-4">
-                                    <h4>Browser</h4>
-                                    ${renderObjectAsList(responseBody.request.userAgent.browser)}
+                                    ${Object.values(responseBody.request.userAgent.browser).some(v => v !== null && v !== undefined) ? `
+                                        <h4>Browser</h4>
+                                        ${renderObjectAsList(responseBody.request.userAgent.browser)}
+                                    ` : ``}
                                 </div>
                                 <div class="col-4">
-                                    <h4>Engine</h4>
-                                    ${renderObjectAsList(responseBody.request.userAgent.engine)}
+                                    ${Object.values(responseBody.request.userAgent.engine).some(v => v !== null && v !== undefined) ? `
+                                        <h4>Engine</h4>
+                                        ${renderObjectAsList(responseBody.request.userAgent.engine)}
+                                    ` : ``}
                                 </div>
                                 <div class="col-4">
-                                    ${Object.entries(responseBody.request.userAgent.os)
-                                        .some(([_, val]) => val && Object.keys(val).length > 0)
-                                    ? `
+                                    ${Object.values(responseBody.request.userAgent.os).some(v => v !== null && v !== undefined) ? `
                                         <h4>OS</h4>
                                         ${renderObjectAsList(responseBody.request.userAgent.os)}
                                     ` : ``}
 
-                                    ${Object.entries(responseBody.request.userAgent.device)
-                                        .some(([_, val]) => val && Object.keys(val).length > 0)
-                                    ? `
+                                    ${Object.values(responseBody.request.userAgent.device).some(v => v !== null && v !== undefined) ? `
                                         <h4>Device</h4>
                                         ${renderObjectAsList(responseBody.request.userAgent.device)}
                                     ` : ``}
 
-                                    ${Object.entries(responseBody.request.userAgent.cpu)
-                                        .some(([_, val]) => val && Object.keys(val).length > 0)
-                                    ? `
+                                    ${Object.values(responseBody.request.userAgent.cpu).some(v => v !== null && v !== undefined) ? `
                                         <h4>CPU</h4>
                                         ${renderObjectAsList(responseBody.request.userAgent.cpu)}
                                     ` : ``}
