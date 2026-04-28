@@ -1308,14 +1308,18 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                     ${(() => {
                         const tls = { ...responseBody.http.tls };
+                        const tlsClientAuth = tls.tlsClientAuth;
                         delete tls.tlsClientAuth;
                         if (tls.tlsClientHelloLength === 0 || tls.tlsClientHelloLength === '0') delete tls.tlsClientHelloLength;
 
                         const tlsHtml = renderObjectAsList(tls);
+                        const tlsCAHtml = renderObjectAsList(tlsClientAuth);
                         return tlsHtml ? `
                             <div class="card card-border">
                                 <h3>${tabler_icons_html.lock_password} TLS</h3>
                                 ${tlsHtml}
+                                <h4>tlsClientAuth</h4>
+                                ${tlsCAHtml}
                             </div>` : '';
                     })()}
 
