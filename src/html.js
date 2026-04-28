@@ -535,6 +535,9 @@ function generateHtml(data) {
             body{font-family:system-ui,sans-serif;}
             pre{padding:1em;border-width:1px;border-style:solid;overflow:auto;}
             h2,h3,h4,h5 {margin-top:0;}
+            small {
+                font-size: 0.6em;
+            }
             h4,h5 { color: light-dark(#1f2937, #f9fafb); }
             .none {
                 display: flex;
@@ -929,7 +932,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
         const outputhtml = `
-                    <h2>${tabler_icons_html.cloud_network} Host  <small style="font-size: 0.6em;"><a href="https://myip.yuaner.tw" target="_blank">[Link to MyIP]</a></small></h2>
+                    <h2>${tabler_icons_html.cloud_network} Host  <small><a href="https://myip.yuaner.tw" target="_blank">[Link to MyIP]</a></small></h2>
 
                     <ul>
                         <li>IP: ${ip}</li>
@@ -1358,7 +1361,6 @@ https://github.com/pure-css/pure/blob/master/LICENSE
   color: light-dark(#333, #fff);
   border-bottom: 1px solid light-dark(#ddd, #444);
 }
-
 
 .modal-header h2 {
     font-size: 1rem;
