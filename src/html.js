@@ -1085,8 +1085,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${tabler_icons_html.device_desktop} User Agent</h3>
+                            <h3>${tabler_icons_html.device_desktop} User Agent <small>Power by: ua-parser-js ${require('ua-parser-js/package.json').version}</small></h3>
 
+                            <p><pre><code class="language-plain">${responseBody.request.userAgent.ua}</code></pre></p>
                             <div class="container">
                                 <div class="col-4">
                                     ${Object.values(responseBody.request.userAgent.browser).some(v => v !== null && v !== undefined) ? `
