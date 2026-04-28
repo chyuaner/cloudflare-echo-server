@@ -1326,41 +1326,16 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                 <div class="col-lg-4">
 
                     ${(() => {
-                        // ① 取得 TLS 的所有欄位，過濾掉 null/undefined 與 tlsClientAuth
-                        const tlsEntries = Object.entries(responseBody.http.tls)
-                            // ── 排除 null / undefined / 空字串 ───────────────────────
-                            .filter(([_, v]) => v !== null && v !== undefined && v !== '')
-                            // ── 特別處理 tlsClientHelloLength 為 0 或 "0" 的情況 ─────
-                            .filter(([k, v]) => {
-                                if (k === 'tlsClientHelloLength' && (v === 0 || v === '0')) {
-                                    return false;            // 視為沒有資訊
-                                }
-                                return true;                // 其他項目保留
-                            })
-                            // ── 排除 tlsClientAuth（整個物件） ───────────────────────
-                            .filter(([k]) => k !== 'tlsClientAuth');
+                        const tls = { ...responseBody.http.tls };
+                        delete tls.tlsClientAuth;
+                        if (tls.tlsClientHelloLength === 0 || tls.tlsClientHelloLength === '0') delete tls.tlsClientHelloLength;
 
-                        // ② 若沒有任何可顯示的項目，直接回傳空字串（不產出 <div>）
-                        if (tlsEntries.length === 0) return '';
-
-                        // ③ 否則產出完整的卡片區塊
-                        return `
+                        const tlsHtml = renderObjectAsList(tls);
+                        return tlsHtml ? `
                             <div class="card card-border">
                                 <h3>${tabler_icons_html.lock_password} TLS</h3>
-                                <ul>
-                                    ${tlsEntries
-                                        .map(([k, v]) => {
-                                            const keyHtml = k;
-                                            if (typeof v === 'object' && v !== null) {
-                                                // 物件 → 以遞迴方式產生子 <ul>
-                                                return `<li>${keyHtml}: ${renderObjectAsList(v)}</li>`;
-                                            }
-                                            // 基本類型直接輸出
-                                            return `<li>${keyHtml}: ${v}</li>`;
-                                        })
-                                        .join('')}
-                                </ul>
-                            </div>`;
+                                ${tlsHtml}
+                            </div>` : '';
                     })()}
 
                     <div style="position: sticky;top: 5px;">
