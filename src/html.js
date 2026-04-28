@@ -1122,31 +1122,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
     function host({hostname, ip, ips, colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone} = {}) {
 
+        const obj = {colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone};
+
         const outputhtml = `
                     <h2>${tabler_icons_html.cloud_network} Host  <small><a href="https://myip.yuaner.tw" target="_blank">[Link to MyIP]</a></small></h2>
-
-                    <ul>
-                        <li>IP: ${ip}</li>
-                        ${ips      ? `<li>ips: ${ips}</li>`           : ""}
-                        <li>hostname: ${hostname}</li>
-                    </ul>
-
-                    <ul>
-                    ${colo          ? `<li>Colo: ${colo}</li>`           : ""}
-                    ${country       ? `<li>Country: ${country}</li>`     : ""}
-                    ${city          ? `<li>City: ${city}</li>`           : ""}
-                    ${continent     ? `<li>Continent: ${continent}</li>` : ""}
-                    ${latitude      ? `<li>Latitude: ${latitude}</li>`   : ""}
-                    ${longitude     ? `<li>Longitude: ${longitude}</li>` : ""}
-                    ${asn           ? `<li>ASN: ${asn}</li>` : ""}
-                    ${asOrganization? `<li>As Organization: ${asOrganization}</li>` : ""}
-                    ${isEUCountry   ? `<li>Is EU Country: ${isEUCountry}</li>` : ""}
-                    ${postalCode    ? `<li>Postal Code: ${postalCode}</li>` : ""}
-                    ${metroCode     ? `<li>Metro Code: ${metroCode}</li>` : ""}
-                    ${region        ? `<li>Region: ${region}</li>`       : ""}
-                    ${regionCode    ? `<li>Region Code: ${regionCode}</li>` : ""}
-                    ${timezone      ? `<li>Timezone: ${timezone}</li>`   : ""}
-                    </ul>
+                    ${renderObjectAsList({ip, ips, hostname})}
+                    ${renderObjectAsList(obj)}
                 `;
 
         return outputhtml;
