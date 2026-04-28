@@ -1798,7 +1798,7 @@ window.addEventListener('click', function(event) {
     }
 
     function curl(responseBody) {
-        return `<h3>${tabler_icons_html.terminal} curl</h3>
+        return `<h3>${tabler_icons_html.terminal} curl <small>Power by: curl-generator ${require('curl-generator/package.json').version}</small></h3>
             <pre><code class="language-bash">${generateCurl(responseBody)}</code></pre>`;
     }
     function wget(data) {
