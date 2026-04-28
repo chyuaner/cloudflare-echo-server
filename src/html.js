@@ -120,7 +120,8 @@ function generateHtml(data) {
             .urltext .li:hover {
                 background: gainsboro;
             }
-            h1{color: #f6821f;}
+            h1 {color: #f6821f;}
+            h4,h5 { color: light-dark(#1f2937, #f9fafb); }
 
             .endpoint-bar {
                 background: #dbeafe;
@@ -144,6 +145,7 @@ function generateHtml(data) {
             .url-path {
                 color: #1e293b;
             }
+            hr { border: 0.5px solid light-dark(hsl(0 0% 80%), canvas); }
             #footer { border-top: 1px solid light-dark(hsl(0 0% 80%), canvas); }
             pre {
                 background: #2d2d2d;
@@ -271,6 +273,7 @@ function generateHtml(data) {
                 animation: widget-title-icon-animation 0.5s linear forwards;
             }
             td,li {word-break: break-all;}
+            hr { margin-bottom: 1.5em;}
 
             /* 2️⃣ 子項目使用 span 來跨欄 */
             .col-1     { grid-column: span 12; }
@@ -535,10 +538,10 @@ function generateHtml(data) {
             body{font-family:system-ui,sans-serif;}
             pre{padding:1em;border-width:1px;border-style:solid;overflow:auto;}
             h2,h3,h4,h5 {margin-top:0;}
+            h4,h5 {margin-bottom: 1em;}
             small {
                 font-size: 0.6em;
             }
-            h4,h5 { color: light-dark(#1f2937, #f9fafb); }
             .none {
                 display: flex;
                 justify-content: center;
@@ -1086,8 +1089,8 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     ? `
                         <div class="card card-border">
                             <h3>${tabler_icons_html.device_desktop} User Agent <small>Power by: ua-parser-js ${require('ua-parser-js/package.json').version}</small></h3>
-
-                            <p><pre><code class="language-plain">${responseBody.request.userAgent.ua}</code></pre></p>
+                            <p>${responseBody.request.userAgent.ua}</p>
+                            <hr>
                             <div class="container">
                                 <div class="col-4">
                                     ${Object.values(responseBody.request.userAgent.browser).some(v => v !== null && v !== undefined) ? `
