@@ -1260,8 +1260,8 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             <h3>${tabler_icons_html.device_desktop} clientHint <small>Power by: ua-client-hints-js</small></h3>
                             <div class="container">
                                 <div class="col-9">
-                                    <div class="container">
                                     <h4>Brands</h4>
+                                    <div class="container">
                                     ${Object.entries(responseBody.request.clientHint.brands).map(([key, value], i, arr) => `
                                         <div class="col-3">
                                             ${renderObjectAsList(value)}
