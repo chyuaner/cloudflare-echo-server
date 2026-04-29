@@ -1253,6 +1253,32 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         </div>
                     `}
 
+                    ${Object.entries(responseBody.request.clientHint)
+                        .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
+                    ? `
+                        <div class="card card-border">
+                            <h3>${tabler_icons_html.device_desktop} clientHint <small>Power by: ua-client-hints-js</small></h3>
+                            <div class="container">
+                                <div class="col-9">
+                                    <div class="container">
+                                    <h4>Brands</h4>
+                                    ${Object.entries(responseBody.request.clientHint.brands).map(([key, value], i, arr) => `
+                                        <div class="col-3">
+                                            ${renderObjectAsList(value)}
+                                        </div>
+                                    `).join('')}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <h4>Other</h4>
+                                    ${renderObjectAsList((({ brands, ...rest }) => rest)(responseBody.request.clientHint))}
+                                </div>
+                            </div>
+                        </div>
+                        ` : ``
+                    }
+
+
                     ${Object.entries(responseBody.request.userAgent)
                         .filter(([key]) => key !== 'ua')
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
@@ -1314,12 +1340,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         if (tls.tlsClientHelloLength === 0 || tls.tlsClientHelloLength === '0') delete tls.tlsClientHelloLength;
 
                         const tlsHtml = renderObjectAsList(tls);
-                        
+
                         // 判定是否含有實質的 TLS 資料
                         const isMeaningful = Object.values(tls).some(v => v !== null && v !== undefined && v !== "" && v !== 0 && v !== "0" && v !== "NONE");
 
                         // 判定是否含有實質的客戶端證書資料 (mTLS)
-                        const isCAMeaningful = tlsClientAuth && Object.values(tlsClientAuth).some(v => 
+                        const isCAMeaningful = tlsClientAuth && Object.values(tlsClientAuth).some(v =>
                             v !== null && v !== undefined && v !== "" && v !== 0 && v !== "0" && v !== "NONE" && v !== false
                         );
 
