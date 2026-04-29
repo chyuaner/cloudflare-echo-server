@@ -34,7 +34,7 @@ function generateHtml(data) {
             <tbody>
             ${Object.keys(data).map(key => `
                 <tr>
-                <th>${key}</th>
+                <th><a href="javascript:copy(${JSON.stringify(key).replace(/"/g, '&quot;')});">${key}</a></th>
                 <td><a href="javascript:copy(${JSON.stringify(data[key]).replace(/"/g, '&quot;')});">${data[key]}</a></td>
                 </tr>
             `).join('')}
@@ -57,7 +57,7 @@ function generateHtml(data) {
             return `<li>${keyHtml}: ${renderObjectAsList(v)}</li>`;
             }
             const valHtml = v;
-            return `<li>${keyHtml}: <a href="javascript:copy(${JSON.stringify(valHtml).replace(/"/g, '&quot;')});">${valHtml}</a></li>`;
+            return `<li><a href="javascript:copy(${JSON.stringify(keyHtml).replace(/"/g, '&quot;')});">${keyHtml}</a>: <a href="javascript:copy(${JSON.stringify(valHtml).replace(/"/g, '&quot;')});">${valHtml}</a></li>`;
         });
 
         // 包成 <ul>（外層已在呼叫處包覆，這裡只回傳內部的 <li> 組合）
