@@ -1314,12 +1314,18 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         if (tls.tlsClientHelloLength === 0 || tls.tlsClientHelloLength === '0') delete tls.tlsClientHelloLength;
 
                         const tlsHtml = renderObjectAsList(tls);
-                        const tlsCAHtml = renderObjectAsList(tlsClientAuth);
-
-                        // 判定是否含有實質的 TLS 資料 (非空、非零、非 NONE)
+                        
+                        // 判定是否含有實質的 TLS 資料
                         const isMeaningful = Object.values(tls).some(v => v !== null && v !== undefined && v !== "" && v !== 0 && v !== "0" && v !== "NONE");
 
+                        // 判定是否含有實質的客戶端證書資料 (mTLS)
+                        const isCAMeaningful = tlsClientAuth && Object.values(tlsClientAuth).some(v => 
+                            v !== null && v !== undefined && v !== "" && v !== 0 && v !== "0" && v !== "NONE" && v !== false
+                        );
+
                         if (!tlsHtml || !isMeaningful) return '';
+
+                        const tlsCAHtml = isCAMeaningful ? renderObjectAsList(tlsClientAuth) : '';
 
                         return `
                             <div class="card card-border">
