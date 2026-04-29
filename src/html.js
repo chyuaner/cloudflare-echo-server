@@ -1257,7 +1257,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${tabler_icons_html.device_desktop} clientHint <small>Power by: ua-client-hints-js</small></h3>
+                            <h3>${tabler_icons_html.device_desktop} Client Hints <small>Power by: ua-client-hints-js</small></h3>
                             <div class="container">
                                 <div class="col-9">
                                     <h4>Brands</h4>
