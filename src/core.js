@@ -2,6 +2,7 @@ import { generateHtml } from "./html.js";
 import { generateOgImage } from "./og.js";
 import { generateCurl } from "./snippets.js";
 var UAParser = require('ua-parser-js');
+import { UAClientHints } from 'ua-client-hints-js';
 
 // ----------------------------------------------------
 // 讀取環境偵測
@@ -246,6 +247,10 @@ export default {
     const userAgentParser = new UAParser(userAgentRaw);
     const userAgent = userAgentParser.getResult();
 
+    const ch = new UAClientHints();
+    ch.setValuesFromHeaders(headers);
+    const clientHint = ch.getValues();
+
     // ------------------- 取得 client IP -------------------
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
@@ -261,6 +266,7 @@ export default {
         bodyRaw,
         cookies,
         cookiesRaw,
+        clientHint,
         userAgent,
         userAgentRaw,
         headers,
