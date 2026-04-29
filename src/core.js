@@ -250,6 +250,7 @@ export default {
     const ch = new UAClientHints();
     ch.setValuesFromHeaders(headers);
     const clientHint = ch.getValues();
+    const clientHints = ch.getValuesAsHeaders();
 
     // ------------------- 取得 client IP -------------------
     // 取得 client IP（Cloudflare 會在 cf 中提供）
@@ -267,6 +268,7 @@ export default {
         cookies,
         cookiesRaw,
         clientHint,
+        clientHints,
         userAgent,
         userAgentRaw,
         headers,
