@@ -49,24 +49,17 @@ function generateHtml(data) {
 
     function renderObjectAsList(obj) {
         if (!obj || typeof obj !== 'object') return '';
-        // 只保留有值的屬性
-        const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined && v !== "");
-        if (entries.length === 0) return '';   // 空物件直接回傳空字串
+        // 只保留有值的屬性 (保留空字串以輸出原始資料)
+        const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined);
+        if (entries.length === 0) return '';
 
         // 產生 <li>，若值仍是物件則遞迴呼叫自身，否則直接顯示文字
         const items = entries.map(([k, v]) => {
-            const keyHtml = k;
             if (typeof v === 'object' && v !== null) {
-                // 子物件 → 再包一層 <ul>
-                const subList = renderObjectAsList(v);
-                if (!subList) return null;
-                return `<li>${copyAText(keyHtml)}: ${subList}</li>`;
+                return `<li>${copyAText(k)}: ${renderObjectAsList(v)}</li>`;
             }
-            const valHtml = v;
-            return `<li>${copyAText(keyHtml)}: ${copyAText(valHtml)}</li>`;
-        }).filter(item => item !== null);
-
-        if (items.length === 0) return '';
+            return `<li>${copyAText(k)}: ${copyAText(v)}</li>`;
+        });
 
         // 包成 <ul>（外層已在呼叫處包覆，這裡只回傳內部的 <li> 組合）
         return `<ul>${items.join('')}</ul>`;
@@ -1323,7 +1316,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         const tlsHtml = renderObjectAsList(tls);
                         const tlsCAHtml = renderObjectAsList(tlsClientAuth);
 
-                        if (!tlsHtml) return '';
+                        // 判定是否含有實質的 TLS 資料 (非空、非零、非 NONE)
+                        const isMeaningful = Object.values(tls).some(v => v !== null && v !== undefined && v !== "" && v !== 0 && v !== "0" && v !== "NONE");
+
+                        if (!tlsHtml || !isMeaningful) return '';
 
                         return `
                             <div class="card card-border">
