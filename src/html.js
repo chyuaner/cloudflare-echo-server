@@ -1260,7 +1260,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             <h3>${tabler_icons_html.device_desktop} Client Hints <small>Power by: ua-client-hints-js</small></h3>
                             <div class="container">
                                 <div class="col-9">
-                                    <h4>Brands</h4>
+                                    <h4 style="margin-bottom: 0em;">Brands</h4>
                                     <div class="container">
                                     ${Object.entries(responseBody.request.clientHint.brands).map(([key, value], i, arr) => `
                                         <div class="col-4">
@@ -1270,8 +1270,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <h4>Other</h4>
-                                    ${renderObjectAsList((({ brands, ...rest }) => rest)(responseBody.request.clientHint))}
+                                    <h4 style="margin-bottom: 0em;">Other</h4>
+                                    <div class="container">
+                                        <div class="col-12">
+                                            ${renderObjectAsList((({ brands, ...rest }) => rest)(responseBody.request.clientHint))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
