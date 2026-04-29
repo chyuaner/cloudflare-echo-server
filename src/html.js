@@ -1322,8 +1322,8 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                         const tlsHtml = renderObjectAsList(tls);
                         const tlsCAHtml = renderObjectAsList(tlsClientAuth);
-                        
-                        if (!tlsHtml && !tlsCAHtml) return '';
+
+                        if (!tlsHtml) return '';
 
                         return `
                             <div class="card card-border">
