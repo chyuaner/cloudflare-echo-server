@@ -593,7 +593,6 @@ function generateHtml(data) {
             }
             td {
                 font-weight: 300;
-                max-width: 80%;
             }
 
             thead {display:none;}
@@ -605,6 +604,13 @@ function generateHtml(data) {
                 thead {display:table-header-group;}
                 th,td {
                     display: table-cell;
+                }
+                th {
+                    width: 20%;
+                    min-width: 100px;
+                }
+                td {
+                    width: 80%;
                 }
             }
 
