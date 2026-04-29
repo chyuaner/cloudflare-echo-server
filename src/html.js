@@ -1261,7 +1261,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     ? `
                         <div class="card card-border">
                             <h3>${tabler_icons_html.device_desktop} User Agent <small>Power by: ua-parser-js ${require('ua-parser-js/package.json').version}</small></h3>
-                            <p>${responseBody.request.userAgent.ua}</p>
+                            <p>${copyAText(responseBody.request.userAgent.ua)}</p>
                             <hr>
                             <div class="container">
                                 <div class="col-4">
