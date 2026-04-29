@@ -18,6 +18,9 @@ export const tabler_icons_html = {
 }
 
 function generateHtml(data) {
+    function copyAText(text) {
+        return `<a href="javascript:copy(${JSON.stringify(text).replace(/"/g, '&quot;')});">${text}</a>`;
+    }
 
     function objectToTable(data) {
         if (Object.keys(data).length === 0) {
@@ -34,8 +37,8 @@ function generateHtml(data) {
             <tbody>
             ${Object.keys(data).map(key => `
                 <tr>
-                <th><a href="javascript:copy(${JSON.stringify(key).replace(/"/g, '&quot;')});">${key}</a></th>
-                <td><a href="javascript:copy(${JSON.stringify(data[key]).replace(/"/g, '&quot;')});">${data[key]}</a></td>
+                <th>${copyAText(key)}</th>
+                <td>${copyAText(data[key])}</td>
                 </tr>
             `).join('')}
             </tbody>
@@ -54,10 +57,10 @@ function generateHtml(data) {
             const keyHtml = k;
             if (typeof v === 'object' && v !== null) {
             // 子物件 → 再包一層 <ul>
-            return `<li>${keyHtml}: ${renderObjectAsList(v)}</li>`;
+            return `<li>${copyAText(keyHtml)}: ${renderObjectAsList(v)}</li>`;
             }
             const valHtml = v;
-            return `<li><a href="javascript:copy(${JSON.stringify(keyHtml).replace(/"/g, '&quot;')});">${keyHtml}</a>: <a href="javascript:copy(${JSON.stringify(valHtml).replace(/"/g, '&quot;')});">${valHtml}</a></li>`;
+            return `<li>${copyAText(keyHtml)}: ${copyAText(valHtml)}`;
         });
 
         // 包成 <ul>（外層已在呼叫處包覆，這裡只回傳內部的 <li> 組合）
