@@ -48,20 +48,25 @@ function generateHtml(data) {
     }
 
     function renderObjectAsList(obj) {
+        if (!obj || typeof obj !== 'object') return '';
         // 只保留有值的屬性
-        const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined);
+        const entries = Object.entries(obj).filter(([, v]) => v !== null && v !== undefined && v !== "");
         if (entries.length === 0) return '';   // 空物件直接回傳空字串
 
         // 產生 <li>，若值仍是物件則遞迴呼叫自身，否則直接顯示文字
         const items = entries.map(([k, v]) => {
             const keyHtml = k;
             if (typeof v === 'object' && v !== null) {
-            // 子物件 → 再包一層 <ul>
-            return `<li>${copyAText(keyHtml)}: ${renderObjectAsList(v)}</li>`;
+                // 子物件 → 再包一層 <ul>
+                const subList = renderObjectAsList(v);
+                if (!subList) return null;
+                return `<li>${copyAText(keyHtml)}: ${subList}</li>`;
             }
             const valHtml = v;
-            return `<li>${copyAText(keyHtml)}: ${copyAText(valHtml)}`;
-        });
+            return `<li>${copyAText(keyHtml)}: ${copyAText(valHtml)}</li>`;
+        }).filter(item => item !== null);
+
+        if (items.length === 0) return '';
 
         // 包成 <ul>（外層已在呼叫處包覆，這裡只回傳內部的 <li> 組合）
         return `<ul>${items.join('')}</ul>`;
@@ -1317,13 +1322,15 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                         const tlsHtml = renderObjectAsList(tls);
                         const tlsCAHtml = renderObjectAsList(tlsClientAuth);
-                        return tlsHtml ? `
+                        
+                        if (!tlsHtml && !tlsCAHtml) return '';
+
+                        return `
                             <div class="card card-border">
                                 <h3>${tabler_icons_html.lock_password} TLS</h3>
                                 ${tlsHtml}
-                                <h4>tlsClientAuth</h4>
-                                ${tlsCAHtml}
-                            </div>` : '';
+                                ${tlsCAHtml ? `<h4>tlsClientAuth</h4>${tlsCAHtml}` : ''}
+                            </div>`;
                     })()}
 
                     <div style="position: sticky;top: 5px;">
