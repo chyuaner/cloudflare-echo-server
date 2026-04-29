@@ -1263,7 +1263,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                                     <h4>Brands</h4>
                                     <div class="container">
                                     ${Object.entries(responseBody.request.clientHint.brands).map(([key, value], i, arr) => `
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             ${renderObjectAsList(value)}
                                         </div>
                                     `).join('')}
