@@ -19,7 +19,8 @@ export const tabler_icons_html = {
 
 function generateHtml(data) {
     function copyAText(text) {
-        return `<a href="#" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${text}</a>`;
+        const escapedText = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        return `<a href="#" class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
     }
 
     function objectToTable(data) {
@@ -581,6 +582,15 @@ function generateHtml(data) {
 
             .js .js-only {
                 display: block !important;
+            }
+            .js a.js-only, .js span.js-only {
+                display: inline-block !important;
+            }
+            .noscript-only {
+                display: inline !important;
+            }
+            .js .noscript-only {
+                display: none !important;
             }
             .js #file_upload {
                 display: none !important;
