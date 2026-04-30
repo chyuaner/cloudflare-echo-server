@@ -19,7 +19,7 @@ export const tabler_icons_html = {
 
 function generateHtml(data) {
     function copyAText(text) {
-        return `<a href="javascript:copy(${JSON.stringify(text).replace(/"/g, '&quot;')});">${text}</a>`;
+        return `<a href="javascript:copy(${JSON.stringify(text).replace(/"/g, '&quot;')});" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${text}</a>`;
     }
 
     function objectToTable(data) {
@@ -324,6 +324,75 @@ function generateHtml(data) {
                 .col-lg-9 { grid-column: span 9; }
                 .col-12   { grid-column: span 12; }
             }
+
+            /* Tooltip */
+            /* http://muki.tw/tech/pure-css-tooltip-data-tag/ */
+            /* Tooltip */
+            span[data-tooltip],
+            a[data-tooltip] {
+                position: relative;
+                display: inline-block;
+                max-width: 100%;
+                word-break: break-all;
+                vertical-align: baseline;
+            }
+
+            /* Tooltip base state */
+            span[data-tooltip]:before,
+            span[data-tooltip]:after,
+            a[data-tooltip]:before,
+            a[data-tooltip]:after {
+                position: absolute;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.2s ease-out;
+                pointer-events: none;
+                z-index: 100;
+                left: 50%;
+            }
+
+            /* Show on hover */
+            span[data-tooltip]:hover:before,
+            span[data-tooltip]:hover:after,
+            a[data-tooltip]:hover:before,
+            a[data-tooltip]:hover:after {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Tooltip box - Positioned ABOVE */
+            span[data-tooltip]:before,
+            a[data-tooltip]:before {
+                content: attr(data-tooltip-title);
+                background: #4d4d4d;
+                border-radius: 8px;
+                color: #fff;
+                width: max-content;
+                max-width: 200px;
+                padding: .5em .8em;
+                bottom: calc(100% + 8px); 
+                transform: translateX(-50%);
+                text-align: center;
+                line-height: 1.2;
+                font-size: 0.85rem;
+                font-weight: normal;
+                white-space: normal;
+            }
+
+            /* Tooltip arrow - Pointing DOWN */
+            span[data-tooltip]:after,
+            a[data-tooltip]:after {
+                content: "";
+                width: 0;
+                height: 0;
+                border-width: 8px 6px 0 6px;
+                border-style: solid;
+                border-color: #4d4d4d transparent transparent transparent;
+                bottom: 100%;
+                margin-left: -6px;
+                margin-bottom: 1px;
+            }
+
             /* ------------------------------------------------
             // 表單相關
             // ------------------------------------------------ */
