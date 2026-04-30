@@ -1251,7 +1251,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         const obj = {colo, country, city, continent, latitude, longitude, asn, asOrganization, isEUCountry, postalCode, metroCode, region, regionCode, timezone};
 
         const outputhtml = `
-                    <h2>${tabler_icons_html.cloud_network} Host  <small><a href="https://myip.yuaner.tw" target="_blank">[Link to MyIP]</a></small></h2>
+                    <h2>${tabler_icons_html.cloud_network} Host  <small><a href="https://myip.yuaner.tw" target="_blank">[Go to myip.yuaner.tw]</a></small></h2>
                     ${renderObjectAsList({ip, ips, hostname})}
                     ${renderObjectAsList(obj)}
                 `;
