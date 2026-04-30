@@ -2,6 +2,8 @@ import { reorderObject } from "./core.js";
 import { generateCurl } from "./snippets.js";
 
 export const tabler_icons_html = {
+    "info_circle": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>`,
+    "info_square_rounded": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-info-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2l.642 .005l.616 .017l.299 .013l.579 .034l.553 .046c4.687 .455 6.65 2.333 7.166 6.906l.03 .29l.046 .553l.041 .727l.006 .15l.017 .617l.005 .642l-.005 .642l-.017 .616l-.013 .299l-.034 .579l-.046 .553c-.455 4.687 -2.333 6.65 -6.906 7.166l-.29 .03l-.553 .046l-.727 .041l-.15 .006l-.617 .017l-.642 .005l-.642 -.005l-.616 -.017l-.299 -.013l-.579 -.034l-.553 -.046c-4.687 -.455 -6.65 -2.333 -7.166 -6.906l-.03 -.29l-.046 -.553l-.041 -.727l-.006 -.15l-.017 -.617l-.004 -.318v-.648l.004 -.318l.017 -.616l.013 -.299l.034 -.579l.046 -.553c.455 -4.687 2.333 -6.65 6.906 -7.166l.29 -.03l.553 -.046l.727 -.041l.15 -.006l.617 -.017c.21 -.003 .424 -.005 .642 -.005zm0 9h-1l-.117 .007a1 1 0 0 0 0 1.986l.117 .007v3l.007 .117a1 1 0 0 0 .876 .876l.117 .007h1l.117 -.007a1 1 0 0 0 .876 -.876l.007 -.117l-.007 -.117a1 1 0 0 0 -.764 -.857l-.112 -.02l-.117 -.006v-3l-.007 -.117a1 1 0 0 0 -.876 -.876l-.117 -.007zm.01 -3l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007z" /></svg>`,
     "variable_off": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-variable-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4.675 4.68c-2.17 4.776 -2.062 9.592 .325 15.32" /><path d="M19 4c1.959 3.917 2.383 7.834 1.272 12.232m-.983 3.051c-.093 .238 -.189 .477 -.289 .717" /><path d="M11.696 11.696c.095 .257 .2 .533 .32 .831c.984 2.473 .984 3.473 1.984 3.473h1" /><path d="M8 16c1.5 0 3 -2 4 -3.5m2.022 -2.514c.629 -.582 1.304 -.986 1.978 -.986" /><path d="M3 3l18 18" /></svg>`,
     "link": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 15l6 -6" /><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" /><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" /></svg>`,
     "lock_password": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-lock-password"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /><path d="M15 16h.01" /><path d="M12.01 16h.01" /><path d="M9.02 16h.01" /></svg>`,
@@ -23,6 +25,10 @@ function generateHtml(data) {
     function copyAText(text, tooltipText="複製這段文字") {
         const escapedText = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         return `<a href="#" hidden class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
+    }
+
+    function infoTooltip(tooltipText) {
+        return `<small><a href="javascript:sfalse;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">🛈</a></small>`;
     }
 
     function objectToTable(data) {
@@ -1283,7 +1289,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
 
                     <div class="container">
                         <div class="col-6 card card-border">
-                            <h3>${tabler_icons_html.link} URL Params</h3>
+                            <h3>${tabler_icons_html.link} URL Params ${infoTooltip("可以一次圈選多項目文字複製，有特殊做複製接字串處理")}</h3>
                             ${Object.keys(responseBody.request.params).length === 0 ? none() : `
                             <div class="urltext">
                                 <span class="firstchar">/</span>
@@ -1296,7 +1302,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                             </div>`}
                         </div>
                         <div class="col-6 card card-border">
-                            <h3>${tabler_icons_html.link} URL Query</h3>
+                            <h3>${tabler_icons_html.link} URL Query ${infoTooltip("可以一次圈選多項目文字複製，有特殊做複製接字串處理")}</h3>
                             ${Object.keys(responseBody.request.query).length === 0 ? none() : `
                             <div class="urltext">
                                 <span class="firstchar">?</span>
@@ -1376,7 +1382,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${responseBody.request.clientHint.mobile == true ? tabler_icons_html.device_mobile : tabler_icons_html.device_desktop} Client Hints User-Agent <small>Power by: <a href="https://www.npmjs.com/package/ua-client-hints-js" target="_blank">ua-client-hints-js</a></small></h3>
+                            <h3>
+                                ${responseBody.request.clientHint.mobile == true ? tabler_icons_html.device_mobile : tabler_icons_html.device_desktop} Client Hints User-Agent ${infoTooltip("以現代Header: sec-ch-ua 內容來判定")}
+                                <small>Power by: <a href="https://www.npmjs.com/package/ua-client-hints-js" target="_blank">ua-client-hints-js</a></small>
+                            </h3>
                             <div class="container">
                                 <div class="col-9">
                                     <h4 style="margin-bottom: 0em;">Brands</h4>
@@ -1407,7 +1416,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${responseBody.request.userAgent.device.type=="mobile"?tabler_icons_html.device_mobile:(responseBody.request.userAgent.device.type=="tablet"?tabler_icons_html.device_tablet:tabler_icons_html.device_desktop)} User-Agent <small>Power by: <a href="https://www.npmjs.com/package/ua-parser-js/v/${require('ua-parser-js/package.json').version}" target="_blank">ua-parser-js ${require('ua-parser-js/package.json').version}</a></small></h3>
+                            <h3>${responseBody.request.userAgent.device.type=="mobile"?tabler_icons_html.device_mobile:(responseBody.request.userAgent.device.type=="tablet"?tabler_icons_html.device_tablet:tabler_icons_html.device_desktop)} User-Agent ${infoTooltip("以傳統Header: user-agent 字串內容來判定")}
+                                <small>Power by: <a href="https://www.npmjs.com/package/ua-parser-js/v/${require('ua-parser-js/package.json').version}" target="_blank">ua-parser-js ${require('ua-parser-js/package.json').version}</a></small>
+                            </h3>
                             <p>${copyAText(responseBody.request.userAgent.ua)}</p>
                             <hr>
                             <div class="container">
@@ -1506,7 +1517,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                 // +'<div class="col-6 card card-border">'+wget(data.wgetText)+'</div>'
 
                 +'<div class="card card-border">'
-                    +`<h2>${tabler_icons_html.code} Raw Response Body</h2>`
+                    +`<h2>${tabler_icons_html.code} Raw Response Body ${infoTooltip("若以curl或Postman方式，將會以下面JSON的內容輸出")}</h2>`
                     +`<pre><code class="language-json">${JSON.stringify(data.responseBody, null, 2).replace(/</g, '&lt;')}</code></pre>`
                 +'</div>'
             +'</div>';
@@ -2110,7 +2121,7 @@ window.addEventListener('click', function(event) {
     }
 
     function curl(responseBody) {
-        return `<h3>${tabler_icons_html.terminal} curl <small>Power by: curl-generator ${require('curl-generator/package.json').version}</small></h3>
+        return `<h3>${tabler_icons_html.terminal} curl ${infoTooltip("若想在終端機輸出文字結果，請移除 accept-encoding: br, gzip")} <small>Power by: curl-generator ${require('curl-generator/package.json').version}</small></h3>
             <pre><code class="language-bash">${generateCurl(responseBody)}</code></pre>`;
     }
     function wget(data) {
