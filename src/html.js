@@ -19,7 +19,7 @@ export const tabler_icons_html = {
 
 function generateHtml(data) {
     function copyAText(text) {
-        return `<a href="javascript:copy(${JSON.stringify(text).replace(/"/g, '&quot;')});" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${text}</a>`;
+        return `<a href="#" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${text}</a>`;
     }
 
     function objectToTable(data) {
@@ -345,17 +345,19 @@ function generateHtml(data) {
                 position: absolute;
                 opacity: 0;
                 visibility: hidden;
-                transition: opacity 0.2s ease-out;
+                transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
                 pointer-events: none;
                 z-index: 100;
                 left: 50%;
             }
 
-            /* Show on hover */
+            /* Show on hover OR active status */
             span[data-tooltip]:hover:before,
             span[data-tooltip]:hover:after,
             a[data-tooltip]:hover:before,
-            a[data-tooltip]:hover:after {
+            a[data-tooltip]:hover:after,
+            [data-tooltip].tooltip-active:before,
+            [data-tooltip].tooltip-active:after {
                 opacity: 1;
                 visibility: visible;
             }
@@ -1031,7 +1033,33 @@ https://github.com/pure-css/pure/blob/master/LICENSE
           var index_default = copy;
           return __toCommonJS(index_exports);
         })();
-        window.copy = copyToClipboard.default;
+        window._copy = copyToClipboard.default;
+        window.copy = function(text, el) {
+            const success = window._copy(text);
+            if (success && el && el.hasAttribute('data-tooltip')) {
+                if (el._tooltipTimeout) clearTimeout(el._tooltipTimeout);
+                if (el._tooltipRestoreTimeout) clearTimeout(el._tooltipRestoreTimeout);
+
+                const originalTitle = el.getAttribute('data-original-title') || el.getAttribute('data-tooltip-title');
+                if (!el.hasAttribute('data-original-title')) {
+                    el.setAttribute('data-original-title', originalTitle);
+                }
+
+                el.setAttribute('data-tooltip-title', '已複製');
+                el.classList.add('tooltip-active');
+
+                el._tooltipTimeout = setTimeout(() => {
+                    el.classList.remove('tooltip-active');
+                    el._tooltipRestoreTimeout = setTimeout(() => {
+                        el.setAttribute('data-tooltip-title', originalTitle);
+                        el.removeAttribute('data-original-title');
+                        el._tooltipRestoreTimeout = null;
+                    }, 400); // Wait for fade out transition (0.4s)
+                    el._tooltipTimeout = null;
+                }, 1500);
+            }
+            return success;
+        };
         `;
 
         const highlight = ''
