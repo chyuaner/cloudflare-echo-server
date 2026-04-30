@@ -28,7 +28,7 @@ function generateHtml(data) {
     }
 
     function infoTooltip(tooltipText) {
-        return `<small><a href="javascript:sfalse;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">🛈</a></small>`;
+        return `<small style="vertical-align: middle;"><a href="javascript:false;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">${tabler_icons_html.info_circle.replace('width="24" height="24"', 'width="1.1em" height="1.1em"')}</a></small>`;
     }
 
     function objectToTable(data) {
@@ -279,7 +279,7 @@ function generateHtml(data) {
                 90%  { transform: rotate(5deg); }
                 100% { transform: rotate(0deg); }
             }
-            .card:hover h2 .icon, .card:hover h3 .icon {
+            .card:hover h2 > .icon, .card:hover h3 > .icon {
                 animation: widget-title-icon-animation 0.5s linear forwards;
             }
             td,li {word-break: break-all;}
