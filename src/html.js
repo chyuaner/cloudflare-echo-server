@@ -1374,7 +1374,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${tabler_icons_html.device_desktop} Client Hints <small>Power by: ua-client-hints-js</small></h3>
+                            <h3>${tabler_icons_html.device_desktop} Client Hints <small>Power by: <a href="https://www.npmjs.com/package/ua-client-hints-js" target="_blank">ua-client-hints-js</a></small></h3>
                             <div class="container">
                                 <div class="col-9">
                                     <h4 style="margin-bottom: 0em;">Brands</h4>
@@ -1405,7 +1405,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                         .some(([_, val]) => val && Object.values(val).some(v => v !== null && v !== undefined))
                     ? `
                         <div class="card card-border">
-                            <h3>${tabler_icons_html.device_desktop} User Agent <small>Power by: ua-parser-js ${require('ua-parser-js/package.json').version}</small></h3>
+                            <h3>${tabler_icons_html.device_desktop} User Agent <small>Power by: <a href="https://www.npmjs.com/package/ua-parser-js/v/${require('ua-parser-js/package.json').version}" target="_blank">ua-parser-js ${require('ua-parser-js/package.json').version}</a></small></h3>
                             <p>${copyAText(responseBody.request.userAgent.ua)}</p>
                             <hr>
                             <div class="container">
