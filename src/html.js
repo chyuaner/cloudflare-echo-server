@@ -18,9 +18,9 @@ export const tabler_icons_html = {
 }
 
 function generateHtml(data) {
-    function copyAText(text) {
+    function copyAText(text, tooltipText="複製這段文字") {
         const escapedText = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        return `<a href="#" class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="複製這段文字">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
+        return `<a href="#" class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
     }
 
     function objectToTable(data) {
@@ -38,8 +38,8 @@ function generateHtml(data) {
             <tbody>
             ${Object.keys(data).map(key => `
                 <tr>
-                <th>${copyAText(key)}</th>
-                <td>${copyAText(data[key])}</td>
+                <th>${copyAText(key, "複製標題文字")}</th>
+                <td>${copyAText(data[key], "複製這個值")}</td>
                 </tr>
             `).join('')}
             </tbody>
@@ -57,9 +57,9 @@ function generateHtml(data) {
         // 產生 <li>，若值仍是物件則遞迴呼叫自身，否則直接顯示文字
         const items = entries.map(([k, v]) => {
             if (typeof v === 'object' && v !== null) {
-                return `<li>${copyAText(k)}: ${renderObjectAsList(v)}</li>`;
+                return `<li>${copyAText(k, "複製標題文字")}: ${renderObjectAsList(v)}</li>`;
             }
-            return `<li>${copyAText(k)}: ${copyAText(v)}</li>`;
+            return `<li>${copyAText(k, "複製標題文字")}: ${copyAText(v, "複製這個值")}</li>`;
         });
 
         // 包成 <ul>（外層已在呼叫處包覆，這裡只回傳內部的 <li> 組合）
@@ -373,7 +373,7 @@ function generateHtml(data) {
                 width: max-content;
                 max-width: 200px;
                 padding: .5em .8em;
-                bottom: calc(100% + 8px); 
+                bottom: calc(100% + 8px);
                 transform: translateX(-50%);
                 text-align: center;
                 line-height: 1.2;
