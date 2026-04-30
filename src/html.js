@@ -587,7 +587,10 @@ function generateHtml(data) {
                 display: inline-block !important;
             }
             .noscript-only {
-                display: inline !important;
+                display: inline-block !important;
+                max-width: 100%;
+                word-break: break-all;
+                vertical-align: baseline;
             }
             .js .noscript-only {
                 display: none !important;
