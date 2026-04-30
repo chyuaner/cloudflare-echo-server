@@ -2121,7 +2121,7 @@ window.addEventListener('click', function(event) {
     }
 
     function curl(responseBody) {
-        return `<h3>${tabler_icons_html.terminal} curl ${infoTooltip("若想在終端機輸出文字結果，請移除 accept-encoding: br, gzip")} <small>Power by: curl-generator ${require('curl-generator/package.json').version}</small></h3>
+        return `<h3>${tabler_icons_html.terminal} curl ${infoTooltip("若想在終端機輸出文字結果，請移除 accept-encoding: br, gzip")} <small>Power by: <a href="https://www.npmjs.com/package/curl-generator" target="_blank">curl-generator ${require('curl-generator/package.json').version}</a></small></h3>
             <pre><code class="language-bash">${generateCurl(responseBody)}</code></pre>`;
     }
     function wget(data) {
