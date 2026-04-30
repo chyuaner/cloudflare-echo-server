@@ -20,7 +20,7 @@ export const tabler_icons_html = {
 function generateHtml(data) {
     function copyAText(text, tooltipText="複製這段文字") {
         const escapedText = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        return `<a href="#" class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
+        return `<a href="#" hidden class="js-only" onclick="copy(${JSON.stringify(text).replace(/"/g, '&quot;')}, this); return false;" data-tooltip aria-haspopup="true" data-tooltip-title="${tooltipText}">${escapedText}</a><span class="noscript-only">${escapedText}</span>`;
     }
 
     function objectToTable(data) {
