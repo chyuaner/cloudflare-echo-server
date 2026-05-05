@@ -1,8 +1,9 @@
 import { generateHtml } from "./html.js";
 import { generateOgImage } from "./og.js";
 import { generateCurl } from "./snippets.js";
-var UAParser = require('ua-parser-js');
-import { UAClientHints } from 'ua-client-hints-js';
+import UAParser from 'ua-parser-js';
+import uachPkg from './ua-client-hints.cjs';
+const { UAClientHints } = uachPkg;
 
 // ----------------------------------------------------
 // 讀取環境偵測

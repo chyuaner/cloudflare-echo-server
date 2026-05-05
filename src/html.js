@@ -1417,7 +1417,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
                     ? `
                         <div class="card card-border">
                             <h3>${responseBody.request.userAgent.device.type=="mobile"?tabler_icons_html.device_mobile:(responseBody.request.userAgent.device.type=="tablet"?tabler_icons_html.device_tablet:tabler_icons_html.device_desktop)} User-Agent ${infoTooltip("以傳統Header: user-agent 字串內容來判定")}
-                                <small>Power by: <a href="https://www.npmjs.com/package/ua-parser-js/v/${require('ua-parser-js/package.json').version}" target="_blank">ua-parser-js ${require('ua-parser-js/package.json').version}</a></small>
+                                <small>Power by: <a href="https://www.npmjs.com/package/ua-parser-js" target="_blank">ua-parser-js</a></small>
                             </h3>
                             <p>${copyAText(responseBody.request.userAgent.ua)}</p>
                             <hr>
@@ -2121,7 +2121,7 @@ window.addEventListener('click', function(event) {
     }
 
     function curl(responseBody) {
-        return `<h3>${tabler_icons_html.terminal} curl ${infoTooltip("若想在終端機輸出文字結果，請移除 accept-encoding: br, gzip")} <small>Power by: <a href="https://www.npmjs.com/package/curl-generator" target="_blank">curl-generator ${require('curl-generator/package.json').version}</a></small></h3>
+        return `<h3>${tabler_icons_html.terminal} curl ${infoTooltip("若想在終端機輸出文字結果，請移除 accept-encoding: br, gzip")} <small>Power by: <a href="https://www.npmjs.com/package/curl-generator" target="_blank">curl-generator</a></small></h3>
             <pre><code class="language-bash">${generateCurl(responseBody)}</code></pre>`;
     }
     function wget(data) {
