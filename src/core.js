@@ -87,6 +87,7 @@ export function reorderObject(obj, priorityKeys = [], lastKeys = []) {
 export default {
   async fetch(request, env, ctx) {
 
+    console.log(`[DEBUG] Worker fetch handler entered. isWorker: ${isWorker}`);
     // 解析 URL 與查詢字串
     let responseStatus = 200;
     const url = new URL(request.url);
@@ -259,151 +260,157 @@ export default {
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
     const httpProtocol = cf.httpProtocol || url.protocol.replace(":", "") || "";
 
-    // 建立回傳的 JSON 物件
-    const responseBody = {
-      request: {
-        params,
-        query,
-        body,
-        bodyRaw,
-        cookies,
-        cookiesRaw,
-        clientHint,
-        clientHints,
-        userAgent,
-        userAgentRaw,
-        headers,
-        // headersRaw
-      },
-      http: {
-        method                     : finalMethod,
-        baseUrl                    : `${url.protocol}//${url.host}`,
-        originalUrl                : url.pathname + url.search,
-        protocol                   : url.protocol.replace(":", ""),
-        httpProtocol               : httpProtocol,
-        hostMetadata               : cf.hostMetadata,
-        requestPriority            : cf.requestPriority,
-        tls: {
-          tlsCipher                : cf.tlsCipher,
-          tlsClientAuth            : cf.tlsClientAuth,
-          tlsClientCiphersSha1     : cf.tlsClientCiphersSha1,
-          tlsClientExtensionsSha1  : cf.tlsClientExtensionsSha1,
-          tlsClientExtensionsSha1Le: cf.tlsClientExtensionsSha1Le,
-          tlsClientHelloLength     : cf.tlsClientHelloLength,
-          tlsClientRandom          : cf.tlsClientRandom,
-          tlsVersion               : cf.tlsVersion,
-        }
-      },
-      host: {
-        ip: clientIp,
-        // ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
-        hostname: url.hostname,
+    let responseBody; // Declare responseBody here so it's accessible in catch block
+    try {
+      // 建立回傳的 JSON 物件
+      responseBody = {
+        request: {
+          params,
+          query,
+          body,
+          bodyRaw,
+          cookies,
+          cookiesRaw,
+          clientHint,
+          clientHints,
+          userAgent,
+          userAgentRaw,
+          headers,
+          // headersRaw
+        },
+        http: {
+          method                     : finalMethod,
+          baseUrl                    : `${url.protocol}//${url.host}`,
+          originalUrl                : url.pathname + url.search,
+          protocol                   : url.protocol.replace(":", ""),
+          httpProtocol               : httpProtocol,
+          hostMetadata               : cf.hostMetadata,
+          requestPriority            : cf.requestPriority,
+          tls: {
+            tlsCipher                : cf.tlsCipher,
+            tlsClientAuth            : cf.tlsClientAuth,
+            tlsClientCiphersSha1     : cf.tlsClientCiphersSha1,
+            tlsClientExtensionsSha1  : cf.tlsClientExtensionsSha1,
+            tlsClientExtensionsSha1Le: cf.tlsClientExtensionsSha1Le,
+            tlsClientHelloLength     : cf.tlsClientHelloLength,
+            tlsClientRandom          : cf.tlsClientRandom,
+            tlsVersion               : cf.tlsVersion,
+          }
+        },
+        host: {
+          ip: clientIp,
+          // ips: [],                   // Cloudflare 只提供單一 IP，若有多個可自行填入
+          hostname: url.hostname,
 
-        // ── CF 資訊 ───────────────────────
-        colo          : cf.colo,
-        country       : cf.country,
-        city          : cf.city,
-        continent     : cf.continent,
-        latitude      : cf.latitude,
-        longitude     : cf.longitude,
-        asn           : cf.asn,
-        asOrganization: cf.asOrganization,
-        isEUCountry   : cf.isEUCountry,
-        postalCode    : cf.postalCode,
-        metroCode     : cf.metroCode,
-        region        : cf.region,
-        regionCode    : cf.regionCode,
-        timezone      : cf.timezone
-      },
-      ...(isWorker ? {
-        botManagement: {
-          score               : cf.botManagement?.score ?? null,
-          verifiedBot         : cf.botManagement?.verifiedBot ?? null,
-          staticResource      : cf.botManagement?.staticResource ?? null,
-          ja3Hash             : cf.botManagement?.ja3Hash ?? null,
-          ja4                 : cf.botManagement?.ja4 ?? null,
-          jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
-          detectionIds        : cf.botManagement?.detectionIds ?? null,
-          verifiedBotCategory : cf.verifiedBotCategory ?? null
+          // ── CF 資訊 ───────────────────────
+          colo          : cf.colo,
+          country       : cf.country,
+          city          : cf.city,
+          continent     : cf.continent,
+          latitude      : cf.latitude,
+          longitude     : cf.longitude,
+          asn           : cf.asn,
+          asOrganization: cf.asOrganization,
+          isEUCountry   : cf.isEUCountry,
+          postalCode    : cf.postalCode,
+          metroCode     : cf.metroCode,
+          region        : cf.region,
+          regionCode    : cf.regionCode,
+          timezone      : cf.timezone
+        },
+        ...(isWorker ? {
+          botManagement: {
+            score               : cf.botManagement?.score ?? null,
+            verifiedBot         : cf.botManagement?.verifiedBot ?? null,
+            staticResource      : cf.botManagement?.staticResource ?? null,
+            ja3Hash             : cf.botManagement?.ja3Hash ?? null,
+            ja4                 : cf.botManagement?.ja4 ?? null,
+            jsDetectionPassed   : cf.botManagement?.jsDetection?.passed ?? null,
+            detectionIds        : cf.botManagement?.detectionIds ?? null,
+            verifiedBotCategory : cf.verifiedBotCategory ?? null
+          }
+        } : {}),
+        environment: {
+          mode: isWorker
+            ? "Cloudflare Workers"
+            : isDocker
+              ? "Docker"
+              : "NodeJS"
         }
-      } : {}),
-      environment: {
-        mode: isWorker
-          ? "Cloudflare Workers"
-          : isDocker
-            ? "Docker"
-            : "NodeJS"
+        ,
+        logSummary: `${finalMethod} ${url.pathname}${url.search}` // Add a summary for easy overview in logs
+      };
+
+      // const curlText = generateCurl(responseBody);
+      // const wgetText = generateWget(responseBody);
+
+      // -------------------------------------------------
+      // 輸出終端log (根據環境決定輸出格式)
+      // -------------------------------------------------
+      if (isWorker) {
+          // 在 Cloudflare Workers 環境下，輸出完整的結構化 JSON 日誌
+          console.log(responseBody);
+      } else {
+          // 在 Node.js/Docker 環境下，輸出單行摘要日誌
+          console.log(responseBody.logSummary);
       }
-      ,
-      logSummary: `${finalMethod} ${url.pathname}${url.search}` // Add a summary for easy overview in logs
-    };
 
-    // const curlText = generateCurl(responseBody);
-    // const wgetText = generateWget(responseBody);
+      // -------------------------------------------------
+      // 最後輸出
+      // -------------------------------------------------
 
-    // -------------------------------------------------
-    // 輸出終端log (根據環境決定輸出格式)
-    // -------------------------------------------------
-    if (isWorker) {
-        // 在 Cloudflare Workers 環境下，輸出完整的結構化 JSON 日誌
-        console.log(responseBody);
-    } else {
-        // 在 Node.js/Docker 環境下，輸出單行摘要日誌
-        console.log(responseBody.logSummary);
-    }
+      function isHtmlRequest(req) {
+        const accept = (req.headers.get("accept") || "").toLowerCase();
+        const ua = (req.headers.get("user-agent") || "").toLowerCase();
 
-    // -------------------------------------------------
-    // 最後輸出
-    // -------------------------------------------------
+        const isCrawler = /facebookexternalhit|twitterbot|slackbot|discordbot|whatsapp|googlebot|bingbot|crawler|bot/i.test(ua);
+        return accept.includes("text/html") ||
+              isCrawler
+              // || (accept.includes("*/*") && !/curl|wget|httpie/i.test(ua));
+      }
+      const wantsHTML = isHtmlRequest(request);
 
-    function isHtmlRequest(req) {
-      const accept = (req.headers.get("accept") || "").toLowerCase();
-      const ua = (req.headers.get("user-agent") || "").toLowerCase();
-
-      const isCrawler = /facebookexternalhit|twitterbot|slackbot|discordbot|whatsapp|googlebot|bingbot|crawler|bot/i.test(ua);
-      return accept.includes("text/html") ||
-            isCrawler
-            // || (accept.includes("*/*") && !/curl|wget|httpie/i.test(ua));
-    }
-    const wantsHTML = isHtmlRequest(request);
-
-    // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
-    const responseHeaders = new Headers();
-    responseHeaders.set(
-      "content-type",
-      wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
-    );
+      // 先設定要回傳的 Header（先寫好，之後會放入 responseBody）
+      const responseHeaders = new Headers();
+      responseHeaders.set(
+        "content-type",
+        wantsHTML ? "text/html;charset=UTF-8" : "application/json;charset=UTF-8"
+      );
 
 
-    // Priority 1: Force PNG via query
-    const echoPng = url.searchParams.get("echo_png");
-    const isTruthy = (val) => {
-      if (val === null || val === undefined) return false;
-      const v = val.toLowerCase().trim();
-      return v !== "0" && v !== "false" && v !== "off" && v !== "no" && v !== "null" && v !== "undefined";
-    };
+      // Priority 1: Force PNG via query
+      const echoPng = url.searchParams.get("echo_png");
+      const isTruthy = (val) => {
+        if (val === null || val === undefined) return false;
+        const v = val.toLowerCase().trim();
+        return v !== "0" && v !== "false" && v !== "off" && v !== "no" && v !== "null" && v !== "undefined";
+      };
 
-    if (isTruthy(echoPng)) {
-      return generateOgImage(responseBody);
-    }
+      if (isTruthy(echoPng)) {
+        return generateOgImage(responseBody);
+      }
 
-    if (wantsHTML) {
-      const html = generateHtml({responseBody});
-      return new Response(html, {
+      if (wantsHTML) {
+        const html = generateHtml({responseBody});
+        return new Response(html, {
+          status: responseStatus,
+          headers: responseHeaders
+        });
+      }
+
+      // Priority 2: Accept header includes image/png (and not handled by wantsHTML)
+      if ((request.headers.get("accept") || "").toLowerCase().includes("image/png")) {
+        return generateOgImage(responseBody);
+      }
+
+      // 回傳
+      return new Response(JSON.stringify(responseBody), {
         status: responseStatus,
         headers: responseHeaders
       });
+    } catch (error) {
+      console.error("[ERROR] Unhandled error in fetch handler:", error);
+      return new Response("Internal Server Error", { status: 500 });
     }
-
-    // Priority 2: Accept header includes image/png (and not handled by wantsHTML)
-    if ((request.headers.get("accept") || "").toLowerCase().includes("image/png")) {
-      return generateOgImage(responseBody);
-    }
-
-    // 回傳
-    return new Response(JSON.stringify(responseBody), {
-      status: responseStatus,
-      headers: responseHeaders
-    });
   },
 };
