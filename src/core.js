@@ -334,10 +334,23 @@ export default {
             ? "Docker"
             : "NodeJS"
       }
+      ,
+      logSummary: `${finalMethod} ${url.pathname}${url.search}` // Add a summary for easy overview in logs
     };
 
     // const curlText = generateCurl(responseBody);
     // const wgetText = generateWget(responseBody);
+
+    // -------------------------------------------------
+    // 輸出終端log (根據環境決定輸出格式)
+    // -------------------------------------------------
+    if (isWorker) {
+        // 在 Cloudflare Workers 環境下，輸出完整的結構化 JSON 日誌
+        console.log(responseBody);
+    } else {
+        // 在 Node.js/Docker 環境下，輸出單行摘要日誌
+        console.log(responseBody.logSummary);
+    }
 
     // -------------------------------------------------
     // 最後輸出
