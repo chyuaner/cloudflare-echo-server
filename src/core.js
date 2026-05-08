@@ -348,8 +348,16 @@ export default {
         // 在 Cloudflare Workers 環境下，輸出完整的結構化 JSON 日誌
         console.log(responseBody);
     } else {
-        // 在 Node.js/Docker 環境下，輸出單行摘要日誌
-        console.log(responseBody.logSummary);
+        // 在 Node.js/Docker 環境下，輸出純文字日誌格式
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const firstLine = `${responseBody.http.method} ${responseBody.http.originalUrl} ${responseStatus} ${timeString}`;
+
+        let fullLog = firstLine;
+        if (responseBody.request.bodyRaw && responseBody.request.bodyRaw.trim() !== '') {
+            fullLog += `\n${responseBody.request.bodyRaw}\n`; // 加入 bodyRaw 和一個空行
+        }
+        console.log(fullLog);
     }
 
     // -------------------------------------------------
