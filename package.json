@@ -5,6 +5,8 @@
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
+		"dev:worker": "wrangler dev",
+		"dev:node": "node src/node.js",
 		"start": "node src/node.js",
 		"test": "vitest",
 		"cf-typegen": "wrangler types"
