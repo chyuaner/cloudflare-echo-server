@@ -8,7 +8,8 @@
 	"main": "src/core.js",
 	"compatibility_date": "2025-04-03",
 	"observability": {
-		"enabled": true
+		"enabled": true,
+	  	"head_sampling_rate": 1
 	},
 	/**
 	 * Smart Placement
