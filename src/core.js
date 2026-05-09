@@ -81,6 +81,11 @@ export function reorderObject(obj, priorityKeys = [], lastKeys = []) {
     return newObj;
 }
 
+/**
+ * 控制本站行為的特殊參數清單，這些參數預設不輸出進 responseBody query 中
+ */
+export const specialParams = ["echo_method", "echo_code", "echo_time", "echo_postbody", "echo_header", "echo_png"];
+
 // ----------------------------------------------------
 // 主程式主要流程
 // ----------------------------------------------------
@@ -90,7 +95,14 @@ export default {
     // 解析 URL 與查詢字串
     let responseStatus = 200;
     const url = new URL(request.url);
-    const query = Object.fromEntries(url.searchParams.entries());
+
+    // 建立 query 物件時，排除掉控制行為的特殊參數
+    const query = {};
+    for (const [key, value] of url.searchParams.entries()) {
+      if (!specialParams.includes(key)) {
+        query[key] = value;
+      }
+    }
 
     // 處理 echo_method 強制模擬 Method (例如 POST, PUT, DELETE)
     const echoMethod = url.searchParams.get("echo_method");

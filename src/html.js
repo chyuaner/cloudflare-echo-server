@@ -1,4 +1,4 @@
-import { reorderObject } from "./core.js";
+import { reorderObject, specialParams } from "./core.js";
 import { generateCurl } from "./snippets.js";
 
 export const tabler_icons_html = {
@@ -1243,9 +1243,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         if (!originalUrl) return "";
         try {
             const url = new URL(originalUrl, "http://localhost");
-            url.searchParams.delete("echo_method");
-            url.searchParams.delete("echo_postbody");
-            url.searchParams.delete("echo_header");
+            specialParams.forEach(param => url.searchParams.delete(param));
             let target = url.pathname + url.search;
             if (target === "/?") target = "/";
             return target;
