@@ -1105,14 +1105,14 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `;
     }
 
-    function pageA(responseBody) {
+    function pageA(responseBody, url) {
         return `
         <!DOCTYPE html>
         <html lang="zh-Hant">
         <head>
             <meta charset="UTF-8">
             <title>Echo Server</title>
-            `+meta(responseBody)+`
+            `+meta(responseBody, url)+`
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
             <meta name="color-scheme" content="light dark" />
@@ -1177,7 +1177,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         `
     }
 
-    function meta(responseBody) {
+    function meta(responseBody, url) {
 
         const methodText = responseBody.http.method;
         const filteredUrl = filterUrl(responseBody.http.originalUrl);
@@ -1211,6 +1211,13 @@ https://github.com/pure-css/pure/blob/master/LICENSE
         if (bodyRaw) {
             ogUrlObj.searchParams.set("echo_postbody", bodyRaw);
         }
+
+        // 傳遞 echo_header 給 OG 圖片
+        if (url && url.searchParams) {
+            const echoHeaders = url.searchParams.getAll("echo_header");
+            echoHeaders.forEach(val => ogUrlObj.searchParams.append("echo_header", val));
+        }
+
         const ogImgUrl = ogUrlObj.toString();
 
         const outputHtml = `
@@ -1238,6 +1245,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE
             const url = new URL(originalUrl, "http://localhost");
             url.searchParams.delete("echo_method");
             url.searchParams.delete("echo_postbody");
+            url.searchParams.delete("echo_header");
             let target = url.pathname + url.search;
             if (target === "/?") target = "/";
             return target;
@@ -2129,7 +2137,7 @@ window.addEventListener('click', function(event) {
             <pre><code class="language-bash">${data}</code></pre>`;
     }
 
-    const output = pageA(data.responseBody)
+    const output = pageA(data.responseBody, data.url)
         +'<h1>HTTP Echo Server</h1>'
         +main(data.responseBody)
         // +simpleMain(data.responseBody)

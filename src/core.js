@@ -223,28 +223,33 @@ export default {
       headers[k] = v;
     }
 
-    // // ------------------- HeadersRaw -------------------
-    // // 每一筆 header 以 "key: value" 形式組成，行與行之間用 \r\n 分隔
-    // const headersRaw = Array.from(request.headers.entries())
-    //   .map(([k, v]) => `${k}: ${v}`)
-    //   .join("\r\n");
+    // 處理 echo_header 強制模擬 Header 內容
+    const echoHeaderList = url.searchParams.getAll("echo_header");
+    for (const h of echoHeaderList) {
+      const splitIdx = h.indexOf(":");
+      if (splitIdx !== -1) {
+        const k = h.substring(0, splitIdx).trim().toLowerCase();
+        const v = h.substring(splitIdx + 1).trim();
+        headers[k] = v;
+      }
+    }
 
     // ------------------- Cookies -------------------
-    // 1. 直接取得原始 Cookie 標頭字串
-    const cookiesRaw = request.headers.get("cookie") ?? "";
+    // 1. 直接取得原始 Cookie 標頭字串 (優先從模擬的 headers 取得)
+    const cookiesRaw = headers["cookie"] ?? "";
 
     // 2. 依 ; 分割並轉成 key/value 物件
     const cookies = {};
     if (cookiesRaw) {
       cookiesRaw.split(";").forEach(pair => {
         const [rawKey, ...rawVal] = pair.trim().split("=");
-        const key = decodeURIComponent(rawKey);
-        const val = decodeURIComponent(rawVal.join("="));
+        const key = decodeURIComponent(rawKey.trim());
+        const val = decodeURIComponent(rawVal.join("=").trim());
         cookies[key] = val;
       });
     }
     // ------------------- User Agent -------------------
-    const userAgentRaw = request.headers.get("user-agent") ?? "";
+    const userAgentRaw = headers["user-agent"] ?? "";
     const userAgentParser = new UAParser(userAgentRaw);
     const userAgent = userAgentParser.getResult();
 
@@ -256,7 +261,7 @@ export default {
     // ------------------- 取得 client IP -------------------
     // 取得 client IP（Cloudflare 會在 cf 中提供）
     const cf = request.cf || {};
-    const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
+    const clientIp = cf.ip || headers["x-real-ip"] || "";   // fallback for local testing
     const httpProtocol = cf.httpProtocol || url.protocol.replace(":", "") || "";
 
     // ------------------- 整理 logSummary -------------------
@@ -372,7 +377,7 @@ export default {
 
       const isCrawler = /facebookexternalhit|twitterbot|slackbot|discordbot|whatsapp|googlebot|bingbot|crawler|bot/i.test(ua);
       return accept.includes("text/html") ||
-            isCrawler
+            isCrawler;
             // || (accept.includes("*/*") && !/curl|wget|httpie/i.test(ua));
     }
     const wantsHTML = isHtmlRequest(request);
@@ -398,7 +403,7 @@ export default {
     }
 
     if (wantsHTML) {
-      const html = generateHtml({responseBody});
+      const html = generateHtml({responseBody, url});
       return new Response(html, {
         status: responseStatus,
         headers: responseHeaders
