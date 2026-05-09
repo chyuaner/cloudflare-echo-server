@@ -259,7 +259,12 @@ export default {
     const clientIp = cf.ip || request.headers.get("x-real-ip") || "";   // fallback for local testing
     const httpProtocol = cf.httpProtocol || url.protocol.replace(":", "") || "";
 
-    // 建立回傳的 JSON 物件
+    // ------------------- 整理 logSummary -------------------
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const logSummary = `${finalMethod} ${url.pathname + url.search} ${responseStatus} ${timeString}`;
+
+    // ------------------- 建立回傳的 JSON 物件 -------------------
     const responseBody = {
       request: {
         params,
@@ -333,9 +338,8 @@ export default {
           : isDocker
             ? "Docker"
             : "NodeJS"
-      }
-      ,
-      logSummary: `${finalMethod} ${url.pathname}${url.search}` // Add a summary for easy overview in logs
+      },
+      logSummary
     };
 
     // const curlText = generateCurl(responseBody);
@@ -346,12 +350,10 @@ export default {
     // -------------------------------------------------
     if (isWorker) {
         // 在 Cloudflare Workers 環境下，輸出完整的結構化 JSON 日誌
-        console.log(responseBody);
+        console.log(logSummary, responseBody);
     } else {
         // 在 Node.js/Docker 環境下，輸出純文字日誌格式
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        const firstLine = `${responseBody.http.method} ${responseBody.http.originalUrl} ${responseStatus} ${timeString}`;
+        const firstLine = logSummary;
 
         let fullLog = firstLine;
         if (responseBody.request.bodyRaw && responseBody.request.bodyRaw.trim() !== '') {
