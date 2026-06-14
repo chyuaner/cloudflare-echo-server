@@ -32,7 +32,6 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 
 ## 預覽
 ![echo_preview_png](https://echo.yuaner.tw/?echo_png=1)
-![echo_403_preview_png](https://echo.yuaner.tw/?echo_code=403&echo_png=1)
 
 PS. 本預覽圖因為有進Github CDN快取，所以在本頁面上看到的資訊很可能是Github CDN環境的狀況。請以實際用 `<原網址>/?echo_png=1` 直連取得到的為主。
 
