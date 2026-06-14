@@ -299,6 +299,7 @@ export default {
       },
       http: {
         method                     : finalMethod,
+        status                     : responseStatus,
         baseUrl                    : `${url.protocol}//${url.host}`,
         originalUrl                : url.pathname + url.search,
         protocol                   : url.protocol.replace(":", ""),

@@ -9,7 +9,7 @@ const iconCache = new Map();
 // Optimized helper to create React-element-like objects
 const h = (type, props, ...children) => {
     const style = props.style || {};
-    
+
     // Satori rule: elements with > 1 children should have explicit display
     // We default everything to flex since that's what Satori expects
     // Flattening and filtering is expensive, we do it minimally
@@ -32,14 +32,14 @@ const h = (type, props, ...children) => {
 function icon(name) {
     const svg = tabler_icons_html[name];
     if (!svg) return null;
-    
+
     if (!iconCache.has(name)) {
-        const b64 = typeof btoa === 'function' 
-            ? btoa(svg) 
+        const b64 = typeof btoa === 'function'
+            ? btoa(svg)
             : Buffer.from(svg).toString('base64');
         iconCache.set(name, b64);
     }
-    
+
     return h('img', {
         src: `data:image/svg+xml;base64,${iconCache.get(name)}`,
         width: 24,
@@ -55,15 +55,15 @@ function objectToListElements(obj, limit = 20) {
     const hasMore = entries.length > limit;
 
     const list = displayEntries.map(([k, v]) => {
-        return h('div', { 
-            style: { 
-                display: 'flex', 
-                flexDirection: 'row', 
-                fontSize: baseFontSize - 2, 
-                marginBottom: 2, 
+        return h('div', {
+            style: {
+                display: 'flex',
+                flexDirection: 'row',
+                fontSize: baseFontSize - 2,
+                marginBottom: 2,
                 width: '100%',
                 overflow: 'hidden'
-            } 
+            }
         },
             h('span', { style: { fontWeight: 'bold', marginRight: 5, color: '#666', flexShrink: 0 } }, `${k}:`),
             h('span', { style: { wordBreak: 'break-all', color: '#333', flex: 1, height: 26, overflow: 'hidden' } }, String(v))
@@ -77,17 +77,17 @@ function objectToListElements(obj, limit = 20) {
 }
 
 function hostCard(hostData) {
-    return h('div', { 
-        style: { 
-            display: 'flex', 
-            flexDirection: 'column', 
-            border: '1px solid #ddd', 
-            padding: 20, 
+    return h('div', {
+        style: {
+            display: 'flex',
+            flexDirection: 'column',
+            border: '1px solid #ddd',
+            padding: 20,
             backgroundColor: 'white',
             flex: 1,
             width: '100%',
             overflow: 'hidden'
-        } 
+        }
     },
         h('h2', { style: { display: 'flex', alignItems: 'center', fontSize: baseFontSize, margin: '0 0 10px 0' } },
             icon('cloud_network'),
@@ -166,9 +166,9 @@ function endpointBar(responseBody) {
 export function generateOgImage(responseBody) {
     const method = responseBody.http.method;
     const bodyRaw = responseBody.request.bodyRaw;
-    
+
     const showBody = !((method === 'GET' || method === 'HEAD') && (!bodyRaw || bodyRaw.trim() === ''));
-    
+
     // Performance optimization: Manual 2-column layout instead of flexWrap
     const headerElements = objectToListElements(responseBody.request.headers, 24);
     const mid = Math.ceil(headerElements.length / 2);
@@ -191,16 +191,16 @@ export function generateOgImage(responseBody) {
 
         h('div', { style: { display: 'flex', width: '100%', flex: 1, gap: 20 } },
             // Left Column (Request info)
-            h('div', { 
-                style: { 
-                    display: 'flex', 
-                    flexDirection: 'column', 
+            h('div', {
+                style: {
+                    display: 'flex',
+                    flexDirection: 'column',
                     flex: 2,
                     border: '1px solid #ddd',
                     padding: 15,
                     backgroundColor: 'white',
                     overflow: 'hidden'
-                } 
+                }
             },
                 // Post Body block (if exists)
                 showBody ? h('div', { style: { display: 'flex', flexDirection: 'column', marginBottom: 15 } },
@@ -208,11 +208,11 @@ export function generateOgImage(responseBody) {
                         icon('file'),
                         h('span', { style: { fontSize: baseFontSize, fontWeight: 'bold' } }, 'Post Body')
                     ),
-                    h('div', { 
-                        style: { 
+                    h('div', {
+                        style: {
                             display: 'flex',
-                            backgroundColor: '#f8f9fa', 
-                            padding: 10, 
+                            backgroundColor: '#f8f9fa',
+                            padding: 10,
                             fontFamily: 'monospace',
                             fontSize: baseFontSize - 4,
                             maxHeight: 120,
@@ -220,7 +220,7 @@ export function generateOgImage(responseBody) {
                             wordBreak: 'break-all',
                             color: '#444',
                             border: '1px solid #eee'
-                        } 
+                        }
                     }, (bodyRaw || '').substring(0, 300) + (bodyRaw && bodyRaw.length > 300 ? '...' : ''))
                 ) : null,
 
@@ -236,7 +236,7 @@ export function generateOgImage(responseBody) {
                     h('div', { style: { display: 'flex', flexDirection: 'column', flex: 1 } }, ...rightHeaders)
                 )
             ),
-            
+
             // Right Column (Host info)
             h('div', { style: { display: 'flex', flexDirection: 'column', flex: 1} },
                 hostCard(responseBody.host)
@@ -247,5 +247,6 @@ export function generateOgImage(responseBody) {
     return new ImageResponse(element, {
         width: 1200,
         height: 630,
+        status: responseBody.http.status || 200,
     });
 }
