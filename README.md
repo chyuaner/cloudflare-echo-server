@@ -30,6 +30,11 @@ Demo <https://echo.yuaner.tw/assets/text/dict/textpar.html?ref=tablericons&utm_s
 * 提供 URL Query 參數 `echo_code=200` or Header `X-ECHO-CODE: 200` 控制要回傳的 HTTP Status Code
 * 提供 URL Query 參數 `echo_time=3000` or Header `X-ECHO-TIME: 3000` 控制伺服器要延遲多久才會送 Response ，給你模擬較差網路品質狀況使用
 
+## 預覽
+![echo_preview_png](https://echo.yuaner.tw/?echo_png=1)
+
+PS. 本預覽圖因為有進Github CDN快取，所以在本頁面上看到的資訊很可能是Github CDN環境的狀況。請以實際用 `<原網址>/?echo_png=1` 直連取得到的為主。
+
 ## 🛠️ 部署方式
 注意！ GeoIP資料（Host相關的：Colo, Country, City, Continent, ASN, As Organization, Region, Region Code, Timezone等）是直接取用Cloudflare提供的，本程式暫無自身取得GeoIP資料的功能，所以以其他非Cloudflare Worker的方式會沒有這些資訊。
 
